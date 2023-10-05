@@ -37,21 +37,17 @@
         <div class="col-lg-6 ">
         <h4>Data Dokter</h4>
         </div>
-        <div class="col-lg-6">
-        <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
-        </div>
+        
     </div>
         <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover scroll-horizontal-vertical w-100" id="crudTable_dokter">
         <thead>
             <tr>
             <th scope="col">Kode Dokter</th>
             <th scope="col">Nama Dokter</th>
             <th scope="col">Jenis Kelamin</th>
             <th scope="col">Tempat Lahir</th>
+            <th scope="col">Tanggal Lahir</th>
             <th scope="col">Gol. Darah</th>
             <th scope="col">Agama</th>
             <th scope="col">Alamat</th>
@@ -60,121 +56,10 @@
             <th scope="col">Spesialis</th>
             <th scope="col">Alumni</th>
             <th scope="col">No.ijin Praktek</th>
+            <th scope="col">Aksi</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
-            <tr>
-            <th scope="row">D0000006</th>
-            <td>dr. Aisyah</td>
-            <td>P</td>
-            <td>Depok</td>
-            <td>1985-09-22</td>
-            <td>A</td>
-            <td>Islam</td>
-            <td>-</td>
-            <td>Menikah</td>
-            <td>Bedah</td>
-            <td>-</td>
-            <td>-</td>
-            </tr>
         </tbody>
         </table>
         </div>
@@ -182,3 +67,32 @@
     </div>
 </main>
 @endsection
+
+@push('addon-script')
+    <script>
+        var datatable = $('#crudTable_dokter').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: true,
+            ajax: {
+                url: '{!! url()->current() !!}',
+            },
+            columns: [
+                { data:'kd_dokter', name:'kd_dokter' },
+                { data:'nm_dokter', name:'nm_dokter' },
+                { data:'jk', name:'jk' },
+                { data:'tmp_lahir', name:'tmp_lahir' },
+                { data:'tgl_lahir', name:'tgl_lahir' },
+                { data:'gol_drh', name:'gol_drh' },
+                { data:'agama', name:'agama' },
+                { data:'almt_tgl', name:'almt_tgl' },
+                { data:'no_telp', name:'no_telp' },
+                { data:'stts_nikah', name:'stts_nikah' },
+                { data:'kd_sps', name:'kd_sps' },
+                { data:'alumni', name:'alumni' },
+                { data:'no_ijn_praktek', name:'no_ijn_praktek' },
+                { data:'status', name:'status' },
+            ],
+        })
+    </script>
+@endpush

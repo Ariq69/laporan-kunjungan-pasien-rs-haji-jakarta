@@ -28,4 +28,5 @@ class Dokter extends Model
 
     public $timestamps = false;
 
+    protected $table = 'dokter';
 }
