@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Tech\SettingPenggunaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Tech\DokterController;
+use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PerawatController;
 use App\Http\Controllers\Tech\DashboardController;
+use App\Http\Controllers\Tech\SettingPenggunaController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,9 @@ Route::prefix('tech')
         //Perawat Section
         Route::get('/data-perawat', [PerawatController::class, 'data_perawat'])->name('data-perawat');
         Route::get('/jadwal-perawat', [PerawatController::class, 'jadwal_perawat'])->name('jadwal-perawat');
+
+        Route::get('/pasien', [PasienController::class, 'pasien'])->name('pasien');
+        Route::get('/informasi-kamar', [PasienController::class, 'informasi_kamar'])->name('informasi-kamar');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });

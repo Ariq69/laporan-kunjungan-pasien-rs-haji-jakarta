@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokter;
+use App\Models\Pasien;
+use Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Model\User;
 
 class HomeController extends Controller
 {
@@ -43,7 +45,13 @@ class HomeController extends Controller
 
     public function tech()
     {
-        return view('pages.tech.dashboard');
+        $jumlah_pasien = number_format(Pasien::count());
+        $jumlah_dokter = number_format(Dokter::count());
+
+        return view('pages.tech.dashboard', [
+            'jumlah_pasien' => $jumlah_pasien,
+            'jumlah_dokter' => $jumlah_dokter
+        ]);
     }
 
     public function admin()

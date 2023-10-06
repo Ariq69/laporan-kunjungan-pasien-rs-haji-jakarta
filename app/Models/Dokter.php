@@ -29,4 +29,8 @@ class Dokter extends Model
     public $timestamps = false;
 
     protected $table = 'dokter';
+
+    public function RelationToSpesialis (){
+        return $this->belongsTo('App\Models\Spesialis','kd_sps');
+    }
 }

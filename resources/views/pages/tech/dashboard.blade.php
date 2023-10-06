@@ -43,14 +43,14 @@
         </div>
             <div class="row row-cols-lg-4 mt-4">
             <!--Card Pasien-->
-            <a href="">
+            <a href="{{ route('pasien') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Pasien</h5>
-                        <h4 class="mb-2">2.987</h4>
+                        <h4 class="mb-2">{{ $jumlah_pasien }}</h4>
                     </div>
                     </div>
                 </div>
@@ -58,14 +58,14 @@
             </div>
             </a>
             <!--Card Dokter-->
-            <a href="">
+            <a href="{{ route('data-dokter') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Dokter</h5>
-                        <h4 class="mb-2">134</h4>
+                        <h4 class="mb-2">{{ $jumlah_dokter }}</h4>
                     </div>
                     </div>
                 </div>
@@ -113,13 +113,13 @@
             </div>
             </div>
             <!--Card Poliklinik-->
-            <a href="">
+            <a href="{{ route('informasi-kamar') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Poliklinik</h5>
+                        <h5 class="mb-2">Informasi Kamar</h5>
                         <h4 class="mb-2">2.987</h4>
                         <div class="mb-0">
                         </div>
@@ -136,7 +136,7 @@
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Rawat Jalan</h5>
+                        <h5 class="mb-2">Jumlah Poliklinik</h5>
                         <h4 class="mb-2">2.987</h4>
                         <div class="mb-0">
                         </div>
@@ -170,7 +170,7 @@
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Kunjungan</h5>
+                        <h5 class="mb-2">Jumlah Rawat Jalan</h5>
                         <h4 class="mb-2">2.987</h4>
                         <div class="mb-0">
                         </div>

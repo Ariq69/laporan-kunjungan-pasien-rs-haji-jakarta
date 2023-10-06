@@ -56,7 +56,7 @@
             <th scope="col">Spesialis</th>
             <th scope="col">Alumni</th>
             <th scope="col">No.ijin Praktek</th>
-            <th scope="col">Aksi</th>
+            <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>

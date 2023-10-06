@@ -203,7 +203,7 @@
             <a href="#" class="sidebar-link">Pasien Baru</a>
           </li>
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Total Pasien</a>
+            <a href="{{ route('pasien') }}" class="sidebar-link">Total Pasien</a>
           </li>
         </ul>
       </li>
@@ -228,6 +228,9 @@
           class="sidebar-dropdown list-unstyled collapse"
           data-bs-parents="#sidebar"
         >
+          <li class="sidebar-item">
+            <a href="{{ route('informasi-kamar') }}" class="sidebar-link">Informasi Kamar</a>
+          </li>
           <li class="sidebar-item">
             <a href="#" class="sidebar-link">Rawat Inap</a>
           </li>
