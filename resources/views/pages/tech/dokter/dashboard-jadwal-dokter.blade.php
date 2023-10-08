@@ -41,11 +41,11 @@
                 url: '{!! url()->current() !!}',
             },
             columns: [
-                { data:'kd_dokter', name:'kd_dokter' },
+                { data:'dokter.nm_dokter', name:'dokter.nm_dokter' },
                 { data:'hari_kerja', name:'hari_kerja' },
                 { data:'jam_mulai', name:'jam_mulai' },
                 { data:'jam_selesai', name:'jam_selesai' },
-                { data:'kd_poli', name:'kd_poli' },
+                { data:'poli.nm_poli', name:'poli.nm_poli' },
                 { data:'kuota', name:'kuota' },
             ],
         })

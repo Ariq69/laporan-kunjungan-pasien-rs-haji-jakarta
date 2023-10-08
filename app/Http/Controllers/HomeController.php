@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Model\User;
 use App\Models\Dokter;
 use App\Models\Pasien;
-use Model\User;
+use App\Models\Pegawai;
+use App\Models\Spesialis;
+use App\Models\KamarPasien;
 use Illuminate\Http\Request;
+use App\Models\JadwalPerawat;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -47,10 +51,18 @@ class HomeController extends Controller
     {
         $jumlah_pasien = number_format(Pasien::count());
         $jumlah_dokter = number_format(Dokter::count());
+        $jumlah_perawat = number_format(JadwalPerawat::where('stts_aktif', 'AKTIF')->count());
+        $jumlah_pegawai = number_format(Pegawai::count());
+        $jumlah_poli = number_format(Spesialis::count());
+        $jumlah_kamar = number_format(KamarPasien::count());
 
         return view('pages.tech.dashboard', [
             'jumlah_pasien' => $jumlah_pasien,
-            'jumlah_dokter' => $jumlah_dokter
+            'jumlah_dokter' => $jumlah_dokter,
+            'jumlah_perawat' => $jumlah_perawat,
+            'jumlah_pegawai' => $jumlah_pegawai,
+            'jumlah_poli' => $jumlah_poli,
+            'jumlah_kamar' => $jumlah_kamar,
         ]);
     }
 

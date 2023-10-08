@@ -70,29 +70,29 @@
 
 @push('addon-script')
     <script>
-        var datatable = $('#crudTable_dokter').DataTable({
-            processing: true,
-            serverSide: true,
-            ordering: true,
-            ajax: {
-                url: '{!! url()->current() !!}',
-            },
-            columns: [
-                { data:'kd_dokter', name:'kd_dokter' },
-                { data:'nm_dokter', name:'nm_dokter' },
-                { data:'jk', name:'jk' },
-                { data:'tmp_lahir', name:'tmp_lahir' },
-                { data:'tgl_lahir', name:'tgl_lahir' },
-                { data:'gol_drh', name:'gol_drh' },
-                { data:'agama', name:'agama' },
-                { data:'almt_tgl', name:'almt_tgl' },
-                { data:'no_telp', name:'no_telp' },
-                { data:'stts_nikah', name:'stts_nikah' },
-                { data:'kd_sps', name:'kd_sps' },
-                { data:'alumni', name:'alumni' },
-                { data:'no_ijn_praktek', name:'no_ijn_praktek' },
-                { data:'status', name:'status' },
-            ],
-        })
-    </script>
+    var datatable = $('#crudTable_dokter').DataTable({
+        processing: true,
+        serverSide: true,
+        ordering: true,
+        ajax: {
+            url: '{!! url()->current() !!}',
+        },
+        columns: [
+            { data: 'kd_dokter', name: 'kd_dokter' },
+            { data: 'nm_dokter', name: 'nm_dokter' },
+            { data: 'jk', name: 'jk' },
+            { data: 'tmp_lahir', name: 'tmp_lahir' },
+            { data: 'tgl_lahir', name: 'tgl_lahir' },
+            { data: 'gol_drh', name: 'gol_drh' },
+            { data: 'agama', name: 'agama' },
+            { data: 'almt_tgl', name: 'almt_tgl' },
+            { data: 'no_telp', name: 'no_telp' },
+            { data: 'stts_nikah', name: 'stts_nikah' },
+            { data: 'spesialis.nm_sps', name: 'spesialis.nm_sps' },
+            { data: 'alumni', name: 'alumni' },
+            { data: 'no_ijn_praktek', name: 'no_ijn_praktek' },
+            { data: 'status', name: 'status' },
+        ],
+    })
+</script>
 @endpush

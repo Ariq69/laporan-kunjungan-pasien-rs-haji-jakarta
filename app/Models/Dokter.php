@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Spesialis;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,7 +30,8 @@ class Dokter extends Model
 
     protected $table = 'dokter';
 
-    public function RelationToSpesialis (){
-        return $this->belongsTo('App\Models\Spesialis','kd_sps');
-    }
+    public function spesialis()
+        {
+            return $this->belongsTo(Spesialis::class, 'kd_sps', 'kd_sps');
+        }
 }

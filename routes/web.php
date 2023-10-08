@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Tech\DokterController;
 use App\Http\Controllers\Tech\PasienController;
+use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
@@ -45,9 +46,32 @@ Route::prefix('tech')
         //Perawat Section
         Route::get('/data-perawat', [PerawatController::class, 'data_perawat'])->name('data-perawat');
         Route::get('/jadwal-perawat', [PerawatController::class, 'jadwal_perawat'])->name('jadwal-perawat');
+        
+        //Pegawai Section
+        Route::get('/data-pegawai', [PegawaiController::class, 'data_pegawai'])->name('data-pegawai');
 
         Route::get('/pasien', [PasienController::class, 'pasien'])->name('pasien');
+        Route::get('/pasien-lama', [PasienController::class, 'pasien_lama'])->name('pasien-lama');
+        Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
+
+        //informasi Kamar
         Route::get('/informasi-kamar', [PasienController::class, 'informasi_kamar'])->name('informasi-kamar');
+        Route::get('/informasi-kamar-afiah', [PasienController::class, 'informasi_kamar_afiah'])->name('informasi-kamar-afiah');
+        Route::get('/informasi-kamar-afiso', [PasienController::class, 'informasi_kamar_afiso'])->name('informasi-kamar-afiso');
+        Route::get('/informasi-kamar-ama', [PasienController::class, 'informasi_kamar_ama'])->name('informasi-kamar-ama');
+        Route::get('/informasi-kamar-amab', [PasienController::class, 'informasi_kamar_amab'])->name('informasi-kamar-amab');
+        Route::get('/informasi-kamar-has1', [PasienController::class, 'informasi_kamar_has1'])->name('informasi-kamar-has1');
+        Route::get('/informasi-kamar-has06', [PasienController::class, 'informasi_kamar_has06'])->name('informasi-kamar-has06');
+        Route::get('/informasi-kamar-has07', [PasienController::class, 'informasi_kamar_has07'])->name('informasi-kamar-has07');
+        Route::get('/informasi-kamar-has08', [PasienController::class, 'informasi_kamar_has08'])->name('informasi-kamar-has08');
+        Route::get('/informasi-kamar-syi', [PasienController::class, 'informasi_kamar_syi'])->name('informasi-kamar-syi');
+        Route::get('/informasi-kamar-syiso', [PasienController::class, 'informasi_kamar_syiso'])->name('informasi-kamar-syiso');
+        Route::get('/informasi-kamar-sak', [PasienController::class, 'informasi_kamar_sak'])->name('informasi-kamar-sak');
+        Route::get('/informasi-kamar-mul', [PasienController::class, 'informasi_kamar_mul'])->name('informasi-kamar-mul');
+        Route::get('/informasi-kamar-neo', [PasienController::class, 'informasi_kamar_neo'])->name('informasi-kamar-neo');
+        Route::get('/informasi-kamar-icu', [PasienController::class, 'informasi_kamar_icu'])->name('informasi-kamar-icu');
+        Route::get('/informasi-kamar-iccu', [PasienController::class, 'informasi_kamar_iccu'])->name('informasi-kamar-iccu');
+        Route::get('/informasi-kamar-nicu', [PasienController::class, 'informasi_kamar_nicu'])->name('informasi-kamar-nicu');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });

@@ -18,8 +18,10 @@ class DokterController extends Controller
 
         public function data_dokter(){
             
+            $chart_data = Dokter::with(['spesialis'], 'nm_sps')->get();
+
             if (request()->ajax()) {
-            $data_dokter = Dokter::select('*');
+            $data_dokter = Dokter::with(['spesialis']);
 
             return Datatables::of($data_dokter)->make(true);
         }
@@ -30,7 +32,7 @@ class DokterController extends Controller
         public function jadwal_dokter(){
             
             if (request()->ajax()) {
-            $jadwal_dokter = JadwalDokter::select('*');
+            $jadwal_dokter = JadwalDokter::with('dokter','poli');
 
             return Datatables::of($jadwal_dokter)->make(true);
         }

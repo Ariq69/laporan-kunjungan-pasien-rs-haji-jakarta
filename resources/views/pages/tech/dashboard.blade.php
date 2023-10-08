@@ -73,14 +73,14 @@
             </div>
             </a>
             <!--Card Perawat-->
-            <a href="">
+            <a href="{{ route('data-perawat') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Perawat</h5>
-                        <h4 class="mb-2">231</h4>
+                        <h4 class="mb-2">{{ $jumlah_perawat }}</h4>
                     </div>
                     </div>
                 </div>
@@ -88,14 +88,14 @@
             </div>
             </a>
             <!--Card Pegawai-->
-            <a href="">
+            <a href="{{ route('data-pegawai') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Pegawai</h5>
-                        <h4 class="mb-2">279</h4>
+                        <h4 class="mb-2">{{ $jumlah_pegawai }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Informasi Kamar</h5>
-                        <h4 class="mb-2">2.987</h4>
+                        <h4 class="mb-2">{{ $jumlah_kamar }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Poliklinik</h5>
-                        <h4 class="mb-2">2.987</h4>
+                        <h4 class="mb-2">{{ $jumlah_poli }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>

@@ -5,31 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class JadwalDokter extends Model
+class RegistrasiPasien extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-            'kd_dokter',
-            'hari_kerja', 
-            'jam_mulai',
-            'jam_selesai',
-            'kd_poli',
-            'kuota',
-    ];
+    protected $table = 'reg_periksa';
 
-    public $timestamps = false;
+    public function penjab()
+        {
+            return $this->belongsTo(Penjab::class, 'kd_pj', 'kd_pj');
+        }
 
-    protected $table = 'jadwal';
-
-    public function dokter()
+    public function reg_dokter()
         {
             return $this->belongsTo(Dokter::class, 'kd_dokter', 'kd_dokter');
         }
-
+    
     public function poli()
         {
             return $this->belongsTo(Poliklinik::class, 'kd_poli', 'kd_poli');
         }
 }
-

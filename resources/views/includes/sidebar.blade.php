@@ -163,7 +163,7 @@
           data-bs-parents="#sidebar"
         >
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Data Pegawai</a>
+            <a href="{{ route('data-pegawai') }}" class="sidebar-link">Data Pegawai</a>
           </li>
 
           <li class="sidebar-item">
@@ -197,10 +197,10 @@
           data-bs-parents="#sidebar"
         >
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Pasien Lama</a>
+            <a href="{{ route('pasien-lama') }}" class="sidebar-link">Pasien Lama</a>
           </li>
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Pasien Baru</a>
+            <a href="{{ route('pasien-baru') }}" class="sidebar-link">Pasien Baru</a>
           </li>
           <li class="sidebar-item">
             <a href="{{ route('pasien') }}" class="sidebar-link">Total Pasien</a>
