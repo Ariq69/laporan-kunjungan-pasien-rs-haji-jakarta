@@ -31,7 +31,7 @@ class PasienController extends Controller
     public function pasien_lama(){
             
             if (request()->ajax()) {
-            $data_pasien = RegistrasiPasien::with('penjab','reg_dokter','poli')->where('stts_daftar', 'Lama');
+            $data_pasien = RegistrasiPasien::with('penjab','reg_dokter','poli', 'namapasien')->where('stts_daftar', 'Lama');
 
             return Datatables::of($data_pasien)->make(true);
         }
@@ -42,7 +42,7 @@ class PasienController extends Controller
     public function pasien_baru(){
             
             if (request()->ajax()) {
-            $data_pasien = RegistrasiPasien::with('penjab','reg_dokter','poli')->where('stts_daftar', 'Baru');
+            $data_pasien = RegistrasiPasien::with('penjab','reg_dokter','poli','namapasien')->where('stts_daftar', 'Baru');
 
             return Datatables::of($data_pasien)->make(true);
         }

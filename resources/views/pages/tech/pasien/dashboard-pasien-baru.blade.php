@@ -16,10 +16,11 @@
             <tr>
             <th scope="col">No.Registrasi</th>
             <th scope="col">No.Rawat</th>
+            <th scope="col">No.R.M</th>
+            <th scope="col">Nama Pasien</th>
             <th scope="col">Tanggal Registrasi</th>
             <th scope="col">Jam Registrasi</th>
             <th scope="col">Dokter</th>
-            <th scope="col">No.R.M</th>
             <th scope="col">Poliklinik</th>
             <th scope="col">Penanggung Jawab</th>
             <th scope="col">Alamat Penanggung Jawab</th>
@@ -52,10 +53,11 @@
             columns: [
                 { data:'no_reg', name:'no_reg' },
                 { data:'no_rawat', name:'no_rawat' },
+                { data:'no_rkm_medis', name:'no_rkm_medis' },
+                { data:'namapasien.nm_pasien', name:'namapasien.nm_pasien' },
                 { data:'tgl_registrasi', name:'tgl_registrasi' },
                 { data:'jam_reg', name:'jam_reg' },
                 { data:'reg_dokter.nm_dokter', name:'reg_dokter.nm_dokter' },
-                { data:'no_rkm_medis', name:'no_rkm_medis' },
                 { data:'poli.nm_poli', name:'poli.nm_poli' },
                 { data:'p_jawab', name:'p_jawab' },
                 { data:'almt_pj', name:'almt_pj' },
