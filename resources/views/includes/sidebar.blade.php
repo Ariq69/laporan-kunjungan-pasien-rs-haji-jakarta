@@ -75,6 +75,28 @@
           </li>
         </ul>
       </li>
+      <!--Kasir-->
+      <li class="sidebar-item">
+        <a
+          href="#"
+          class="sidebar-link collapsed"
+          data-bs-target="#asuransi"
+          data-bs-toggle="collapse"
+          aria-expanded="false"
+        >
+          <img src="{{ asset('../images/icon-kasir.png') }}" alt="" class="icon-sidebar" />
+          Asuransi
+        </a>
+        <ul
+          id="asuransi"
+          class="sidebar-dropdown list-unstyled collapse"
+          data-bs-parents="#sidebar"
+        >
+          <li class="sidebar-item">
+            <a href="{{ route('informasi-asuransi') }}" class="sidebar-link">Informasi Asuransi</a>
+          </li>
+        </ul>
+      </li>
 
       <li class="sidebar-header">Pengguna</li>
       <!--Dokter-->

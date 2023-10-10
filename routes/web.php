@@ -7,6 +7,7 @@ use App\Http\Controllers\Tech\DokterController;
 use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
+use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -72,6 +73,10 @@ Route::prefix('tech')
         Route::get('/informasi-kamar-icu', [PasienController::class, 'informasi_kamar_icu'])->name('informasi-kamar-icu');
         Route::get('/informasi-kamar-iccu', [PasienController::class, 'informasi_kamar_iccu'])->name('informasi-kamar-iccu');
         Route::get('/informasi-kamar-nicu', [PasienController::class, 'informasi_kamar_nicu'])->name('informasi-kamar-nicu');
+        
+        //Asuransi Section
+        Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
+        Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });
