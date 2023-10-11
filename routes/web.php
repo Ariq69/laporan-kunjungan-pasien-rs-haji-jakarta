@@ -73,6 +73,9 @@ Route::prefix('tech')
         Route::get('/informasi-kamar-icu', [PasienController::class, 'informasi_kamar_icu'])->name('informasi-kamar-icu');
         Route::get('/informasi-kamar-iccu', [PasienController::class, 'informasi_kamar_iccu'])->name('informasi-kamar-iccu');
         Route::get('/informasi-kamar-nicu', [PasienController::class, 'informasi_kamar_nicu'])->name('informasi-kamar-nicu');
+        Route::get('/informasi-kamar-ist', [PasienController::class, 'informasi_kamar_ist'])->name('informasi-kamar-ist');
+        Route::get('/informasi-kamar-ist01', [PasienController::class, 'informasi_kamar_ist01'])->name('informasi-kamar-ist01');
+        Route::get('/informasi-kamar-ist02', [PasienController::class, 'informasi_kamar_ist02'])->name('informasi-kamar-ist02');
         
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');

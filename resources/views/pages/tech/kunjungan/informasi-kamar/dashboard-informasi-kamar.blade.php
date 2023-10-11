@@ -266,6 +266,54 @@
                     </div>
                 </div>
             </div>
+
+            <a href="{{ route('informasi-kamar-ist') }}">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grown-1">
+                                <h5 class="mb-2">ISTIQOMAH</h5>
+                                <h4 class="mb-2">{{ $jumlah_kamar_ist }}</h4>
+                                <div class="mb-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ route('informasi-kamar-ist01') }}">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grown-1">
+                                <h5 class="mb-2">ISTIQOMAH KELAS VVIP</h5>
+                                <h4 class="mb-2">{{ $jumlah_kamar_ist01 }}</h4>
+                                <div class="mb-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ route('informasi-kamar-ist02') }}">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grown-1">
+                                <h5 class="mb-2">ISTIQOMAH KELAS VIP</h5>
+                                <h4 class="mb-2">{{ $jumlah_kamar_ist02 }}</h4>
+                                <div class="mb-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     </div>
     </div>

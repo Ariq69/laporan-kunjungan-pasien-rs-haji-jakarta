@@ -69,6 +69,40 @@
 @endsection
 
 @push('addon-script')
+    
+    <script>
+        var dokter = <?php echo json_encode($dokter); ?>;
+        var labels = [
+            'S0001',
+            'S0002',
+            'S0003',
+            'S0004',
+            'S0005',
+            'S0006',
+            'S0007',
+            'S0008',
+            'S0009',
+            'S0010',
+            'S0011',
+            'S0012',
+            'S0013',
+            'S0014',
+            'S0015',
+            'S0016',
+            'S0017',
+            'S0018',
+            'S0019',
+            'S0020',
+        ];
+        var data = Array(20).fill(0); 
+        for (var i = 0; i < dokter.length; i++) {
+            var sps = dokter[i].kd_sps;
+            var index = labels.indexOf(sps);
+            if (index !== -1) {
+                data[index]++;
+            }
+        }
+    </script>
     <script>
     var datatable = $('#crudTable_dokter').DataTable({
         processing: true,

@@ -18,7 +18,7 @@ class DokterController extends Controller
 
         public function data_dokter(){
             
-            $chart_data = Dokter::with(['spesialis'], 'nm_sps')->get();
+            $dokter = Dokter::get()->toArray();
 
             if (request()->ajax()) {
             $data_dokter = Dokter::with(['spesialis']);
@@ -26,7 +26,9 @@ class DokterController extends Controller
             return Datatables::of($data_dokter)->make(true);
         }
 
-        return view('pages.tech.dokter.dashboard-data-dokter');
+        return view('pages.tech.dokter.dashboard-data-dokter',[
+            'dokter' => $dokter,
+        ]);
     }
         
         public function jadwal_dokter(){
