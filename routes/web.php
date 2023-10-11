@@ -79,7 +79,6 @@ Route::prefix('tech')
         
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
-        Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });
