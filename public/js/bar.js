@@ -3,7 +3,28 @@ function drawBarChart(data, labels) {
     var myChart = new Chart(ctx, {
         type: "bar",
         data: {
-            labels: labels,
+            labels: [
+                "-",
+                "Umum",
+                "Jiwa",
+                "Jantung",
+                "Radiologi",
+                "Kulit dan Kelamin",
+                "Bedah",
+                "Syaraf",
+                "Anastesi",
+                "THT",
+                "Mata",
+                "Anak",
+                "Obsgyn",
+                "Dalam",
+                "Paru",
+                "Gigi dan Mulut",
+                "Akupuntur",
+                "Rehabilitas Medik",
+                "Psikologi",
+                "Terapis",
+            ],
             datasets: [
                 {
                     label: "Data Dokter",

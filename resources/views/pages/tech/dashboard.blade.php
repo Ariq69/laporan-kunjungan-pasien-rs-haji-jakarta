@@ -130,14 +130,14 @@
             </div>
             </a>
             <!--Card Rawat Jalan-->
-            <a href="">
+            <a href="{{ route('informasi-asuransi') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Poliklinik</h5>
-                        <h4 class="mb-2">{{ $jumlah_poli }}</h4>
+                        <h5 class="mb-2">Jumlah Asuransi</h5>
+                        <h4 class="mb-2">{{ $jumlah_asuransi }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
@@ -153,8 +153,8 @@
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Rawat Inap</h5>
-                        <h4 class="mb-2">2.987</h4>
+                        <h5 class="mb-2">Jumlah Poliklinik</h5>
+                        <h4 class="mb-2">{{ $jumlah_poli }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>

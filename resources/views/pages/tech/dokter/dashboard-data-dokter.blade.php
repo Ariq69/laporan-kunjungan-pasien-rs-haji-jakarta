@@ -103,6 +103,7 @@
             }
         }
     </script>
+    
     <script>
     var datatable = $('#crudTable_dokter').DataTable({
         processing: true,
