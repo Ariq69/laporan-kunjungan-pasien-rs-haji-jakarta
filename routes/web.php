@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KunjunganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -38,7 +39,7 @@ Route::prefix('tech')
     ->middleware('auth','tech')
     ->group( function(){
         
-        //Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         //Dokter Section
         Route::get('/data-dokter', [DokterController::class, 'data_dokter'])->name('data-dokter');
@@ -79,6 +80,7 @@ Route::prefix('tech')
         
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
+        Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });
