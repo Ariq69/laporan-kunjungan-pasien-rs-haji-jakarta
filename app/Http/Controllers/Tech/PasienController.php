@@ -68,6 +68,9 @@ class PasienController extends Controller
         $jumlah_kamar_icu = number_format(KamarPasien::where('kd_bangsal', 'ICU')->count());
         $jumlah_kamar_iccu = number_format(KamarPasien::where('kd_bangsal', 'ICCU')->count());
         $jumlah_kamar_nicu = number_format(KamarPasien::where('kd_bangsal', 'NICU')->count());
+        $jumlah_kamar_ist = number_format(KamarPasien::where('kd_bangsal', 'IST')->count());
+        $jumlah_kamar_ist01 = number_format(KamarPasien::where('kd_bangsal', 'IST01')->count());
+        $jumlah_kamar_ist02 = number_format(KamarPasien::where('kd_bangsal', 'IST02')->count());
 
         return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar',[
             'jumlah_kamar_afiah' => $jumlah_kamar_afiah,
@@ -86,6 +89,9 @@ class PasienController extends Controller
             'jumlah_kamar_icu' => $jumlah_kamar_icu,
             'jumlah_kamar_iccu' => $jumlah_kamar_iccu,
             'jumlah_kamar_nicu' => $jumlah_kamar_nicu,
+            'jumlah_kamar_ist' => $jumlah_kamar_ist,
+            'jumlah_kamar_ist01' => $jumlah_kamar_ist01,
+            'jumlah_kamar_ist02' => $jumlah_kamar_ist02,
         ]);
     }
 
@@ -451,6 +457,75 @@ class PasienController extends Controller
 
         return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar-nicu', [
             'informasi_kamar_nicu' => $informasi_kamar_nicu,
+            'informasi_kamar_isi' => $informasi_kamar_isi,
+            'informasi_kamar_booking' => $informasi_kamar_booking,
+            'informasi_kamar_kosong' => $informasi_kamar_kosong,
+        ]);
+    }
+    
+    public function informasi_kamar_ist() {
+        if (request()->ajax()) {
+            $data_pasien = KamarPasien::select('*')->where('kd_bangsal', 'IST');
+            return Datatables::of($data_pasien)
+                ->editColumn('trf_kamar', function ($data) {
+                    return 'Rp ' . number_format($data->trf_kamar, 0, ',', '.');
+                })
+                ->make(true);
+        }
+
+        $informasi_kamar_ist = KamarPasien::where('kd_bangsal', 'IST')->count();
+        $informasi_kamar_isi = KamarPasien::where('kd_bangsal', 'IST')->where('status', 'ISI')->count();
+        $informasi_kamar_booking = KamarPasien::where('kd_bangsal', 'IST')->where('status', 'DIBOOKING')->count();
+        $informasi_kamar_kosong = KamarPasien::where('kd_bangsal', 'IST')->where('status', 'KOSONG')->count();
+
+        return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar-ist', [
+            'informasi_kamar_ist' => $informasi_kamar_ist,
+            'informasi_kamar_isi' => $informasi_kamar_isi,
+            'informasi_kamar_booking' => $informasi_kamar_booking,
+            'informasi_kamar_kosong' => $informasi_kamar_kosong,
+        ]);
+    }
+
+    public function informasi_kamar_ist01() {
+        if (request()->ajax()) {
+            $data_pasien = KamarPasien::select('*')->where('kd_bangsal', 'IST01');
+            return Datatables::of($data_pasien)
+                ->editColumn('trf_kamar', function ($data) {
+                    return 'Rp ' . number_format($data->trf_kamar, 0, ',', '.');
+                })
+                ->make(true);
+        }
+
+        $informasi_kamar_ist01 = KamarPasien::where('kd_bangsal', 'IST01')->count();
+        $informasi_kamar_isi = KamarPasien::where('kd_bangsal', 'IST01')->where('status', 'ISI')->count();
+        $informasi_kamar_booking = KamarPasien::where('kd_bangsal', 'IST01')->where('status', 'DIBOOKING')->count();
+        $informasi_kamar_kosong = KamarPasien::where('kd_bangsal', 'IST01')->where('status', 'KOSONG')->count();
+
+        return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar-ist01', [
+            'informasi_kamar_ist01' => $informasi_kamar_ist01,
+            'informasi_kamar_isi' => $informasi_kamar_isi,
+            'informasi_kamar_booking' => $informasi_kamar_booking,
+            'informasi_kamar_kosong' => $informasi_kamar_kosong,
+        ]);
+    }
+
+    public function informasi_kamar_ist02() {
+        if (request()->ajax()) {
+            $data_pasien = KamarPasien::select('*')->where('kd_bangsal', 'IST02');
+            return Datatables::of($data_pasien)
+                ->editColumn('trf_kamar', function ($data) {
+                    return 'Rp ' . number_format($data->trf_kamar, 0, ',', '.');
+                })
+                ->make(true);
+        }
+
+        $informasi_kamar_ist02 = KamarPasien::where('kd_bangsal', 'IST02')->count();
+        $informasi_kamar_isi = KamarPasien::where('kd_bangsal', 'IST02')->where('status', 'ISI')->count();
+        $informasi_kamar_booking = KamarPasien::where('kd_bangsal', 'IST02')->where('status', 'DIBOOKING')->count();
+        $informasi_kamar_kosong = KamarPasien::where('kd_bangsal', 'IST02')->where('status', 'KOSONG')->count();
+
+        return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar-ist02', [
+            'informasi_kamar_ist02' => $informasi_kamar_ist02,
             'informasi_kamar_isi' => $informasi_kamar_isi,
             'informasi_kamar_booking' => $informasi_kamar_booking,
             'informasi_kamar_kosong' => $informasi_kamar_kosong,

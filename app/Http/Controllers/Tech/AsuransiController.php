@@ -12,37 +12,23 @@ class AsuransiController extends Controller
 {
     public function informasi_asuransi() {
 
-        $jumlah_asuransi_admed = Penjab::whereIn('kd_pj', [
-            'A01',
-            'A02',
-            'A03',
-            'A04',
-            'A05',
-            ])->count();
-
-        return view('pages.tech.asuransi.informasi-asuransi.dashboard-informasi-asuransi', [
-            'jumlah_asuransi_admed' => $jumlah_asuransi_admed,
-        ]);
-    }
-
-    public function informasi_asuransi_admed() {
-
         if (request()->ajax()) {
-            $data_asuransi = Penjab::whereIn('kd_pj', [
-            'A01',
-            'A02',
-            'A03',
-            'A04',
-            'A05',
-            ]);
-            return Datatables::of($data_asuransi)
-                ->editColumn('trf_kamar', function ($data) {
-                    return 'Rp ' . number_format($data->trf_kamar, 0, ',', '.');
-                })
+            $data_pasien = Penjab::select('*');
+            return Datatables::of($data_pasien)
                 ->make(true);
         }
 
-        return view('pages.tech.asuransi.informasi-asuransi.dashboard-informasi-asuransi-admed');
+        $jumlah_asuransi_admed = number_format(Penjab::where('kd_kel_pj', 'ADM')->count());
+        $jumlah_asuransi_bpj = number_format(Penjab::where('kd_kel_pj', 'BPJ')->count());
+        $jumlah_asuransi_per = number_format(Penjab::where('kd_kel_pj', 'PER')->count());
+        $jumlah_asuransi_umum = number_format(Penjab::where('kd_kel_pj', 'UMUM')->count());
+
+        return view('pages.tech.asuransi.informasi-asuransi.dashboard-informasi-asuransi',[
+            'jumlah_asuransi_admed' => $jumlah_asuransi_admed,
+            'jumlah_asuransi_bpj' => $jumlah_asuransi_bpj,
+            'jumlah_asuransi_per' => $jumlah_asuransi_per,
+            'jumlah_asuransi_umum' => $jumlah_asuransi_umum,
+        ]);
     }
 
 }
