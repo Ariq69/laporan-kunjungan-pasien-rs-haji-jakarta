@@ -34,4 +34,4 @@ const Line = {
     },
 };
 
-var lineChart = new Chart(document.getElementById("canvas-1"), Line);
+var lineChart = new Chart(document.getElementById("canvas-3"), Line);

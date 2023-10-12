@@ -8,6 +8,7 @@ use App\Models\Pasien;
 use App\Models\Pegawai;
 use App\Models\Spesialis;
 use App\Models\KamarPasien;
+use App\Models\RegistrasiPasien;
 use Illuminate\Http\Request;
 use App\Models\JadwalPerawat;
 use Illuminate\Support\Facades\Auth;
@@ -55,6 +56,8 @@ class HomeController extends Controller
         $jumlah_pegawai = number_format(Pegawai::count());
         $jumlah_poli = number_format(Spesialis::count());
         $jumlah_kamar = number_format(KamarPasien::count());
+        
+
 
         return view('pages.tech.dashboard', [
             'jumlah_pasien' => $jumlah_pasien,

@@ -21,7 +21,20 @@
 
         <div class="row mx-3">
         <!--Bar Chart-->
-        <div class="col-lg-8 md-3">
+        <div class="row">
+            <div class="col-md-3 mt-1">
+                <label for="From">Dari</label>
+                <input type="date" id="from" name="from" class="form-control">
+            </div>
+            <div class="col-md-3 mt-1">
+                <label for="To">Hingga</label>
+                <input type="date" id="to" name="to" class="form-control">
+            </div>
+            <div class="col-md-3 mt-4">
+                <input type="button" class="btn btn-success" value="Filter" onclick="getData()">
+            </div>
+        </div>
+        <div class="col-lg-8 md-3 mt-3">
             <div class="chart-container" style="position: relative; height:50vh; width:80vw">
             <canvas id="canvas-1"></canvas>
             </div>
