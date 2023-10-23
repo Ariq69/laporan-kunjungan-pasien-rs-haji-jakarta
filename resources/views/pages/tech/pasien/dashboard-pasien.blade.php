@@ -3,95 +3,175 @@
 @section('content')
 <!--Main Content-->
 <main class="content px-3 py-2">
-    <div class="container-fluid">
+<div class="container-fluid">
     <div class="mb-3 mt-3">
-    <div class="row">
-        <div class="col-lg-6 ">
-        <h4>Data Pasien</h4>
+        <div class="row">
+            <div class="col-lg-6 ">
+            <h4>Data Pasien</h4>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row align-items-start">
+                <!--Jumlah Pasien Per Poli-->
+                <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Jumlah Pasien Per Poli</h5>
+                        <div class="chart-container">
+                            <form method="post" action="{{ url('/tech/pasien') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="year">Tahun</label>
+                                    <select class="form-control" id="year" name="year">
+                                        @foreach ($years as $year)
+                                            <option value="{{ $year->year }}">{{ $year->year }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="month">Bulan</label>
+                                    <select class="form-control" id="month" name="month">
+                                        <option value="01">Januari</option>
+                                        <option value="02">Februari</option>
+                                        <option value="03">Maret</option>
+                                        <option value="04">April</option>
+                                        <option value="05">Mei</option>
+                                        <option value="06">Juni</option>
+                                        <option value="07">Juli</option>
+                                        <option value="08">Agustus</option>
+                                        <option value="09">September</option>
+                                        <option value="10">Oktober</option>
+                                        <option value="11">November</option>
+                                        <option value="12">Desember</option>
+                                        <!-- Tambahkan pilihan bulan lainnya -->
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
+                            </form>
+                            <canvas id="BarChartSumPasien" width="100px" height="45px"></canvas>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!--Cara Bayar-->
+                <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                    <h5 class="card-title">Jenis Bayar</h5>
+                        <div class="chart-container">
+                        <canvas id="PieChartSumPayment" width="100px" height="45px"></canvas>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
-        <div class="table-responsive">
-        <table class="table table-striped table-hover scroll-horizontal-vertical w-100" id="crudTable_pasien">
-        <thead>
-            <tr>
-            <th scope="col">No.R.M</th>
-            <th scope="col">Nama Pasien</th>
-            <th scope="col">No.SIM/KTP</th>
-            <th scope="col">Jenis Kelamin</th>
-            <th scope="col">Tempat Lahir</th>
-            <th scope="col">Tanggal Lahir</th>
-            <th scope="col">Nama Ibu</th>
-            <th scope="col">Alamat</th>
-            <th scope="col">Golongan Darah</th>
-            <th scope="col">Pekerjaan</th>
-            <th scope="col">Status Nikah</th>
-            <th scope="col">Agama</th>
-            <th scope="col">Tanggal Daftar</th>
-            <th scope="col">No.Telp/HP</th>
-            <th scope="col">Umur</th>
-            <th scope="col">Pendidikan</th>
-            <th scope="col">Penanggung Jawab</th>
-            <th scope="col">Nama Penanggung Jawab</th>
-            <th scope="col">Asuransi/Askes</th>
-            <th scope="col">No.Peserta</th>
-            <th scope="col">Pekerjaan Penanggung Jawab</th>
-            <th scope="col">Alamat Penanggung Jawab</th>
-            <th scope="col">Suku/Bangsa</th>
-            <th scope="col">Bahasa</th>
-            <th scope="col">Instansi/Perusahaan</th>
-            <th scope="col">NIP/NRP</th>
-            <th scope="col">Email</th>
-            <th scope="col">Cacat Fisik</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        </table>
-        </div>
-    </div>
-    </div>
+</div>
 </main>
 @endsection
 
-@push('addon-script')
-    <script>
-        var datatable = $('#crudTable_pasien').DataTable({
-            processing: true,
-            serverSide: true,
-            ordering: true,
-            ajax: {
-                url: '{!! url()->current() !!}',
-            },
-            columns: [
-                { data:'no_rkm_medis', name:'no_rkm_medis' },
-                { data:'nm_pasien', name:'nm_pasien' },
-                { data:'no_ktp', name:'no_ktp' },
-                { data:'jk', name:'jk' },
-                { data:'tmp_lahir', name:'tmp_lahir' },
-                { data:'tgl_lahir', name:'tgl_lahir' },
-                { data:'nm_ibu', name:'nm_ibu' },
-                { data:'alamat', name:'alamat' },
-                { data:'gol_darah', name:'gol_darah' },
-                { data:'pekerjaan', name:'pekerjaan' },
-                { data:'stts_nikah', name:'stts_nikah' },
-                { data:'agama', name:'agama' },
-                { data:'tgl_daftar', name:'tgl_daftar' },
-                { data:'no_tlp', name:'no_tlp' },
-                { data:'umur', name:'umur' },
-                { data:'pnd', name:'pnd' },
-                { data:'keluarga', name:'keluarga' },
-                { data:'namakeluarga', name:'namakeluarga' },
-                { data:'penjab.png_jawab', name:'penjab.png_jawab' },
-                { data:'no_peserta', name:'no_peserta' },
-                { data:'pekerjaanpj', name:'pekerjaanpj' },
-                { data:'alamatpj', name:'alamatpj' },
-                { data:'suku.nama_suku_bangsa', name:'suku.nama_suku_bangsa' },
-                { data:'bahasa.nama_bahasa', name:'bahasa.nama_bahasa' },
-                { data:'perusahaan_pasien', name:'perusahaan_pasien' },
-                { data:'nip', name:'nip' },
-                { data:'email', name:'email' },
-                { data:'cacatfisik.nama_cacat', name:'cacatfisik.nama_cacat' },
-            ],
-        })
-    </script>
-@endpush
+@section('js')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+
+
+<script>
+    var query = @json($query);
+    var pieQuery = @json($pieQuery);
+</script>
+
+<script>
+(function($) {
+    $(document).ready(function() {
+        var labels = Object.keys(pieQuery);
+        var data = Object.values(pieQuery);
+        //console.log(labels);
+        var ctx = document.getElementById("PieChartSumPayment").getContext("2d");
+        PieChartSumPayment.ChartData(ctx, 'pie', labels, data);
+    });
+
+    var PieChartSumPayment = {
+        ChartData: function(ctx, type, labels, data) {
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: ['Admedika', 'BPJS', 'Perusahaan','Umum'],
+                    datasets: [
+                        {
+                            label: "Data Pasien",
+                            data: data,
+                            backgroundColor: ['#FF6384', '#36A2EB','#FFCE56','#bffc6f'],
+                            borderWidth: 1,
+                        },
+                    ],
+                },
+                options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                labels: [{
+                    render: 'label',
+                    position: 'outside',
+                    arc:true
+                },
+                {
+                    render:'percentage',
+                    fontColor: 'white',
+                    position:'bottom',
+                    fontSize: 15,
+                },
+                ],
+                },
+            }
+            });
+        },
+    };
+})(jQuery);
+</script>
+<script>
+(function($) {
+    $(document).ready(function() {
+        var labels = Object.keys(query);
+        var data = Object.values(query);
+        //console.log(labels);
+        var ctx = document.getElementById("BarChartSumPasien").getContext("2d");
+        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
+    });
+
+    var BarChartSumPasien = {
+        ChartData: function(ctx, type, labels, data) {
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: "Data Pasien",
+                            data: data,
+                            backgroundColor: '#96bfff',
+                            borderWidth: 1,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                    labels: {
+                        render: 'value',
+                    }
+                    },
+                },
+            });
+        },
+    };
+})(jQuery);
+</script>
+@endsection
+

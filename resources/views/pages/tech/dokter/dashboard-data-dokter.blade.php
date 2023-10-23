@@ -15,21 +15,6 @@
             <canvas id="canvas-3"></canvas>
             </div>
         </div>
-        <!--Card Pasien-->
-        <a href="">
-            <div class="col-12 d-flex" style="position: relative; height:35vh; width:auto">
-            <div class="card flex-fill border-0">
-            <div class="card-body py-4">
-                <div class="d-flex align-items-start">
-                <div class="flex-grown-1">
-                    <h5 class="mb-2">Jumlah Dokter</h5>
-                    <h4 class="mb-2">2.987</h4>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        </a>
     </div>
     <div class="container-fluid">
     <div class="mb-3 mt-3">

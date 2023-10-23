@@ -53,6 +53,7 @@ Route::prefix('tech')
         Route::get('/data-pegawai', [PegawaiController::class, 'data_pegawai'])->name('data-pegawai');
 
         Route::get('/pasien', [PasienController::class, 'pasien'])->name('pasien');
+        Route::post('/pasien', [PasienController::class, 'pasien'])->name('pasien');
         Route::get('/pasien-lama', [PasienController::class, 'pasien_lama'])->name('pasien-lama');
         Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
 

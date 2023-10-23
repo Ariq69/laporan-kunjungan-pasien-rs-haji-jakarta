@@ -7,6 +7,7 @@ use App\Models\KamarPasien;
 
 use Illuminate\Http\Request;
 use App\Models\RegistrasiPasien;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -17,15 +18,40 @@ class PasienController extends Controller
             $this->middleware('auth',['tech']);
         }
 
-    public function pasien(){
-            
-            if (request()->ajax()) {
-            $data_pasien = Pasien::with(['penjab','suku','bahasa','cacatfisik']);
+    public function pasien(Request $request){
 
-            return Datatables::of($data_pasien)->make(true);
-        }
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
 
-        return view('pages.tech.pasien.dashboard-pasien');
+        $result = DB::table('reg_periksa')
+            ->select(DB::raw('DATE(tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_registrasi'))
+            ->whereYear('tgl_registrasi', $year)
+            ->whereMonth('tgl_registrasi', $month)
+            ->groupBy(DB::raw('CAST(tgl_registrasi AS DATE)'))
+            ->orderBy('tanggal')
+            ->get();
+
+        $query = $result->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_registrasi];
+        });
+
+        $piechart = $result = DB::table('reg_periksa')
+            ->join('penjab as p', 'reg_periksa.kd_pj', '=', 'p.kd_pj')
+            ->groupBy('p.kd_kel_pj')
+            ->select('p.kd_kel_pj', DB::raw('COUNT(p.kd_pj) as jumlah_kd_pj'))
+            ->orderBy('p.kd_kel_pj', 'asc')
+            ->get();
+
+        $pieQuery = $result->mapWithKeys(function ($item){
+            return [$item->kd_kel_pj => $item->jumlah_kd_pj];
+        
+        });
+        return view('pages.tech.pasien.dashboard-pasien', compact('years','query', 'pieQuery'));
     }
 
     public function pasien_lama(){

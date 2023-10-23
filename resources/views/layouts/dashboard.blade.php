@@ -28,6 +28,8 @@
 
         <!--Main Content-->
         @yield('content')
+
+        @yield('js')
       </div>
     </div>
 
