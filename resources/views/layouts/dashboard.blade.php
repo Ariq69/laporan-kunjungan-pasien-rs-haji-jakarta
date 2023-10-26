@@ -42,10 +42,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs5/dt-1.13.6/datatables.min.js"></script>
     <script src="{{ asset('../js/script.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ asset('../js/line.js') }}"></script>
-    <script src="{{ asset('../js/pie.js') }}"></script>
-    <script src="{{ asset('../js/bar.js') }}"></script>
     @stack('addon-script')
   </body>
 </html>

@@ -21,23 +21,41 @@
 
         <div class="row mx-3">
         <!--Bar Chart-->
-        <div class="row">
-            <div class="col-md-3 mt-1">
-                <label for="From">Dari</label>
-                <input type="date" id="from" name="from" class="form-control">
-            </div>
-            <div class="col-md-3 mt-1">
-                <label for="To">Hingga</label>
-                <input type="date" id="to" name="to" class="form-control">
-            </div>
-            <div class="col-md-3 mt-4">
-                <input type="button" class="btn btn-success" value="Filter" onclick="getData()">
-            </div>
-        </div>
-        <div class="col-lg-8 md-3 mt-3">
-            <div class="chart-container" style="position: relative; height:50vh; width:80vw">
-            <canvas id="canvas-1"></canvas>
-            </div>
+        <div>
+            <form method="post" action="{{ url('/tech/dashboard')}}" id="filter-form">
+                @csrf
+                <div class="row">
+                    <div class="col">
+                        <label for="year">Tahun</label>
+                        <select class="form-control" id="year" name="year">
+                            @foreach ( $years as $year )
+                                <option value="{{ $year->year }}">{{$year->year}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="month">Bulan</label>
+                        <select class="form-control" id="month" name="month">
+                            <option value="01">Januari</option>
+                            <option value="02">Februari</option>
+                            <option value="03">Maret</option>
+                            <option value="04">April</option>
+                            <option value="05">Mei</option>
+                            <option value="06">Juni</option>
+                            <option value="07">Juli</option>
+                            <option value="08">Agustus</option>
+                            <option value="09">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                    <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
+                    </div>
+                </div>
+            </form>
+            <canvas id="BarKunjungan" width="100px" height="45px"></canvas>
         </div>
         <!--Pie Chart-->
         <div class="col-lg-4 md-3">
@@ -200,3 +218,103 @@
 </main>
 @endsection
 
+@push('addon-script')
+    <script>
+        var yearSelect = document.getElementById('year');
+        var monthSelect = document.getElementById('month');
+        var applyFilterButton = document.getElementById('submit')
+
+        var storedYear = localStorage.getItem('selectedYear');
+        var storedMonth = localStorage.getItem('selectedMonth');
+
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth() + 1;
+
+        if (storedYear) {
+            yearSelect.value = storedYear;
+        } else {
+            yearSelect.value = currentDate;
+        }
+
+        if (storedMonth) {
+            monthSelect.value = storedMonth;
+        } else {
+            monthSelect.value = currentMonth;
+        }
+
+        yearSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedYear', yearSelect.value);
+        });
+
+        monthSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedMonth', monthSelect.value);
+        });
+
+        applyFilterButton.addEventListener('click', function() {
+            // 
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script>
+        var query = @json($query);
+    </script>
+
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                var labels = Object.keys(query);
+                var data = Object.values(query);
+                var bulan = [
+                    'Januari',
+                    'Februari',
+                    'Maret',
+                    'April',
+                    'Mei',
+                    'Juni',
+                    'Juli',
+                    'Agustus',
+                    'September',
+                    'Oktober',
+                    'November',
+                    'Desember',
+                ];
+                var ctx = document.getElementById("BarKunjungan").getContext("2d");
+                BarKunjungan.ChartData(ctx, 'bar', labels, data, bulan);
+            });
+
+            var BarKunjungan = {
+                ChartData: function(ctx, type, labels, data, bulan) {
+                    new Chart(ctx, {
+                        type: type,
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: "Data Pasien",
+                                    data: data,
+                                    backgroundColor: '#96bfff',
+                                    borderWidth: 1,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            maintainFontRation: true,
+                            plugins: {
+                                labels: {
+                                    render:'value',
+                                },
+                            },
+                        },
+                    });
+                },
+            };
+        })(jQuery);
+    </script>
+@endpush

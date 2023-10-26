@@ -30,6 +30,7 @@ Route::redirect('/', '/login', 301);
 
 Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard/tech', [HomeController::class, 'tech'])->name('dashboard-tech');
+    Route::post('/dashboard/tech', [HomeController::class, 'tech'])->name('dashboard-tech');
     Route::get('/dashboard/admin', [HomeController::class, 'admin'])->name('dashboard-admin');
     Route::get('/dashboard/pegawai', [HomeController::class, 'pegawai'])->name('dashboard-pegawai');
 
@@ -82,6 +83,10 @@ Route::prefix('tech')
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
         Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');
+
+        // Kunjungan Section
+        Route::get('/dashboard', [HomeController::class, 'tech']);
+        Route::post('/dashboard', [HomeController::class, 'tech']);
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });
