@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\JadwalPerawat;
 use App\Models\Penjab;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -49,7 +50,7 @@ class HomeController extends Controller
     }
 
 
-    public function tech()
+    public function tech(Request $request)
     {
         $jumlah_pasien = number_format(Pasien::count());
         $jumlah_dokter = number_format(Dokter::count());
@@ -58,6 +59,27 @@ class HomeController extends Controller
         $jumlah_poli = number_format(Spesialis::count());
         $jumlah_kamar = number_format(KamarPasien::count());
         $jumlah_asuransi = number_format(Penjab::count());
+
+        // Buat Bar Chart Kunjungan Pasien
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $bar = DB::table('reg_periksa')
+        ->select(DB::raw('DATE(tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as total_kunjungan'))
+        ->whereYear('tgl_registrasi', $year)
+        ->whereMonth('tgl_registrasi', $month)
+        ->groupBy(DB::raw('CAST(tgl_registrasi AS DATE)'))
+        ->orderBy('tanggal')
+        ->get();
+
+        $query = $bar->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->total_kunjungan];
+        });
 
         
         
@@ -71,6 +93,8 @@ class HomeController extends Controller
             'jumlah_poli' => $jumlah_poli,
             'jumlah_kamar' => $jumlah_kamar,
             'jumlah_asuransi' => $jumlah_asuransi,
+            'years' => $years,
+            'query' => $query,
         ]);
     }
 
