@@ -18,7 +18,43 @@ class PasienController extends Controller
             $this->middleware('auth',['tech']);
         }
 
-    public function pasien(Request $request){
+    public function pasien(){
+
+        return view('pages.tech.pasien.dashboard-pasien');
+    }
+
+    public function pasien_perbulan(Request $request){
+                $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $poliklinik = DB::table('poliklinik')
+            ->select('kd_poli', 'nm_poli')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $poli = $request->input('poliklinik');
+
+
+        $jumlahData = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select('reg_periksa.stts_daftar', DB::raw('COUNT(*) as jumlah_data'))
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->whereMonth('reg_periksa.tgl_registrasi', $month)
+            ->where('poliklinik.nm_poli', $poli)
+            ->groupBy('reg_periksa.stts_daftar')
+            ->get();
+
+        $query = $jumlahData->mapWithKeys(function ($item){
+            return [$item->stts_daftar => $item->jumlah_data];
+        });
+
+        return view('pages.tech.pasien.dashboard-pasien-perbulan', compact('years','poliklinik','query'));
+
+    }
+    public function pasien_carabayar(Request $request){
 
         $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
             ->groupBy('year')
@@ -28,42 +64,67 @@ class PasienController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
 
-        $result = DB::table('reg_periksa')
-            ->select(DB::raw('DATE(tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_registrasi'))
-            ->whereYear('tgl_registrasi', $year)
-            ->whereMonth('tgl_registrasi', $month)
-            ->groupBy(DB::raw('CAST(tgl_registrasi AS DATE)'))
-            ->orderBy('tanggal')
-            ->get();
-
-        $query = $result->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_registrasi];
-        });
-
-        $piechart = $result = DB::table('reg_periksa')
+        $barchart = $result = DB::table('reg_periksa')
             ->join('penjab as p', 'reg_periksa.kd_pj', '=', 'p.kd_pj')
             ->groupBy('p.kd_kel_pj')
             ->select('p.kd_kel_pj', DB::raw('COUNT(p.kd_pj) as jumlah_kd_pj'))
             ->orderBy('p.kd_kel_pj', 'asc')
             ->get();
+        
+        $details = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('penjab', 'reg_periksa.kd_pj', '=', 'penjab.kd_pj')
+            ->join('kel_penjab', 'penjab.kd_kel_pj', '=', 'kel_penjab.kd_kel_pj')
+            ->select('poliklinik.nm_poli', 'kel_penjab.kd_kel_pj', DB::raw('COUNT(*) AS jumlah_pasien'))
+            ->whereIn('kel_penjab.kd_kel_pj', ["UMUM", "BPJ", "ADM", "PER"])
+            ->groupBy('poliklinik.nm_poli', 'kel_penjab.kd_kel_pj')
+            ->get()
+            ->groupBy('nm_poli');
+        // Menghitung total jumlah_kd_pj
+        $totalJumlahKdPj = $result->sum('jumlah_kd_pj');
 
-        $pieQuery = $result->mapWithKeys(function ($item){
+        $barQuery = $result->mapWithKeys(function ($item){
             return [$item->kd_kel_pj => $item->jumlah_kd_pj];
+        });
+
+        // Menambahkan total ke dalam array data untuk bar chart
+        $barQuery['Total'] = $totalJumlahKdPj;
+
+        return view('pages.tech.pasien.dashboard-pasien-percarabayar', compact(
+            'years',
+            'barQuery',
+            'details'
+        ));
+    }
+
+    public function pasien_perpoli(Request $request){
+
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $bar = DB::table('poliklinik as p')
+            ->leftJoin('reg_periksa as r', 'p.kd_poli', '=', 'r.kd_poli')
+            ->select('p.nm_poli', DB::raw('COUNT(r.kd_poli) as jumlah_poli'))
+            ->whereYear('r.tgl_registrasi', $year)
+            ->whereMonth('r.tgl_registrasi', $month)
+            ->groupBy('p.nm_poli')
+            ->get();
+
+
+
+        $query = $bar->mapWithKeys(function ($item){
+            return [$item->nm_poli => $item->jumlah_poli];
         
         });
-        return view('pages.tech.pasien.dashboard-pasien', compact('years','query', 'pieQuery'));
+
+        return view('pages.tech.pasien.dashboard-pasien-perpoli', compact('years','query'));
     }
 
-    public function pasien_lama(){
-            
-            if (request()->ajax()) {
-            $data_pasien = RegistrasiPasien::with('penjab','reg_dokter','poli', 'namapasien')->where('stts_daftar', 'Lama');
-
-            return Datatables::of($data_pasien)->make(true);
-        }
-
-        return view('pages.tech.pasien.dashboard-pasien-lama');
-    }
 
     public function pasien_baru(){
             

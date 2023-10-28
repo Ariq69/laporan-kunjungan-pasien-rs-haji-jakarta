@@ -219,7 +219,7 @@
           data-bs-parents="#sidebar"
         >
           <li class="sidebar-item">
-            <a href="{{ route('pasien-lama') }}" class="sidebar-link">Pasien Lama</a>
+            <a href="{{ route('pasien') }}" class="sidebar-link">Pasien</a>
           </li>
           <li class="sidebar-item">
             <a href="{{ route('pasien-baru') }}" class="sidebar-link">Pasien Baru</a>

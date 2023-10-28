@@ -54,7 +54,16 @@ Route::prefix('tech')
 
         Route::get('/pasien', [PasienController::class, 'pasien'])->name('pasien');
         Route::post('/pasien', [PasienController::class, 'pasien'])->name('pasien');
-        Route::get('/pasien-lama', [PasienController::class, 'pasien_lama'])->name('pasien-lama');
+
+        Route::get('/pasien-perbulan', [PasienController::class, 'pasien_perbulan'])->name('pasien-perbulan');
+        Route::post('/pasien-perbulan', [PasienController::class, 'pasien_perbulan'])->name('pasien-perbulan');
+
+        Route::get('/pasien-perpoli', [PasienController::class, 'pasien_perpoli'])->name('pasien-perpoli');
+        Route::post('/pasien-perpoli', [PasienController::class, 'pasien_perpoli'])->name('pasien-perpoli');
+
+        Route::get('/pasien-carabayar', [PasienController::class, 'pasien_carabayar'])->name('pasien-carabayar');
+        Route::post('/pasien-carabayar', [PasienController::class, 'pasien_carabayar'])->name('pasien-carabayar');
+
         Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
 
         //informasi Kamar
