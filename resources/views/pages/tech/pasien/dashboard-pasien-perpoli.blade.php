@@ -183,6 +183,11 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
                     plugins: {
                         labels: {
                             render: 'value',

@@ -221,12 +221,6 @@
           <li class="sidebar-item">
             <a href="{{ route('pasien') }}" class="sidebar-link">Pasien</a>
           </li>
-          <li class="sidebar-item">
-            <a href="{{ route('pasien-baru') }}" class="sidebar-link">Pasien Baru</a>
-          </li>
-          <li class="sidebar-item">
-            <a href="{{ route('pasien') }}" class="sidebar-link">Total Pasien</a>
-          </li>
         </ul>
       </li>
       <!--Administrasi-->
