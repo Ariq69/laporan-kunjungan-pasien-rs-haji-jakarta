@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="mb-3 mt-3">
         <div class="row">
-            <section class="haji-breadcrumbs">
+                <section class="haji-breadcrumbs">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
@@ -16,7 +16,7 @@
                                             <a href="{{ route('pasien') }}">Pasien</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Per Bulan
+                                            Pasien Per Kecamatan
                                         </li>
                                     </ol>
                                 </nav>
@@ -32,9 +32,8 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Jumlah Pasien Per Poli</h5>
-                            <div class="chart-container">
-                                <form method="post" action="{{ url('/tech/pasien-perbulan') }}">
+                            <h5 class="card-title">Jumlah Pasien Per Kecamatan</h5>
+                            <form method="post" action="{{ url('/tech/pasien-perkecamatan') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
@@ -72,10 +71,19 @@
                                             </select>
                                         </div>
                                         <div class="col">
+                                            <label for="kabupaten">Kabupaten</label>
+                                            <select class="form-control" id="kabupaten" name="kabupaten">
+                                                @foreach ($kabupaten as $kab)
+                                                    <option value="{{ $kab->nm_kab }}">{{ $kab->nm_kab }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col">
                                             <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                         </div>
                                     </div>
                                 </form>
+                            <div class="chart-container">
                                 <canvas id="BarChartSumPasien" width="100px" height="45px"></canvas>
                             </div>
                         </div>
@@ -98,10 +106,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
+    var poliklinikSelect = document.getElementById('poliklinik'); // Tambahkan ini
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
+    var storedPoliklinik = localStorage.getItem('selectedPoliklinik'); // Tambahkan ini
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -112,6 +122,10 @@
         monthSelect.value = storedMonth;
     }
 
+    if (storedPoliklinik) {
+        poliklinikSelect.value = storedPoliklinik; // Tambahkan ini
+    }
+
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -120,16 +134,21 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
+
+    poliklinikSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedPoliklinik', poliklinikSelect.value); // Tambahkan ini
+    });
 </script>
+
 <script>
-    var query = @json($query);
+    var querykecamatan = @json($querykecamatan);
 </script>
 
 <script>
 (function($) {
     $(document).ready(function() {
-        var labels = Object.keys(query);
-        var data = Object.values(query);
+        var labels = Object.keys(querykecamatan);
+        var data = Object.values(querykecamatan);
         //console.log(labels);
         var ctx = document.getElementById("BarChartSumPasien").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);

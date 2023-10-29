@@ -125,6 +125,167 @@ class PasienController extends Controller
         return view('pages.tech.pasien.dashboard-pasien-perpoli', compact('years','query'));
     }
 
+    public function pasien_perdokter(Request $request){
+
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $poliklinik = DB::table('poliklinik')
+            ->select('kd_poli', 'nm_poli')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $poli = $request->input('poliklinik');
+
+        $perdokter = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('dokter', 'reg_periksa.kd_dokter', '=', 'dokter.kd_dokter')
+            ->select('poliklinik.nm_poli', 'dokter.nm_dokter', DB::raw('COUNT(*) as jumlah_pasien'))
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->whereMonth('reg_periksa.tgl_registrasi', $month)
+            ->where('poliklinik.nm_poli', $poli)
+            ->groupBy('poliklinik.nm_poli', 'dokter.nm_dokter')
+            ->get();
+
+
+
+        $queryDokter = $perdokter->mapWithKeys(function ($item){
+            return [$item->nm_dokter => $item->jumlah_pasien];
+        });
+        // Menambahkan total ke dalam array data untuk bar chart
+
+        return view('pages.tech.pasien.dashboard-pasien-perdokter', compact(
+            'years',
+            'queryDokter',
+            'poliklinik',
+        ));
+    }
+
+    public function pasien_perjk(Request $request){
+
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $poliklinik = DB::table('poliklinik')
+            ->select('kd_poli', 'nm_poli')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $poli = $request->input('poliklinik');
+
+        $perjk = DB::table('reg_periksa as pa')
+            ->join('poliklinik as p', 'pa.kd_poli', '=', 'p.kd_poli')
+            ->join('pasien as ps', 'pa.no_rkm_medis', '=', 'ps.no_rkm_medis')
+            ->select('p.nm_poli', 'ps.jk', DB::raw('COUNT(*) as jumlah_pasien'))
+            ->whereYear('pa.tgl_registrasi', $year)
+            ->whereMonth('pa.tgl_registrasi', $month)
+            ->where('p.nm_poli', $poli)
+            ->groupBy('p.nm_poli', 'ps.jk')
+            ->get();
+
+        $queryjk = $perjk->mapWithKeys(function ($item){
+            return [$item->jk => $item->jumlah_pasien];
+        });
+        // Menambahkan total ke dalam array data untuk bar chart
+
+        return view('pages.tech.pasien.dashboard-pasien-perjk', compact(
+            'years',
+            'queryjk',
+            'poliklinik',
+        ));
+    }
+
+    public function pasien_perkabupaten(Request $request){
+
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $poliklinik = DB::table('poliklinik')
+            ->select('kd_poli', 'nm_poli')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $poli = $request->input('poliklinik');
+
+        $perkabupaten = DB::table('reg_periksa as r')
+            ->join('pasien as p', 'r.no_rkm_medis', '=', 'p.no_rkm_medis')
+            ->join('kabupaten as k', 'p.kd_kab', '=', 'k.kd_kab')
+            ->join('poliklinik as pl', 'r.kd_poli', '=', 'pl.kd_poli')
+            ->whereYear('r.tgl_registrasi', $year)
+            ->whereMonth('r.tgl_registrasi', $month)
+            ->where('pl.nm_poli', $poli)
+            ->select('k.nm_kab', DB::raw('COUNT(*) as jumlah_pasien'))
+            ->groupBy('k.nm_kab')
+            ->get();
+
+        $querykabupaten = $perkabupaten->mapWithKeys(function ($item){
+            return [$item->nm_kab => $item->jumlah_pasien];
+        });
+        // Menambahkan total ke dalam array data untuk bar chart
+
+        return view('pages.tech.pasien.dashboard-pasien-perkabupaten', compact(
+            'years',
+            'querykabupaten',
+            'poliklinik',
+        ));
+    }
+
+    public function pasien_perkecamatan(Request $request){
+
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $poliklinik = DB::table('poliklinik')
+            ->select('kd_poli', 'nm_poli')
+            ->get();
+        
+        $kabupaten = DB::table('kabupaten')
+            ->select('kd_kab', 'nm_kab')
+            ->get();
+        
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $poli = $request->input('poliklinik');
+        $kab = $request->input('kabupaten');
+
+        $perkecamatan = DB::table('reg_periksa as r')
+            ->select('k.nm_kab', 'kec.nm_kec', DB::raw('COUNT(*) as jumlah_pasien'))
+            ->join('pasien as p', 'r.no_rkm_medis', '=', 'p.no_rkm_medis')
+            ->join('kecamatan as kec', 'p.kd_kec', '=', 'kec.kd_kec')
+            ->join('kabupaten as k', 'p.kd_kab', '=', 'k.kd_kab')
+            ->join('poliklinik as pl', 'r.kd_poli', '=', 'pl.kd_poli')
+            ->whereYear('r.tgl_registrasi', $year)
+            ->whereMonth('r.tgl_registrasi', $month)
+            ->where('pl.nm_poli', $poli)
+            ->where('k.nm_kab', $kab)
+            ->groupBy('k.kd_kab', 'k.nm_kab', 'kec.kd_kec', 'kec.nm_kec')
+            ->get();
+
+
+        $querykecamatan = $perkecamatan->mapWithKeys(function ($item){
+            return [$item->nm_kec => $item->jumlah_pasien];
+        });
+        // Menambahkan total ke dalam array data untuk bar chart
+
+        return view('pages.tech.pasien.dashboard-pasien-perkecamatan', compact(
+            'years',
+            'querykecamatan',
+            'poliklinik',
+            'kabupaten',
+        ));
+    }
+
 
     public function pasien_baru(){
             

@@ -1,0 +1,23 @@
+.haji-breadcrumbs {
+    .breadcrumb {
+        background: transparent;
+        padding: 0;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 17px;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        padding-left: 1.5em;
+        padding-right: 1.5em;
+    }
+
+    .breadcrumb-item.active {
+        font-weight: 300;
+        color: #0c0d36;
+    }
+
+    a {
+        color: #88ae7a;
+    }
+}

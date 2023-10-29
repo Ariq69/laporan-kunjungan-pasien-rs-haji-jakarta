@@ -29,7 +29,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-perdokter') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                     <div class="card-body py-4">
@@ -63,13 +63,13 @@
             </div>
         </a>
             
-        <a href="#">
+        <a href="{{ route('pasien-perjk') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">Per-Pekerjaan</h5>
+                                <h5 class="mb-2">Per-Jenis Kelamin</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
@@ -97,13 +97,13 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-perkabupaten') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">Per-Perujuk</h5>
+                                <h5 class="mb-2">Per-Kabupaten</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
@@ -114,13 +114,13 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-perkecamatan') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">Per-Umur</h5>
+                                <h5 class="mb-2">Per-Kecamatan</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>

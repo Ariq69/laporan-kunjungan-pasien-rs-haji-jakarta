@@ -16,7 +16,7 @@
                                             <a href="{{ route('pasien') }}">Pasien</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Per Bulan
+                                            Pasien Per Dokter
                                         </li>
                                     </ol>
                                 </nav>
@@ -32,9 +32,8 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Jumlah Pasien Per Poli</h5>
-                            <div class="chart-container">
-                                <form method="post" action="{{ url('/tech/pasien-perbulan') }}">
+                            <h5 class="card-title">Jumlah Pasien Per Dokter</h5>
+                            <form method="post" action="{{ url('/tech/pasien-perdokter') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
@@ -76,6 +75,7 @@
                                         </div>
                                     </div>
                                 </form>
+                            <div class="chart-container">
                                 <canvas id="BarChartSumPasien" width="100px" height="45px"></canvas>
                             </div>
                         </div>
@@ -122,14 +122,14 @@
     });
 </script>
 <script>
-    var query = @json($query);
+    var queryDokter = @json($queryDokter);
 </script>
 
 <script>
 (function($) {
     $(document).ready(function() {
-        var labels = Object.keys(query);
-        var data = Object.values(query);
+        var labels = Object.keys(queryDokter);
+        var data = Object.values(queryDokter);
         //console.log(labels);
         var ctx = document.getElementById("BarChartSumPasien").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);

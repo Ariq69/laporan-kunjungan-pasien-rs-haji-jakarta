@@ -19,9 +19,24 @@
 <div class="container-fluid">
     <div class="mb-3 mt-3">
         <div class="row">
-            <div class="col-lg-6 ">
-            <h4>Data Pasien</h4>
-            </div>
+                <section class="haji-breadcrumbs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('pasien') }}">Pasien</a>
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            Pasien Per Cara Bayar
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+            </section>
         </div>
 
         <div class="container-fluid">
@@ -123,7 +138,7 @@
                 plugins: {
                     labels: [{
                         render: 'value',
-                        fontSize: '17',
+                        fontSize: '14',
                         position: 'outside',
                         arc:true
                     }],

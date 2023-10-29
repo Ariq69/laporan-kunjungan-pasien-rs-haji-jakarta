@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="mb-3 mt-3">
         <div class="row">
-            <section class="haji-breadcrumbs">
+                <section class="haji-breadcrumbs">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
@@ -16,7 +16,7 @@
                                             <a href="{{ route('pasien') }}">Pasien</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Per Bulan
+                                            Pasien Per Jenis Kelamin
                                         </li>
                                     </ol>
                                 </nav>
@@ -32,9 +32,8 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Jumlah Pasien Per Poli</h5>
-                            <div class="chart-container">
-                                <form method="post" action="{{ url('/tech/pasien-perbulan') }}">
+                            <h5 class="card-title">Jumlah Pasien Per Jenis Kelamin</h5>
+                            <form method="post" action="{{ url('/tech/pasien-perjk') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
@@ -76,6 +75,7 @@
                                         </div>
                                     </div>
                                 </form>
+                            <div class="chart-container">
                                 <canvas id="BarChartSumPasien" width="100px" height="45px"></canvas>
                             </div>
                         </div>
@@ -122,14 +122,14 @@
     });
 </script>
 <script>
-    var query = @json($query);
+    var queryjk = @json($queryjk);
 </script>
 
 <script>
 (function($) {
     $(document).ready(function() {
-        var labels = Object.keys(query);
-        var data = Object.values(query);
+        var labels = Object.keys(queryjk);
+        var data = Object.values(queryjk);
         //console.log(labels);
         var ctx = document.getElementById("BarChartSumPasien").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
