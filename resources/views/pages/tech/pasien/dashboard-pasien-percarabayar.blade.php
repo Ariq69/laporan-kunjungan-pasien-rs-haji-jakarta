@@ -14,6 +14,9 @@
         width: 70%; /* Sesuaikan dengan ukuran yang Anda inginkan untuk mode ponsel */
     }
 }
+    .table-bordered th, .table-bordered td {
+        border-width: 2px;
+    }
 </style>
 <main class="content px-3 py-2">
 <div class="container-fluid">
@@ -58,8 +61,8 @@
                 <div class="card">
                     <div class="card-body">
                     <h5>Detail Pasien per Jenis Bayar</h5>
-                    <div class="table-responsive">
-                    <table class="table table-striped table-hover scroll-horizontal-vertical w-100">
+                    <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
+                        <table class="table table-bordered table-striped table-hover scroll-horizontal-vertical w-100">
                         <tr>
                             <th style="vertical-align: middle;" rowspan="2" class="text-center">Poliklinik</th>
                             <th colspan="4" class="text-center">Jumlah Pasien</th>

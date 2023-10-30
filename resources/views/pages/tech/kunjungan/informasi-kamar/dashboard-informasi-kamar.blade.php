@@ -1,321 +1,136 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+<style>
+    .table-bordered th, .table-bordered td {
+        border-width: 2px;
+    }
+</style>
+
 <!--Main Content-->
 <main class="content px-3 py-2">
+    <!-- TABLE INFORMASI KAMAR -->
     <div class="container-fluid">
-    <div class="mb-3 mt-3">
-    <div class="row mb-3">
-        <div class="col-lg-6 ">
-        <h4>Informasi Kamar</h4>
+    <div class="row">
+            <section class="haji-breadcrumbs">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('informasi-kamar') }}">Informasi Kamar</a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Informasi Ruangan</h5>
+                    <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
+                        <table class="table table-bordered table-striped table-hover scroll-horizontal-vertical w-100">
+                        <tr>
+                            <th style="vertical-align: middle;" rowspan="2" class="text-center">Nama Ruangan</th>
+                            <th colspan="6" class="text-center">Kelas Ruangan</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Kelas 1</th>
+                            <th class="text-center">Kelas 2</th>
+                            <th class="text-center">Kelas 3</th>
+                            <th class="text-center">Kelas Utama</th>
+                            <th class="text-center">Kelas VIP</th>
+                            <th class="text-center">Kelas VVIP</th>
+                        </tr>
+                        @foreach($infoKamar as $row)
+                        <tr>
+                            <td class="text-justify">{{ $row->nm_bangsal }}</td>
+                            <td class="text-center">{{ $row->Jumlah_Kelas1 }}</td>
+                            <td class="text-center">{{ $row->Jumlah_Kelas2 }}</td>
+                            <td class="text-center">{{ $row->Jumlah_Kelas3 }}</td>
+                            <td class="text-center">{{ $row->Jumlah_KelasUtama }}</td>
+                            <td class="text-center">{{ $row->Jumlah_KelasVIP }}</td>
+                            <td class="text-center">{{ $row->Jumlah_KelasVVIP }}</td>
+                        </tr>
+                        @endforeach
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row row-cols-lg-4">
-        <a href="{{ route('informasi-kamar-afiah') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">AFIAH</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_afiah }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    
+    <!-- TABLE INFORMASI BED -->
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h5>Informasi Bed</h5>
+                <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 500px;">
+                    <table class="table table-bordered table-striped table-hover scroll-horizontal-vertical w-100">
+                        <tr>
+                            <th style="vertical-align: middle;" rowspan="2" colspan="2" class="text-center">Nama Ruangan</th>
+                            <th class="text-center" rowspan="2" style="vertical-align: middle;">Kelas</th>
+                            <th colspan="4" class="text-center">Status Bed</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Terisi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                        </tr>
+                        <!-- <tr>
+                            <th class="text-center" colspan="4">Kelas 1</th>
+                            <th class="text-center" colspan="4">Kelas 2</th>
+                            <th class="text-center" colspan="4">Kelas 3</th>
+                            <th class="text-center" colspan="4">Kelas Utama</th>
+                            <th class="text-center" colspan="4">Kelas VIP</th>
+                            <th class="text-center" colspan="4">Kelas VVIP</th>
+                        </tr> -->
+                        <!-- <tr>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                            <th class="text-center">Isi</th>
+                            <th class="text-center">Kosong</th>
+                            <th class="text-center">Dibersihkan</th>
+                            <th class="text-center">Dibooking</th>
+                        </tr> -->
+                        @foreach($infoBed as $row)
+                            <tr>
+                                <td colspan="2">{{ $row->nm_bangsal }}</td>
+                                <td class="text-center">{{ $row->kelas }}</td>
+                                <td class="text-center">{{ $row->Jumlah_ISI }}</td>
+                                <td class="text-center">{{ $row->Jumlah_KOSONG }}</td>
+                                <td class="text-center">{{ $row->Jumlah_DIBERSIHKAN }}</td>
+                                <td class="text-center">{{ $row->Jumlah_DIBOOKING }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
             </div>
-
-            <a href="{{ route('informasi-kamar-afiso') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">AFIAH ISOLASI</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_afiso }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-ama') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">AMANAH</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_ama }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-amab') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">AMANAH BAYI</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_amab }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-has1') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">HASANAH 1</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_has1 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-has06') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">HASANAH 2 KELAS 1</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_has06 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-has07') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">HASANAH 2 KELAS 2</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_has07 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-has08') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">HASANAH 2 KELAS 3</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_has08 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-syi') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">SYIFA</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_syi }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-syiso') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">SYIFA ISOLASI</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_syiso }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-sak') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">SAKINAH</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_sak }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-mul') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">MULTAZAM</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_mul }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-neo') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">NEONATUS</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_neo }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-icu') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">ICU</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_icu }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-iccu') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">ICCU</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_iccu }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-nicu') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">NICU</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_nicu }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-ist') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">ISTIQOMAH</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_ist }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-ist01') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">ISTIQOMAH KELAS VVIP</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_ist01 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="{{ route('informasi-kamar-ist02') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">ISTIQOMAH KELAS VIP</h5>
-                                <h4 class="mb-2">{{ $jumlah_kamar_ist02 }}</h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-    </div>
+        </div>
     </div>
 </main>
 @endsection

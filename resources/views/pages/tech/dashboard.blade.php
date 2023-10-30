@@ -21,40 +21,42 @@
 
         <div class="row mx-3">
         <!--Bar Chart-->
-        <div>
-            <form method="post" action="{{ url('/tech/dashboard')}}" id="filter-form">
-                @csrf
-                <div class="row">
-                    <div class="col">
-                        <label for="year">Tahun</label>
-                        <select class="form-control" id="year" name="year">
-                            @foreach ( $years as $year )
-                                <option value="{{ $year->year }}">{{$year->year}}</option>
-                            @endforeach
-                        </select>
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="{{ url('/tech/dashboard')}}" id="filter-form">
+                    @csrf
+                    <div class="row">
+                        <div class="col">
+                            <label for="year">Tahun</label>
+                            <select class="form-control" id="year" name="year">
+                                @foreach ( $years as $year )
+                                    <option value="{{ $year->year }}">{{$year->year}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="month">Bulan</label>
+                            <select class="form-control" id="month" name="month">
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                        <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
+                        </div>
                     </div>
-                    <div class="col">
-                        <label for="month">Bulan</label>
-                        <select class="form-control" id="month" name="month">
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                    <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
             <canvas id="BarKunjungan" width="100px" height="45px"></canvas>
         </div>
         <!--Pie Chart-->
