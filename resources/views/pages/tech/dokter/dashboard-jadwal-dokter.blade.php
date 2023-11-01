@@ -10,20 +10,20 @@
                 <h4>Jadwal Dokter</h4>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover scroll-horizontal-vertical w-100">
+            <div class="table-responsive" style="overflow-x: auto; overflow-y: auto; max-height: 1000px;">
+                <table class="table table-bordered table-striped table-hover scroll-horizontal-vertical w-100">
                     <thead>
                         <tr>
-                            <th style="vertical-align: middle;" rowspan="2" class="text-center">Nama Dokter</th>
-                            <th colspan="5" class="text-center">Hari</th>
-                            <th style="vertical-align: middle;" rowspan="2" class="text-center">Poliklinik</th>
+                            <th style="vertical-align: middle;" rowspan="2" class="text-center tb-jadwal-dokter">Nama Dokter</th>
+                            <th colspan="5" class="text-center tb-jadwal-dokter">Hari</th>
+                            <th style="vertical-align: middle;" rowspan="2" class="text-center tb-jadwal-dokter">Poliklinik</th>
                         </tr>
                         <tr>
-                            <th class="text-center">Senin</th>
-                            <th class="text-center">Selasa</th>
-                            <th class="text-center">Rabu</th>
-                            <th class="text-center">Kamis</th>
-                            <th class="text-center">Jumat</th>
+                            <th class="text-center tb-jadwal-dokter">Senin</th>
+                            <th class="text-center tb-jadwal-dokter">Selasa</th>
+                            <th class="text-center tb-jadwal-dokter">Rabu</th>
+                            <th class="text-center tb-jadwal-dokter">Kamis</th>
+                            <th class="text-center tb-jadwal-dokter">Jumat</th>
                         </tr>
                     </thead>
                     <tbody>
