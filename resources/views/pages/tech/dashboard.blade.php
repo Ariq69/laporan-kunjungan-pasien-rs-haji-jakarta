@@ -1,6 +1,19 @@
 @extends('layouts.dashboard')
 
 @section('content')
+
+<style>
+
+.divider {
+    width: 100%;
+    height: 1px;
+    background-color: #BBB;
+    margin: 1rem 0;
+
+}
+
+</style>
+
 <main class="content px-3 py-2">
     <div class="container-fluid">
     <div class="mb-3">
@@ -23,6 +36,7 @@
         <!--Bar Chart-->
         <div class="card">
             <div class="card-body">
+                <h4>Data Kunjungan Pasien</h4>
                 <form method="post" action="{{ url('/tech/dashboard')}}" id="filter-form">
                     @csrf
                     <div class="row">
@@ -56,6 +70,7 @@
                         </div>
                     </div>
                 </form>
+                <div class="divider"></div>
             </div>
             <canvas id="BarKunjungan" width="100px" height="45px"></canvas>
         </div>
@@ -285,6 +300,7 @@
                     'November',
                     'Desember',
                 ];
+
                 var ctx = document.getElementById("BarKunjungan").getContext("2d");
                 BarKunjungan.ChartData(ctx, 'bar', labels, data, bulan);
             });
@@ -297,7 +313,7 @@
                             labels: labels,
                             datasets: [
                                 {
-                                    label: "Data Pasien",
+                                    label: "Data Kunjungan Pasien",
                                     data: data,
                                     backgroundColor: '#96bfff',
                                     borderWidth: 1,

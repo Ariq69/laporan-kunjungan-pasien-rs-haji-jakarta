@@ -325,7 +325,18 @@ class PasienController extends Controller
         ->groupBy('bangsal.nm_bangsal', 'kamar.kelas')
         ->get();
 
-        // dd($infoBed);
+        $urutanKelas = [
+            'VVIP',
+            'VIP',
+            'Kelas Utama',
+            'Kelas 1',
+            'Kelas 2',
+            'Kelas 3',
+        ];
+
+        $infoBed = $infoBed->sortBy(function ($kelas) use ($urutanKelas) {
+            return array_search($kelas->kelas, $urutanKelas);
+        });
 
         return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar', compact(
             'infoKamar',
