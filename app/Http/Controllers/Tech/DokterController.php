@@ -19,14 +19,16 @@ class DokterController extends Controller
 
         public function data_dokter(Request $request){
 
-            $data_dokter = DB::table('dokter as d')
-                ->join('spesialis as s', 'd.kd_sps', '=', 's.kd_sps')
-                ->select('s.nm_sps', DB::raw('COUNT(*) as jumlah_dokter'))
-                ->groupBy('s.nm_sps')
-                ->get();
+            $data_dokter = DB::table('poliklinik as p')
+            ->select('p.nm_poli', DB::raw('COUNT(*) as jumlah_dokter'))
+            ->join(DB::raw('(SELECT kd_dokter, kd_poli FROM jadwal GROUP BY kd_dokter, kd_poli) as j'), function ($join) {
+                $join->on('p.kd_poli', '=', 'j.kd_poli');
+            })
+            ->groupBy('p.nm_poli')
+            ->get();
 
             $queryDokter = $data_dokter->mapWithKeys(function ($item){
-                return [$item->nm_sps => $item->jumlah_dokter];
+                return [$item->nm_poli => $item->jumlah_dokter];
             });
 
             return view('pages.tech.dokter.dashboard-data-dokter', compact(
