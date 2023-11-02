@@ -42,7 +42,7 @@ class DokterController extends Controller
             ->join('dokter as d', 'j.kd_dokter', '=', 'd.kd_dokter')
             ->join('poliklinik as p', 'j.kd_poli', '=', 'p.kd_poli')
             ->select('d.nm_dokter as nm_dokter', 'j.hari_kerja', 'j.jam_mulai', 'j.jam_selesai', 'p.nm_poli as nm_poli')
-            ->whereIn('j.hari_kerja', ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT"])
+            ->whereIn('j.hari_kerja', ["SENIN", "SELASA", "RABU", "KAMIS", "JUMAT", "SABTU", "AKHAD"])
             ->get()
             ->groupBy('nm_dokter');
 

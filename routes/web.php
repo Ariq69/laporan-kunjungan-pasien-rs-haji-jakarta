@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\Tech\KunjunganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -75,13 +75,28 @@ Route::prefix('tech')
         Route::post('/pasien-perkabupaten', [PasienController::class, 'pasien_perkabupaten'])->name('pasien-perkabupaten');
 
         Route::get('/pasien-perkecamatan', [PasienController::class, 'pasien_perkecamatan'])->name('pasien-perkecamatan');
-        Route::post('/pasien-perkecamatan', [PasienController::class, 'pasien_perkecamatan'])->name('pasien-perkecamatan');
+        Route::post('/pasien-perkecamatan', [PasienController::class, 'pasien_perkecamatan'])->name('pasien-perkecamaagama');
+
+        Route::get('/pasien-peragama', [PasienController::class, 'pasien_peragama'])->name('pasien-peragama');
+        Route::post('/pasien-peragama', [PasienController::class, 'pasien_peragama'])->name('pasien-peragama');
+
+        Route::get('/pasien-perumur', [PasienController::class, 'pasien_perumur'])->name('pasien-perumur');
+        Route::post('/pasien-perumur', [PasienController::class, 'pasien_perumur'])->name('pasien-perumur');
 
         Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
 
         //informasi Kamar
-        Route::get('/informasi-kamar', [PasienController::class, 'informasi_kamar'])->name('informasi-kamar');
+        Route::get('/informasi-kamar', [KunjunganController::class, 'informasi_kamar'])->name('informasi-kamar');
+
+        //penyakit
+        Route::get('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
+        Route::post('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
         
+        //rawat inap
+        Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
+        //rawat jalan
+        Route::get('/rawat-jalan', [KunjunganController::class, 'rawat_jalan'])->name('rawat-jalan');
+
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
         Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');

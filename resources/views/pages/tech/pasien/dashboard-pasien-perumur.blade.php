@@ -13,10 +13,10 @@
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('pasien') }}">Pasien</a>
+                                        <a href="{{ route('pasien-perumur') }}">Pasien</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Pasien Per Poli
+                                        Pasien Per Usia
                                     </li>
                                 </ol>
                             </nav>
@@ -33,7 +33,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Jumlah Pasien Per Poli</h5>
-                            <form method="post" action="{{ url('/tech/pasien-perpoli') }}">
+                            <form method="post" action="{{ url('/tech/pasien-perumur') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col">
@@ -147,35 +147,6 @@
                                 '#94AF9F',
                                 '#C8FFD4',
                                 '#B8E8FC',
-                                '#B1AFFF',
-                                '#7895B2',
-                                '#554994',
-                                '#6E85B7',
-                                '#C9BBCF',
-                                '#73A9AD',
-                                '#525E75',
-                                '#655D8A',
-                                '#BB6464',
-                                '#A267AC',
-                                '#867070',
-                                '#6096B4',
-                                '#DEBACE',
-                                '#B3A492',
-                                '#219C90',
-                                '#9EB384',
-                                '#FFC95F',
-                                '#0E21A0',
-                                '#9D44C0',
-                                '#FF7676',
-                                '#3085C3',
-                                '#5CD2E6',
-                                '#5C4B99',
-                                '#D71313',
-                                '#45CFDD',
-                                '#22A699',
-                                '#245953',
-                                '#913175',
-                                '#186F65',
                             ],
                             borderWidth: 1,
                         },

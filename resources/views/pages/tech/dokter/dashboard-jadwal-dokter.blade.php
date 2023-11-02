@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th style="vertical-align: middle;" rowspan="2" class="text-center tb-jadwal-dokter">Nama Dokter</th>
-                            <th colspan="5" class="text-center tb-jadwal-dokter">Hari</th>
+                            <th colspan="7" class="text-center tb-jadwal-dokter">Hari</th>
                             <th style="vertical-align: middle;" rowspan="2" class="text-center tb-jadwal-dokter">Poliklinik</th>
                         </tr>
                         <tr>
@@ -24,6 +24,8 @@
                             <th class="text-center tb-jadwal-dokter">Rabu</th>
                             <th class="text-center tb-jadwal-dokter">Kamis</th>
                             <th class="text-center tb-jadwal-dokter">Jumat</th>
+                            <th class="text-center tb-jadwal-dokter">Sabtu</th>
+                            <th class="text-center tb-jadwal-dokter">Minggu</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +55,16 @@
                                 <td class="text-center">
                                     @if ($jumat = $jadwalDetails->firstWhere('hari_kerja', 'JUMAT'))
                                         {{ $jumat->jam_mulai }} - {{ $jumat->jam_selesai }}
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($sabtu = $jadwalDetails->firstWhere('hari_kerja', 'SABTU'))
+                                        {{ $sabtu->jam_mulai }} - {{ $sabtu->jam_selesai }}
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($akhad = $jadwalDetails->firstWhere('hari_kerja', 'AKHAD'))
+                                        {{ $akhad->jam_mulai }} - {{ $akhad->jam_selesai }}
                                     @endif
                                 </td>
                                 <td>{{ $jadwalDetails->first()->nm_poli }}</td>

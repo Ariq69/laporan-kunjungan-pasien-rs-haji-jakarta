@@ -54,6 +54,7 @@ class PasienController extends Controller
         return view('pages.tech.pasien.dashboard-pasien-perbulan', compact('years','poliklinik','query'));
 
     }
+
     public function pasien_carabayar(Request $request){
 
         $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
@@ -124,6 +125,63 @@ class PasienController extends Controller
 
         return view('pages.tech.pasien.dashboard-pasien-perpoli', compact('years','query'));
     }
+
+    public function pasien_peragama(Request $request){
+       
+        $totalPasienPerAgama = DB::table('pasien')
+            ->select('agama', DB::raw('COUNT(*) as total_pasien'))
+            ->join('reg_periksa', 'pasien.no_rkm_medis', '=', 'reg_periksa.no_rkm_medis')
+            ->groupBy('agama')
+            ->get();
+
+        $query = $totalPasienPerAgama->mapWithKeys(function ($item){
+            return [$item->agama => $item->total_pasien];
+        
+        });
+
+        return view('pages.tech.pasien.dashboard-pasien-peragama', compact('query'));
+    }
+
+    public function pasien_perumur(Request $request) {
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+    
+        $totalPasienPerUmur = DB::table('reg_periksa')
+            ->select(DB::raw("
+                CASE
+                    WHEN umurdaftar BETWEEN 0 AND 9 THEN '0-9'
+                    WHEN umurdaftar BETWEEN 10 AND 19 THEN '10-19'
+                    WHEN umurdaftar BETWEEN 20 AND 29 THEN '20-29'
+                    WHEN umurdaftar BETWEEN 30 AND 39 THEN '30-39'
+                    WHEN umurdaftar BETWEEN 40 AND 49 THEN '40-49'
+                    WHEN umurdaftar BETWEEN 50 AND 59 THEN '50-59'
+                    WHEN umurdaftar BETWEEN 60 AND 69 THEN '60-69'
+                    ELSE '70+'
+                END AS kelompok_umur,
+                COUNT(*) AS jumlah_pasien
+            "))
+            ->when($year, function ($query, $year) {
+                return $query->whereYear('tgl_registrasi', $year);
+            })
+            ->when($month, function ($query, $month) {
+                return $query->whereMonth('tgl_registrasi', $month);
+            })
+            ->groupBy('kelompok_umur')
+            ->orderBy('kelompok_umur')
+            ->get();
+    
+        $query = $totalPasienPerUmur->mapWithKeys(function ($item) {
+            return [$item->kelompok_umur => $item->jumlah_pasien];
+        });
+    
+        return view('pages.tech.pasien.dashboard-pasien-perumur', compact('query', 'years'));
+    }
+    
 
     public function pasien_perdokter(Request $request){
 
@@ -298,52 +356,7 @@ class PasienController extends Controller
         return view('pages.tech.pasien.dashboard-pasien-baru');
     }
         
-    // CLASS INFORMASI KAMAR
-    public function informasi_kamar(){
-
-        $infoKamar = DB::table('kamar')
-        ->join('bangsal', 'kamar.kd_bangsal', '=', 'bangsal.kd_bangsal')
-        ->select('bangsal.nm_bangsal', 'kamar.kd_bangsal')
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_Kelas1', ['Kelas 1'])
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_Kelas2', ['Kelas 2'])
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_Kelas3', ['Kelas 3'])
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_KelasUtama', ['Kelas Utama'])
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_KelasVIP', ['Kelas VIP'])
-        ->selectRaw('SUM(CASE WHEN kelas = ? THEN 1 ELSE 0 END) AS Jumlah_KelasVVIP', ['Kelas VVIP'])
-        ->groupBy('bangsal.nm_bangsal', 'kamar.kd_bangsal')
-        ->get();
-
-        // dd($infoKamar);
-
-        $infoBed = DB::table('kamar')
-        ->join('bangsal', 'kamar.kd_bangsal', '=', 'bangsal.kd_bangsal')
-        ->select('bangsal.nm_bangsal', 'kamar.kelas')
-        ->selectRaw('COUNT(CASE WHEN kamar.status = "ISI" THEN 1 ELSE NULL END) AS Jumlah_ISI')
-        ->selectRaw('COUNT(CASE WHEN kamar.status = "KOSONG" THEN 1 ELSE NULL END) AS Jumlah_KOSONG')
-        ->selectRaw('COUNT(CASE WHEN kamar.status = "DIBERSIHKAN" THEN 1 ELSE NULL END) AS Jumlah_DIBERSIHKAN')
-        ->selectRaw('COUNT(CASE WHEN kamar.status = "DIBOOKING" THEN 1 ELSE NULL END) AS Jumlah_DIBOOKING')
-        ->groupBy('bangsal.nm_bangsal', 'kamar.kelas')
-        ->get();
-
-        $urutanKelas = [
-            'VVIP',
-            'VIP',
-            'Kelas Utama',
-            'Kelas 1',
-            'Kelas 2',
-            'Kelas 3',
-        ];
-
-        $infoBed = $infoBed->sortBy(function ($kelas) use ($urutanKelas) {
-            return array_search($kelas->kelas, $urutanKelas);
-        });
-
-        return view('pages.tech.kunjungan.informasi-kamar.dashboard-informasi-kamar', compact(
-            'infoKamar',
-            'infoBed',
-        ));
-    }
-    // END CLASS INFORMASI KAMAR
 }
+
 
 

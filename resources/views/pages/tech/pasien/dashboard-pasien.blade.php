@@ -131,13 +131,30 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-peragama') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
                                 <h5 class="mb-2">Per-Agama</h5>
+                                <h4 class="mb-2"></h4>
+                                <div class="mb-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ route('pasien-perumur') }}">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill border-0">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grown-1">
+                                <h5 class="mb-2">Per-Umur</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
@@ -155,23 +172,6 @@
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
                                 <h5 class="mb-2">Per-Suku Bangsa</h5>
-                                <h4 class="mb-2"></h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        <a href="#">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">Per-Cacat Fisik</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
