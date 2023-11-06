@@ -122,4 +122,32 @@ class KunjunganController extends Controller
         
     }
 
+    public function ralan_hemodialisa(Request $request){
+        
+        $years = DB::table('reg_periksa')
+            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+
+        $results = DB::table('hemodialisa as h')
+        ->join('reg_periksa as r', 'h.no_rawat', '=', 'r.no_rawat')
+        ->where('r.status_lanjut', 'Ralan')
+        ->select(DB::raw('DATE(h.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(h.tanggal)'))
+        ->orderBy('tanggal')
+        ->get();    
+        
+        $query = $results->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_kunjungan];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
+
+    }
+
 }
