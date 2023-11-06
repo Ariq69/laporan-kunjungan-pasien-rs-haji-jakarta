@@ -122,6 +122,35 @@ class KunjunganController extends Controller
         
     }
 
+    public function ralan_lab(Request $request){
+
+        $years = DB::table('reg_periksa')
+            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+        $bar = DB::table('periksa_lab')
+        ->select(DB::raw('DATE(tgl_periksa) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabralan'))
+        ->whereYear('tgl_periksa', $year)
+        ->whereMonth('tgl_periksa', $month)
+        ->where('status','ralan')
+        ->groupBy(DB::raw('CAST(tgl_periksa AS DATE)'))
+        ->orderBy('tanggal')
+        ->get();
+
+        $query = $bar->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->total_kunjunganlabralan];
+        });
+
+
+        return view('pages.tech.kunjungan.dashboard-ralan-lab',compact('years','query'));
+        
+    }
+    
     public function ralan_hemodialisa(Request $request){
         
         $years = DB::table('reg_periksa')
