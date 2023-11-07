@@ -5,6 +5,24 @@
 <main class="content px-3 py-2">
 <div class="container-fluid">
             <div class="row align-items-start">
+                <section class="haji-breadcrumbs">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <nav>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
+                                            </li>
+                                            <li class="breadcrumb-item active">
+                                                Pasien Laboratorium
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">

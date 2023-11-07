@@ -107,11 +107,13 @@
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
     var poliklinikSelect = document.getElementById('poliklinik'); // Tambahkan ini
+    var kabSelect = document.getElementById('kabupaten'); // Tambahkan ini
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
     var storedPoliklinik = localStorage.getItem('selectedPoliklinik'); // Tambahkan ini
+    var storedKab = localStorage.getItem('selectedKabupaten'); // Tambahkan ini
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -126,6 +128,10 @@
         poliklinikSelect.value = storedPoliklinik; // Tambahkan ini
     }
 
+    if (storedKab) {
+        kabSelect.value = storedKab; // Tambahkan ini
+    }
+
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -137,6 +143,10 @@
 
     poliklinikSelect.addEventListener('change', function() {
         localStorage.setItem('selectedPoliklinik', poliklinikSelect.value); // Tambahkan ini
+    });
+
+    kabSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedKabupaten', kabSelect.value); // Tambahkan ini
     });
 </script>
 

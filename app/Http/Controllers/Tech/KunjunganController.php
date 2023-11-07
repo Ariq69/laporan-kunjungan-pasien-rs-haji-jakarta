@@ -124,8 +124,8 @@ class KunjunganController extends Controller
 
     public function ralan_lab(Request $request){
 
-        $years = DB::table('reg_periksa')
-            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+        $years = DB::table('periksa_lab')
+            ->select(DB::raw('YEAR(tgl_periksa) as year'))
             ->groupBy('year')
             ->orderBy('year', 'DESC')
             ->get();
@@ -153,8 +153,8 @@ class KunjunganController extends Controller
     
     public function ralan_hemodialisa(Request $request){
         
-        $years = DB::table('reg_periksa')
-            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+        $years = DB::table('hemodialisa')
+            ->select(DB::raw('YEAR(tanggal) as year'))
             ->groupBy('year')
             ->orderBy('year', 'DESC')
             ->get();
@@ -163,13 +163,15 @@ class KunjunganController extends Controller
         $month = $request->input('month');
         
 
-        $results = DB::table('hemodialisa as h')
-        ->join('reg_periksa as r', 'h.no_rawat', '=', 'r.no_rawat')
-        ->where('r.status_lanjut', 'Ralan')
-        ->select(DB::raw('DATE(h.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(h.tanggal)'))
-        ->orderBy('tanggal')
-        ->get();    
+        $results = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('tanggal', $year)
+        ->whereMonth('tanggal', $month)
+        ->select(DB::raw('DATE(hemo.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(tanggal)'))
+        ->get();
+        //dd($results);  
         
         $query = $results->mapWithKeys(function ($item){
             return [$item->tanggal => $item->jumlah_kunjungan];
