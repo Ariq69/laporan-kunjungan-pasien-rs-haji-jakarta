@@ -180,5 +180,163 @@ class KunjunganController extends Controller
         return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
 
     }
+    
+    public function ranap_lab(Request $request){
 
+        $years = DB::table('permintaan_lab')
+            ->select(DB::raw('YEAR(tgl_permintaan) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+        $bar = DB::table('permintaan_lab')
+        ->select(DB::raw('DATE(tgl_permintaan) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
+        ->whereYear('tgl_permintaan', $year)
+        ->whereMonth('tgl_permintaan', $month)
+        ->where('status','ranap')
+        ->groupBy(DB::raw('CAST(tgl_permintaan AS DATE)'))
+        ->orderBy('tanggal')
+        ->get();
+
+        $query = $bar->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->total_kunjunganlabranap];
+        });
+
+
+        return view('pages.tech.kunjungan.dashboard-ranap-lab',compact('years','query'));
+        
+    }
+
+    public function ranap_hemodialisa(Request $request){
+        
+        $years = DB::table('hemodialisa')
+            ->select(DB::raw('YEAR(tanggal) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+
+        $results = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('tanggal', $year)
+        ->whereMonth('tanggal', $month)
+        ->select(DB::raw('DATE(hemo.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(tanggal)'))
+        ->get();
+        //dd($results);  
+        
+        $query = $results->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_kunjungan];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ranap-hemodialisa',compact('years','query'));
+
+    }
+
+    public function ranap_igd(Request $request){
+        
+        $years = DB::table('reg_periksa')
+            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $results = DB::table('reg_periksa as r')
+        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
+        ->where('r.status_lanjut', 'Ranap')
+        ->where('p.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('tgl_registrasi', $year)
+        ->whereMonth('tgl_registrasi', $month)
+        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->get();
+
+        $query = $results->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_kunjungan];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ranap-igd',compact('years','query'));
+    }
+    
+    public function ranap_ugd(Request $request){
+        
+        $years = DB::table('reg_periksa')
+            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $results = DB::table('reg_periksa as r')
+        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
+        ->where('r.status_lanjut', 'Ranap')
+        ->where('p.nm_poli', 'Unit IGD')
+        ->whereYear('tgl_registrasi', $year)
+        ->whereMonth('tgl_registrasi', $month)
+        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->get();
+
+        $query = $results->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_kunjungan];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ranap-ugd',compact('years','query'));
+    }
+
+    
+    public function ranap_rad(Request $request) {
+        $years = DB::table('periksa_radiologi')
+            ->select(DB::raw('YEAR(tgl_periksa) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+        $jns_perawatan_radiologi = DB::table('jns_perawatan_radiologi')
+            ->select('kd_jenis_prw', 'nm_perawatan')
+            ->where('kd_jenis_prw', 'like', 'RADU%')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $rad = $request->input('jns_perawatan_radiologi');
+
+        $bar = DB::table('periksa_radiologi as pr')
+        ->join('jns_perawatan_radiologi as jpr', 'pr.kd_jenis_prw', '=', 'jpr.kd_jenis_prw')
+        ->select('pr.tgl_periksa', 'jpr.nm_perawatan', DB::raw('COUNT(pr.no_rawat) AS jumlah_no_perawat'))
+        ->where('jpr.kd_jenis_prw', 'like', 'RADU%')
+        // ->whereYear('pr.tgl_periksa', '=', 2023)
+        // ->whereMonth('pr.tgl_periksa', '=', 8)
+        // ->where('jpr.nm_perawatan', 'THORAX AP/PA') 
+        ->whereYear('pr.tgl_periksa', '=',$year)
+        ->whereMonth('pr.tgl_periksa', '=', $month)
+        ->where('jpr.nm_perawatan', $rad) 
+        ->where('pr.status', 'ranap')
+        ->groupBy('pr.tgl_periksa', 'jpr.nm_perawatan')
+        ->orderBy('pr.tgl_periksa')
+        ->orderBy('jpr.nm_perawatan')
+        ->get();
+        // dd($bar);
+
+        $query = $bar->mapWithKeys(function ($item) {
+            return [$item->tgl_periksa => $item-> jumlah_no_perawat];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ranap-rad', compact(
+            'query',
+            'years',
+            'jns_perawatan_radiologi'
+        ));
+    }
 }

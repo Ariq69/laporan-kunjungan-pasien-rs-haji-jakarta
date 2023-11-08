@@ -6,28 +6,28 @@
 <div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <nav>
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item">
-                                                    <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                                </li>
-                                                <li class="breadcrumb-item active">
-                                                    Pasien Hemodialisa
-                                                </li>
-                                            </ol>
-                                        </nav>
-                                    </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <nav>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
+                                            </li>
+                                            <li class="breadcrumb-item active">
+                                                Pasien UGD
+                                            </li>
+                                        </ol>
+                                    </nav>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                    </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Hemodialisa</h5>
-                            <form method="post" action="{{ url('/tech/ralan-hemodialisa') }}">
+                        <h5 class="card-title">Layanan Ranap UGD</h5>
+                            <form method="post" action="{{ url('/tech/ranap-ugd') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -62,7 +62,7 @@
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumHemodialisa" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumHemodialisa").getContext("2d");
+        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
@@ -127,7 +127,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Hemodialisa",
+                            label: "Data UGD",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

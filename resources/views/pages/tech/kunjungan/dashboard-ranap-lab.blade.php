@@ -6,28 +6,28 @@
 <div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <nav>
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item">
-                                                    <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                                </li>
-                                                <li class="breadcrumb-item active">
-                                                    Pasien Hemodialisa
-                                                </li>
-                                            </ol>
-                                        </nav>
-                                    </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <nav>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
+                                            </li>
+                                            <li class="breadcrumb-item active">
+                                                Pasien Laboratorium
+                                            </li>
+                                        </ol>
+                                    </nav>
                                 </div>
                             </div>
-                        </section>
+                        </div>
+                    </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Hemodialisa</h5>
-                            <form method="post" action="{{ url('/tech/ralan-hemodialisa') }}">
+                        <h5 class="card-title">Layanan Ranap Laboratorium</h5>
+                            <form method="post" action="{{ url('/tech/ranap-lab') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -57,12 +57,21 @@
                                     </select>
                                 </div>
                                 <div class="col">
+                                    <label for="lab_type">Jenis Lab</label>
+                                    <select class="form-control" id="lab_type" name="lab_type">
+                                        <option value="lab1">Lab PA</option>
+                                        <option value="lab2">Lab PK</option>
+                                        <option value="lab3">Lab MB</option>
+                                        <!-- Add more lab options as needed -->
+                                    </select>
+                                </div>
+                                <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumHemodialisa" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -115,11 +124,11 @@
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumHemodialisa").getContext("2d");
-        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
+        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
+        BarChartSumLab.ChartData(ctx, 'bar', labels, data);
     });
 
-    var BarChartSumPasien = {
+    var BarChartSumLab = {
         ChartData: function(ctx, type, labels, data) {
             new Chart(ctx, {
                 type: type,
@@ -127,7 +136,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Hemodialisa",
+                            label: "Data Laboratorium",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
