@@ -13,7 +13,7 @@
                             <nav>
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item">
-                                        <a href="{{ route('pasien-perumur') }}">Pasien</a>
+                                        <a href="{{ route('pasien') }}">Pasien</a>
                                     </li>
                                     <li class="breadcrumb-item active">
                                         Pasien Per Usia

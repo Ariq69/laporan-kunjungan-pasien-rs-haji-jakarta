@@ -13,8 +13,8 @@
     <div class="row row-cols-lg-4 mt-4">
         <!--Card Pasien-->
         <a href="#">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+            <div class="col-12 d-flex kotak-overlay">
+                <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
@@ -31,7 +31,7 @@
 
         <a href="#">
             <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
@@ -48,7 +48,7 @@
 
         <a href="#">
             <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
@@ -65,7 +65,7 @@
             
         <a href="#">
             <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
@@ -82,7 +82,7 @@
 
         <a href="#">
             <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">

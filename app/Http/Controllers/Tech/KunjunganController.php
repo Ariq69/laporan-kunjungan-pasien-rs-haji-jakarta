@@ -122,4 +122,63 @@ class KunjunganController extends Controller
         
     }
 
+    public function ralan_lab(Request $request){
+
+        $years = DB::table('periksa_lab')
+            ->select(DB::raw('YEAR(tgl_periksa) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+        $bar = DB::table('periksa_lab')
+        ->select(DB::raw('DATE(tgl_periksa) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabralan'))
+        ->whereYear('tgl_periksa', $year)
+        ->whereMonth('tgl_periksa', $month)
+        ->where('status','ralan')
+        ->groupBy(DB::raw('CAST(tgl_periksa AS DATE)'))
+        ->orderBy('tanggal')
+        ->get();
+
+        $query = $bar->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->total_kunjunganlabralan];
+        });
+
+
+        return view('pages.tech.kunjungan.dashboard-ralan-lab',compact('years','query'));
+        
+    }
+    
+    public function ralan_hemodialisa(Request $request){
+        
+        $years = DB::table('hemodialisa')
+            ->select(DB::raw('YEAR(tanggal) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        
+
+        $results = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('tanggal', $year)
+        ->whereMonth('tanggal', $month)
+        ->select(DB::raw('DATE(hemo.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy(DB::raw('DATE(tanggal)'))
+        ->get();
+        //dd($results);  
+        
+        $query = $results->mapWithKeys(function ($item){
+            return [$item->tanggal => $item->jumlah_kunjungan];
+        });
+
+        return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
+
+    }
+
 }

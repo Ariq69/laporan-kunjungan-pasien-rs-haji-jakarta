@@ -97,6 +97,12 @@ Route::prefix('tech')
         //rawat jalan
         Route::get('/rawat-jalan', [KunjunganController::class, 'rawat_jalan'])->name('rawat-jalan');
 
+        Route::get('/ralan-lab', [KunjunganController::class, 'ralan_lab'])->name('ralan-lab');
+        Route::post('/ralan-lab', [KunjunganController::class, 'ralan_lab'])->name('ralan-lab');
+        
+        Route::get('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+        Route::post('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
         Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');

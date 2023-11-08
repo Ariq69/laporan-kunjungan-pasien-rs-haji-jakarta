@@ -139,7 +139,7 @@
             <!--Card Pasien-->
             <a href="{{ route('pasien') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -154,7 +154,7 @@
             <!--Card Dokter-->
             <a href="{{ route('data-dokter') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -169,7 +169,7 @@
             <!--Card Perawat-->
             <a href="{{ route('data-perawat') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -184,7 +184,7 @@
             <!--Card Pegawai-->
             <a href="{{ route('data-pegawai') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -209,7 +209,7 @@
             <!--Card Poliklinik-->
             <a href="{{ route('informasi-kamar') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -226,7 +226,7 @@
             <!--Card Rawat Jalan-->
             <a href="{{ route('informasi-asuransi') }}">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -243,7 +243,7 @@
             <!--Card Rawat Inap-->
             <a href="">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -260,7 +260,7 @@
             <!--Card Kunjungan-->
             <a href="">
                 <div class="col-12 d-flex">
-                <div class="card flex-fill border-0">
+                <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
@@ -406,6 +406,11 @@
                             responsive: true,
                             maintainAspectRatio: true,
                             maintainFontRation: true,
+                            scales: {
+                                    y: {
+                                        beginAtZero: true
+                                }
+                            },
                             plugins: {
                                 labels: {
                                     render:'value',

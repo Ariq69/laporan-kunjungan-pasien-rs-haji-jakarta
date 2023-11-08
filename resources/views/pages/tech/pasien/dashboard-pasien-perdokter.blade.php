@@ -98,10 +98,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
+    var poliSelect = document.getElementById('poliklinik');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
+    var storedPoli = localStorage.getItem('selectedPoli');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -112,6 +114,10 @@
         monthSelect.value = storedMonth;
     }
 
+    if (storedPoli) {
+        poliSelect.value = storedPoli;
+    }
+
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -119,6 +125,10 @@
 
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
+    });
+
+    poliSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedPoli', poliSelect.value);
     });
 </script>
 <script>
