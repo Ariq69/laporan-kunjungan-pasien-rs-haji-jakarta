@@ -12,7 +12,7 @@
     
     <div class="row row-cols-lg-4 mt-4">
         <!--Card Pasien-->
-        <a href="#">
+        <a href="{{ route('ranap-lab') }}">
             <div class="col-12 d-flex kotak-overlay">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -29,7 +29,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('ranap-rad') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -46,7 +46,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('ranap-igd') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -63,7 +63,7 @@
             </div>
         </a>
             
-        <a href="#">
+        <a href="{{ route('ranap-ugd') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -80,7 +80,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('ranap-hemodialisa') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
