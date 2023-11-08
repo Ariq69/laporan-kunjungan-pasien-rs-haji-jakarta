@@ -150,64 +150,6 @@ class KunjunganController extends Controller
         return view('pages.tech.kunjungan.dashboard-ralan-lab',compact('years','query'));
         
     }
-
-    public function ralan_igd(Request $request){
-
-        $years = DB::table('reg_periksa')
-            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
-
-        $year = $request->input('year');
-        $month = $request->input('month');
-
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ralan')
-        ->where('p.nm_poli', 'Instalasi Gawat Darurat')
-        ->whereYear('tgl_registrasi', $year)
-        ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
-        ->get();
-
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
-        
-        return view('pages.tech.kunjungan.dashboard-ralan-igd',compact('years','query'));
-        
-    }
-
-    public function ralan_ugd(Request $request){
-
-        $years = DB::table('reg_periksa')
-            ->select(DB::raw('YEAR(tgl_registrasi) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
-
-        $year = $request->input('year');
-        $month = $request->input('month');
-
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ralan')
-        ->where('p.nm_poli', 'Unit IGD')
-        ->whereYear('tgl_registrasi', $year)
-        ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
-        ->get();
-
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
-        
-        return view('pages.tech.kunjungan.dashboard-ralan-ugd',compact('years','query'));
-        
-    }
     
     public function ralan_hemodialisa(Request $request){
         
@@ -238,78 +180,7 @@ class KunjunganController extends Controller
         return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     public function ranap_lab(Request $request){
 
         $years = DB::table('permintaan_lab')

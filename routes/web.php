@@ -95,7 +95,24 @@ Route::prefix('tech')
         Route::get('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
         Route::post('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
         
+        //rawat inap
+        Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
+
+        Route::get('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
+        Route::post('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
+
+        Route::get('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
+        Route::post('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
+
+        Route::get('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
+        Route::post('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
+
+        Route::get('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
+        Route::post('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
         
+        Route::get('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
+        Route::post('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
+
 
 
         //rawat jalan
@@ -123,46 +140,6 @@ Route::prefix('tech')
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
     });
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //rawat inap
-    Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
-
-    Route::get('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
-    Route::post('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
-
-    Route::get('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-    Route::post('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-
-    Route::get('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-    Route::post('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-
-    Route::get('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
-    Route::post('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
-    
-    Route::get('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
-    Route::post('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
     
 Route::prefix('admin')
     ->namespace('admin')
