@@ -41,6 +41,17 @@
                     @csrf
                     <div class="row">
                         <div class="col">
+                            <label class="form-check-label mb-1">
+                                Filter Berdasarkan:
+                            </label>
+                            <select class="form-control" id="year" name="year">
+                                <option value="">Poli</option>
+                                <option value="">Kabupaten</option>
+                                <option value="">Percara-Bayar</option>
+                                <option value="">2018</option>
+                            </select>
+                        </div>
+                        <div class="col">
                             <label for="year">Tahun</label>
                             <select class="form-control" id="year" name="year">
                                 @foreach ( $years as $year )
@@ -49,21 +60,62 @@
                             </select>
                         </div>
                         <div class="col">
-                            <label for="month">Bulan</label>
-                            <select class="form-control" id="month" name="month">
-                                <option value="01">Januari</option>
-                                <option value="02">Februari</option>
-                                <option value="03">Maret</option>
-                                <option value="04">April</option>
-                                <option value="05">Mei</option>
-                                <option value="06">Juni</option>
-                                <option value="07">Juli</option>
-                                <option value="08">Agustus</option>
-                                <option value="09">September</option>
-                                <option value="10">Oktober</option>
-                                <option value="11">November</option>
-                                <option value="12">Desember</option>
-                            </select>
+                            <!-- Bulan -->
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false">
+                                        <label class="form-check-label">
+                                            Bulan
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <select class="form-control" id="month" name="month" disabled>
+                                    <option value="01">Januari</option>
+                                    <option value="02">Februari</option>
+                                    <option value="03">Maret</option>
+                                    <option value="04">April</option>
+                                    <option value="05">Mei</option>
+                                    <option value="06">Juni</option>
+                                    <option value="07">Juli</option>
+                                    <option value="08">Agustus</option>
+                                    <option value="09">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
+                                    <option value="triwulan">Triwulan</option>
+                                    <option value="semester">Semester</option>
+                                    <option value="tahun">Tahunan</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Triwulan -->
+                        <div class="col">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxTriwulan" data-group="periode" name="triwulan">
+                                <label class="form-check-label">
+                                    Triwulan
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxSemester" data-group="periode" name="semester">
+                                <label class="form-check-label">
+                                    Semester
+                                </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxTahunan" data-group="periode" name="tahunan">
+                                <label class="form-check-label">
+                                    Tahunan
+                                </label>
+                            </div>
                         </div>
                         <div class="col">
                         <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
@@ -74,12 +126,6 @@
             </div>
             <canvas id="BarKunjungan" width="100px" height="45px"></canvas>
         </div>
-        <!--Pie Chart-->
-        <div class="col-lg-4 md-3">
-            <div class="chart-container" style="position: relative; height:45vh; width:80vw">
-            <canvas id="canvas-2"></canvas>
-            </div>
-        </div>
         </div>
 
         <!--Section Card-->
@@ -89,7 +135,7 @@
                 <h4>Data Pengguna</h4>
             </div>
         </div>
-            <div class="row row-cols-lg-4 mt-4">
+        <div class="row row-cols-lg-4 mt-4">
             <!--Card Pasien-->
             <a href="{{ route('pasien') }}">
                 <div class="col-12 d-flex">
@@ -235,31 +281,26 @@
 </main>
 @endsection
 
-@push('addon-script')
+@section('js')
     <script>
+        // Simpan nilai-nilai filter saat halaman dimuat
         var yearSelect = document.getElementById('year');
         var monthSelect = document.getElementById('month');
-        var applyFilterButton = document.getElementById('submit')
 
+        // Mengecek apakah ada nilai yang tersimpan di local storage
         var storedYear = localStorage.getItem('selectedYear');
         var storedMonth = localStorage.getItem('selectedMonth');
 
-        var currentDate = new Date();
-        var currentYear = currentDate.getFullYear();
-        var currentMonth = currentDate.getMonth() + 1;
-
+        // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
         if (storedYear) {
             yearSelect.value = storedYear;
-        } else {
-            yearSelect.value = currentDate;
         }
 
         if (storedMonth) {
             monthSelect.value = storedMonth;
-        } else {
-            monthSelect.value = currentMonth;
         }
 
+        // Menyimpan nilai-nilai filter saat berubah
         yearSelect.addEventListener('change', function() {
             localStorage.setItem('selectedYear', yearSelect.value);
         });
@@ -267,9 +308,50 @@
         monthSelect.addEventListener('change', function() {
             localStorage.setItem('selectedMonth', monthSelect.value);
         });
+    </script>
 
-        applyFilterButton.addEventListener('click', function() {
-            // 
+    <script>
+        // Dapatkan elemen checkbox
+        var checkboxBulan = document.getElementById("checkboxBulan");
+        var checkboxTriwulan = document.getElementById("checkboxTriwulan");
+        var checkboxSemester = document.getElementById("checkboxSemester");
+        var checkboxTahunan = document.getElementById("checkboxTahunan");
+        
+        // Dapatkan elemen daftar bulan
+        var selectMonth = document.getElementById("month");
+        
+        // Dapatkan semua elemen checkbox periode
+        var checkboxesPeriode = document.querySelectorAll('[data-group="periode"]');
+        
+        // Tambahkan pendengar perubahan ke semua checkbox periode
+        checkboxesPeriode.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Jika checkbox periode ini dicentang, maka nonaktifkan kotak centang Bulan
+                if (checkbox.checked) {
+                    checkboxesPeriode.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                    // Nonaktifkan bulan
+                    checkboxBulan.checked = false;
+                    selectMonth.disabled = true;
+                } else {
+                    // Aktifkan bulan jika tidak ada checkbox periode lain yang dicentang
+                    if (![...checkboxesPeriode].some(cb => cb.checked)) {
+                        selectMonth.removeAttribute("disabled");
+                    }
+                }
+            });
+        });
+        
+        // Tambahkan pendengar perubahan ke kotak centang Bulan
+        checkboxBulan.addEventListener('change', function () {
+            // Aktifkan atau nonaktifkan kotak centang periode sesuai dengan status checkbox Bulan
+            checkboxesPeriode.forEach(function (otherCheckbox) {
+                otherCheckbox.checked = false;
+            });
+            selectMonth.disabled = !checkboxBulan.checked;
         });
     </script>
 
@@ -340,4 +422,4 @@
             };
         })(jQuery);
     </script>
-@endpush
+@endsection
