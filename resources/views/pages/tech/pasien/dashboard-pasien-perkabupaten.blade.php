@@ -59,7 +59,6 @@
                                                 <option value="10">Oktober</option>
                                                 <option value="11">November</option>
                                                 <option value="12">Desember</option>
-                                                <!-- Tambahkan pilihan bulan lainnya -->
                                             </select>
                                         </div>
                                         <div class="col">
