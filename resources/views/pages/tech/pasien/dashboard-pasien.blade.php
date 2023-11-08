@@ -165,7 +165,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-persubang') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
