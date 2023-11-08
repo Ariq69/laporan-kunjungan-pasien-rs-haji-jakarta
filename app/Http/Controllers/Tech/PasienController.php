@@ -344,6 +344,28 @@ class PasienController extends Controller
         ));
     }
 
+    public function pasien_persubang(Request $request){
+        $hasil = DB::table('pasien as p')
+        ->leftJoin('reg_periksa as r', 'p.no_rkm_medis', '=', 'r.no_rkm_medis')
+        ->leftJoin('suku_bangsa as sb', 'p.suku_bangsa', '=', 'sb.id')
+        ->select('sb.nama_suku_bangsa', DB::raw('COUNT(r.no_rkm_medis) AS jumlah_pasien'))
+        ->groupBy('sb.nama_suku_bangsa')
+        ->get();
+        // $results = DB::table('suku_bangsa as sb')
+        //     ->leftJoin('pasien as p', 'sb.id', '=', 'p.suku_bangsa')
+        //     ->select('sb.nama_suku_bangsa', DB::raw('COUNT(p.suku_bangsa) as jumlah'))
+        //     ->groupBy('sb.nama_suku_bangsa')
+        //     ->get();
+        
+            $query = $hasil->mapWithKeys(function ($item){
+                return [$item->nama_suku_bangsa => $item->jumlah_pasien];
+            
+            });
+
+        // Kirim data ke tampilan
+        return view('pages.tech.pasien.dashboard-pasien-persubang', compact('query'));
+    }
+    
 
     public function pasien_baru(){
             
