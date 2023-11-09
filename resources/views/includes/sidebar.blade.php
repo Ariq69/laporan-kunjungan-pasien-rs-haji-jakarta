@@ -292,13 +292,7 @@
 
       <!--Limbah-->
       <li class="sidebar-item">
-        <a
-          href="#"
-          class="sidebar-link collapsed"
-          data-bs-target="#limbah"
-          data-bs-toggle="collapse"
-          aria-expanded="false"
-        >
+        <a href="{{ route('limbah') }}" class="sidebar-link">
           <img
             src="{{ asset('../images/icon-perawat.png') }}"
             alt=""
@@ -306,23 +300,6 @@
           />
           Limbah
         </a>
-        <ul
-          id="limbah"
-          class="sidebar-dropdown list-unstyled collapse"
-          data-bs-parents="#sidebar"
-        >
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">B3 Medis</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">B3 Cair</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Padat Domestik</a>
-          </li>
-        </ul>
       </li>
 
       <!--K3-->
