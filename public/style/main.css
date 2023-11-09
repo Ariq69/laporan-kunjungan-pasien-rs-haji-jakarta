@@ -4402,6 +4402,18 @@ textarea.form-control-lg {
   border-bottom-right-radius: 0.2rem;
 }
 
+.kotak-login {
+  transition: outline 0.29s ease 0.29s;
+}
+
+.kotak-login:hover {
+  box-shadow: 0px 5px 12px 0px #666;
+}
+
+.kotak-login:active {
+  box-shadow: 0px 5px 5px 0px #666 inset;
+}
+
 .kotak {
   outline: 1px solid #D7D9DC;
   transition: outline 0.29s ease 0.29s;
