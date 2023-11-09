@@ -6,28 +6,12 @@
 <div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
                     </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Laboratorium</h5>
-                            <form method="post" action="{{ url('/tech/ralan-lab') }}">
+                        <h5 class="card-title">Olah Limbah</h5>
+                            <form method="post" action="{{ url('/tech/limbah') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -57,10 +41,11 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
+                                    <label for="tipe_limbah">Jenis Limbah</label>
+                                    <select class="form-control" id="tipe_limbah" name="tipe_limbah">
+                                        <option name="B3" value="B3">Limbah B3 Medis</option>
+                                        <option name="B3Cair" value="B3Cair">Limbah B3 Medis Cair</option>
+                                        <option name="Domestik" value="Domestik">Limbah Padat Domestik</option>
                                         <!-- Add more lab options as needed -->
                                     </select>
                                 </div>
@@ -74,6 +59,23 @@
                             </div>
                         </div>
                     </div>
+                    <div class="container">
+                        <h4>Data Mutu Air Limbah</h4>
+                        <table class="table table-striped" id="dataMutuAirLimbah">
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Meteran</th>
+                                    <th>Jumlah Harian</th>
+                                    <th>PH</th>
+                                    <th>Suhu</th>
+                                    <th>TDS</th>
+                                    <th>EC</th>
+                                    <th>Salt</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -85,17 +87,19 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
 
 <script>
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
+    var tipelimbahSelect = document.getElementById('tipe_limbah');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
+    var storedtipelimbah = localStorage.getItem('selectedtipelimbah');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,8 +110,8 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
+    if (storedtipelimbah) {
+        tipelimbahSelect.value = storedtipelimbah;
     }
 
     // Menyimpan nilai-nilai filter saat berubah
@@ -119,8 +123,8 @@
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
 
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
+    tipelimbahSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedtipelimbah', tipelimbahSelect.value);
     });
 
 </script>
@@ -208,5 +212,27 @@
         },
     };
 })(jQuery);
+</script>
+<script>
+    $(document).ready(function() {
+        $('#dataMutuAirLimbah').DataTable({
+            processing: true,
+            serverSide: true,
+            ordering: true,
+            ajax: {
+            url: '{!! url()->current() !!}',
+            },
+            columns: [
+                { data: 'tanggal', name: 'tanggal' },
+                { data: 'meteran', name: 'meteran' },
+                { data: 'jumlahharian', name: 'jumlahharian' },
+                { data: 'ph', name: 'ph' },
+                { data: 'suhu', name: 'suhu' },
+                { data: 'tds', name: 'tds' },
+                { data: 'ec', name: 'ec' },
+                { data: 'salt', name: 'salt' },
+            ],
+        });
+    });
 </script>
 @endsection

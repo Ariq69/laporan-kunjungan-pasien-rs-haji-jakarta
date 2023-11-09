@@ -8,6 +8,7 @@ use App\Http\Controllers\Tech\DokterController;
 use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
+use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\PeriksaRadiologiController;
 use App\Http\Controllers\Tech\PemakaianAirController;
@@ -132,6 +133,10 @@ Route::prefix('tech')
         
         Route::get('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
         Route::post('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+
+        //limbah
+        Route::get('/limbah', [LimbahController::class, 'limbah'])->name('limbah');
+        Route::post('/limbah', [LimbahController::class, 'limbah'])->name('limbah');
 
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');

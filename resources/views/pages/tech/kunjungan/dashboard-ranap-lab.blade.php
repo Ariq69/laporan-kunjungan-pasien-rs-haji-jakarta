@@ -57,11 +57,10 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Lab</label>
+                                    <label for="lab_type">Jenis Tindakan</label>
                                     <select class="form-control" id="lab_type" name="lab_type">
-                                        <option value="lab1">Lab PA</option>
-                                        <option value="lab2">Lab PK</option>
-                                        <option value="lab3">Lab MB</option>
+                                        <option name="permintaan" value="permintaan">Permintaan</option>
+                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
                                         <!-- Add more lab options as needed -->
                                     </select>
                                 </div>
@@ -91,10 +90,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
+    var labTypeSelect = document.getElementById('lab_type');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
+    var storedlabType = localStorage.getItem('selectedlabType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -105,6 +106,10 @@
         monthSelect.value = storedMonth;
     }
 
+    if (storedlabType) {
+        labTypeSelect.value = storedlabType;
+    }
+
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -113,6 +118,11 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
+
+    labTypeSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedlabType', labTypeSelect.value);
+    });
+
 </script>
 <script>
     var query = @json($query);
