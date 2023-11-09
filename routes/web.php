@@ -10,6 +10,8 @@ use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
 use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\PeriksaRadiologiController;
+use App\Http\Controllers\Tech\PemakaianAirController;
+use App\Http\Controllers\Tech\K3Controller;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -138,6 +140,17 @@ Route::prefix('tech')
         // Kunjungan Section
         Route::get('/dashboard', [HomeController::class, 'tech']);
         Route::post('/dashboard', [HomeController::class, 'tech']);
+
+        
+        //Pemakaian Air
+        Route::get('/air-pdam', [PemakaianAirController::class, 'air_pdam'])->name('air-pdam');
+        Route::post('/air-pdam', [PemakaianAirController::class, 'air_pdam'])->name('air-pdam');
+
+        Route::get('/air-tanah', [PemakaianAirController::class, 'air_tanah'])->name('air-tanah');
+        Route::post('/air-tanah', [PemakaianAirController::class, 'air_tanah'])->name('air-tanah');
+
+        //K3
+        Route::get('/k3', [K3Controller::class, 'k3'])->name('k3');
         
         
         Route::get('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');

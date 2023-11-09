@@ -280,11 +280,11 @@
           data-bs-parents="#sidebar"
         >
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Air PDAM</a>
+            <a href="{{ route('air-pdam') }}" class="sidebar-link">Air PDAM</a>
           </li>
 
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Air Tanah</a>
+            <a href="{{ route('air-tanah') }}" class="sidebar-link">Air Tanah</a>
           </li>
           </li>
         </ul>
@@ -328,7 +328,7 @@
       <!--K3-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('k3') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             K3</a>
           </li>
