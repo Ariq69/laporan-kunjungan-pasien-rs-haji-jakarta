@@ -52,7 +52,7 @@
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">Per-Bulan</h5>
+                                <h5 class="mb-2">Per-Status</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>

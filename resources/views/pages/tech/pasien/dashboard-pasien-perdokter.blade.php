@@ -76,7 +76,7 @@
                                             </select>
                                         </div>
                                         <div class="col">
-                                            <label>Dokter</label>
+                                            <label for="dokter">Dokter</label>
                                             <select class="form-control" id="dokter" name="dokter">
                                                 @foreach ($d as $dok)
                                                     <option value="{{ $dok->nm_dokter }}">{{ $dok->nm_dokter }}</option>
@@ -131,50 +131,48 @@
 <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
 
 <script>
-    // Simpan nilai-nilai filter saat halaman dimuat
-    var yearSelect = document.getElementById('year');
-    var monthSelect = document.getElementById('month');
-    var poliSelect = document.getElementById('poliklinik');
-    var dokSelect = document.getElementById('dokter');
+    window.addEventListener('DOMContentLoaded', (event) => {
+        var yearSelect = document.getElementById('year');
+        var monthSelect = document.getElementById('month');
+        var poliSelect = document.getElementById('poliklinik');
+        var dokSelect = document.getElementById('dokter');
 
-    // Mengecek apakah ada nilai yang tersimpan di local storage
-    var storedYear = localStorage.getItem('selectedYear');
-    var storedMonth = localStorage.getItem('selectedMonth');
-    var storedPoli = localStorage.getItem('selectedPoli');
-    var storedDok = localStorage.getItem('selectedDok');
+        var storedYear = localStorage.getItem('selectedYear');
+        var storedMonth = localStorage.getItem('selectedMonth');
+        var storedPoli = localStorage.getItem('selectedPoli');
+        var storedDok = localStorage.getItem('selectedDok');
 
-    // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
-    if (storedYear) {
-        yearSelect.value = storedYear;
-    }
+        if (storedYear) {
+            yearSelect.value = storedYear;
+        }
 
-    if (storedMonth) {
-        monthSelect.value = storedMonth;
-    }
+        if (storedMonth) {
+            monthSelect.value = storedMonth;
+        }
 
-    if (storedPoli) {
-        poliSelect.value = storedPoli;
-    }
+        if (storedPoli) {
+            poliSelect.value = storedPoli;
+        }
 
-    if (storedDok) {
-        dokSelect.value = storedDok;
-    }
+        if (storedDok) {
+            dokSelect.value = storedDok;
+        }
 
-    // Menyimpan nilai-nilai filter saat berubah
-    yearSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedYear', yearSelect.value);
-    });
+        yearSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedYear', yearSelect.value);
+        });
 
-    monthSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedMonth', monthSelect.value);
-    });
+        monthSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedMonth', monthSelect.value);
+        });
 
-    poliSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedPoli', poliSelect.value);
-    });
+        poliSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedPoli', poliSelect.value);
+        });
 
-    dokSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedDok', dokSelect.value);
+        dokSelect.addEventListener('change', function() {
+            localStorage.setItem('selectedDok', dokSelect.value);
+        });
     });
 </script>
 

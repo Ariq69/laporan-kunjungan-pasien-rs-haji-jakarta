@@ -24,7 +24,7 @@ class PasienController extends Controller
     }
 
     public function pasien_perbulan(Request $request){
-                $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
+        $years = DB::table('reg_periksa')->select(DB::raw('YEAR(tgl_registrasi) as year'))
             ->groupBy('year')
             ->orderBy('year', 'DESC')
             ->get();
@@ -32,26 +32,111 @@ class PasienController extends Controller
         $poliklinik = DB::table('poliklinik')
             ->select('kd_poli', 'nm_poli')
             ->get();
+        
+        $status = DB::table('reg_periksa')
+            ->select('stts_daftar')
+            ->groupBy('stts_daftar')
+            ->get();
 
         $year = $request->input('year');
         $month = $request->input('month');
         $poli = $request->input('poliklinik');
+        $stts = $request->input('status');
 
 
         $jumlahData = DB::table('reg_periksa')
             ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
-            ->select('reg_periksa.stts_daftar', DB::raw('COUNT(*) as jumlah_data'))
+            ->select('stts_daftar', DB::raw('DATE(reg_periksa.tgl_registrasi) AS tanggal'), DB::raw('COUNT(*) as jumlah_data'))
             ->whereYear('reg_periksa.tgl_registrasi', $year)
             ->whereMonth('reg_periksa.tgl_registrasi', $month)
             ->where('poliklinik.nm_poli', $poli)
-            ->groupBy('reg_periksa.stts_daftar')
+            ->where('stts_daftar', $stts)
+            ->groupBy('stts_daftar', 'poliklinik.nm_poli', 'tanggal')
             ->get();
+            // dd($jumlahData);
+        
+            $three_months = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+                DB::raw("CASE 
+                    WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+                    WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+                    WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+                    WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+                    ELSE 'Tidak Valid'
+                END AS keterangan_periode"),
+                'stts_daftar',
+                DB::raw('COUNT(*) as jumlah_data')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('stts_daftar', $stts)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('poliklinik.nm_poli', 'keterangan_periode', 'tahun', 'stts_daftar', 'periode')
+            ->get();                       
+            // dd($three_months);
 
-        $query = $jumlahData->mapWithKeys(function ($item){
-            return [$item->stts_daftar => $item->jumlah_data];
-        });
+            $six_months = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+                WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                'stts_daftar',
+                DB::raw('COUNT(stts_daftar) as jumlah_data')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->where('stts_daftar', $stts)
+            ->groupBy('poliklinik.nm_poli', 'keterangan_periode', 'tahun', 'stts_daftar', 'periode')
+            ->get(); 
+            // dd($six_months);
 
-        return view('pages.tech.pasien.dashboard-pasien-perbulan', compact('years','poliklinik','query'));
+            $one_years = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                'stts_daftar',
+                DB::raw('COUNT(stts_daftar) as jumlah_data')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('stts_daftar', $stts)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('poliklinik.nm_poli', 'keterangan_periode', 'tahun', 'stts_daftar', 'periode')
+            ->get();
+            // dd($one_years);
+
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_data];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_data];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_data];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $jumlahData->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_data];
+            });
+        }
+
+        return view('pages.tech.pasien.dashboard-pasien-perbulan', compact('years','poliklinik','query','status'));
 
     }
 
@@ -274,6 +359,7 @@ class PasienController extends Controller
         
         $d = DB::table('dokter')
             ->select('kd_dokter', 'nm_dokter')
+            ->groupBy('kd_dokter','nm_dokter')
             ->get();
         
         $year = $request->input('year');

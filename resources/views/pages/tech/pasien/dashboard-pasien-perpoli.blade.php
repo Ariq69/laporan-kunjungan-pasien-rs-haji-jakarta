@@ -54,10 +54,10 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false" value="0">
-                                                <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false" value="0">
+                                            <label class="form-check-label">
                                                     Bulan
-                                                </label>
+                                            </label>
                                         </div>
                                         <select class="form-control" id="month" name="month" disabled>
                                             <option value="01">Januari</option>
