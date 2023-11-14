@@ -13,10 +13,10 @@
                                 <nav>
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('dashboard') }}">Pasien</a>
+                                            <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Per Permintaan Radiologi
+                                            Pasien Permintaan Radiologi
                                         </li>
                                     </ol>
                                 </nav>
@@ -157,7 +157,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Pasien",
+                            label: "Data Pasien Radiologi",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

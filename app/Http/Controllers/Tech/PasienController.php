@@ -481,30 +481,118 @@ class PasienController extends Controller
         $poliklinik = DB::table('poliklinik')
             ->select('kd_poli', 'nm_poli')
             ->get();
+
+        $jk = DB::table('pasien')
+            ->select('jk')
+            ->groupBy('jk')
+            ->get();
+            
+        // dd($jk);
         
         $year = $request->input('year');
         $month = $request->input('month');
         $poli = $request->input('poliklinik');
+        $jenisKelamin = $request->input('jk');
 
-        $perjk = DB::table('reg_periksa as pa')
-            ->join('poliklinik as p', 'pa.kd_poli', '=', 'p.kd_poli')
-            ->join('pasien as ps', 'pa.no_rkm_medis', '=', 'ps.no_rkm_medis')
-            ->select('p.nm_poli', 'ps.jk', DB::raw('COUNT(*) as jumlah_pasien'))
-            ->whereYear('pa.tgl_registrasi', $year)
-            ->whereMonth('pa.tgl_registrasi', $month)
-            ->where('p.nm_poli', $poli)
-            ->groupBy('p.nm_poli', 'ps.jk')
+        $perjk = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->select('poliklinik.nm_poli', 'pasien.jk', DB::raw('DATE(reg_periksa.tgl_registrasi) AS tanggal'), DB::raw('COUNT(*) as jumlah_pasien'))
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->whereMonth('reg_periksa.tgl_registrasi', $month)
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('pasien.jk', $jenisKelamin)
+            ->groupBy('poliklinik.nm_poli', 'pasien.jk', 'tanggal')
             ->get();
+            // dd($perjk);
 
-        $queryjk = $perjk->mapWithKeys(function ($item){
-            return [$item->jk => $item->jumlah_pasien];
-        });
+            $three_months = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+                WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+                WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+                WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('pasien.jk', $jenisKelamin)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'pasien.jk')
+            ->get();
+            // dd($three_months);
+
+            $six_months = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+                WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('pasien.jk', $jenisKelamin)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'pasien.jk')
+            ->get();
+            // dd($six_months);
+
+            $one_years = DB::table('reg_periksa')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('pasien.jk', $jenisKelamin)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'pasien.jk')
+            ->get();
+            // dd($one_years);
+
+            $queryjk = [];
+
+            if ($request->input('triwulan')) {
+                $queryjk = $three_months->mapWithKeys(function ($item) {
+                    return [$item->keterangan_periode => $item->jumlah_pasien];
+                });
+            } elseif ($request->input('semester')) {
+                $queryjk = $six_months->mapWithKeys(function ($item) {
+                    return [$item->keterangan_periode => $item->jumlah_pasien];
+                });
+            } elseif ($request->input('tahunan')) {
+                $queryjk = $one_years->mapWithKeys(function ($item) {
+                    return [$item->keterangan_periode => $item->jumlah_pasien];
+                });
+            } elseif ($request->input('month')) {
+                $queryjk = $perjk->mapWithKeys(function ($item) {
+                    return [$item->tanggal => $item->jumlah_pasien];
+                });
+            }
         // Menambahkan total ke dalam array data untuk bar chart
 
         return view('pages.tech.pasien.dashboard-pasien-perjk', compact(
             'years',
             'queryjk',
             'poliklinik',
+            'jk',
         ));
     }
 
@@ -518,31 +606,118 @@ class PasienController extends Controller
         $poliklinik = DB::table('poliklinik')
             ->select('kd_poli', 'nm_poli')
             ->get();
+
+        $kabupaten = DB::table('kabupaten')
+            ->select('kd_kab', 'nm_kab')
+            ->get();
         
         $year = $request->input('year');
         $month = $request->input('month');
         $poli = $request->input('poliklinik');
+        $kab = $request->input('kabupaten');
 
-        $perkabupaten = DB::table('reg_periksa as r')
-            ->join('pasien as p', 'r.no_rkm_medis', '=', 'p.no_rkm_medis')
-            ->join('kabupaten as k', 'p.kd_kab', '=', 'k.kd_kab')
-            ->join('poliklinik as pl', 'r.kd_poli', '=', 'pl.kd_poli')
-            ->whereYear('r.tgl_registrasi', $year)
-            ->whereMonth('r.tgl_registrasi', $month)
-            ->where('pl.nm_poli', $poli)
-            ->select('k.nm_kab', DB::raw('COUNT(*) as jumlah_pasien'))
-            ->groupBy('k.nm_kab')
+        $perkabupaten = DB::table('reg_periksa')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->join('kabupaten', 'pasien.kd_kab', '=', 'kabupaten.kd_kab')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->whereMonth('reg_periksa.tgl_registrasi', $month)
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('kabupaten.nm_kab', $kab)
+            ->select('kabupaten.nm_kab', DB::raw('DATE(tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_pasien'))
+            ->groupBy('kabupaten.nm_kab', 'tanggal')
             ->get();
+            // dd($perkabupaten);
 
-        $querykabupaten = $perkabupaten->mapWithKeys(function ($item){
-            return [$item->nm_kab => $item->jumlah_pasien];
-        });
-        // Menambahkan total ke dalam array data untuk bar chart
+            $three_months = DB::table('reg_periksa')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->join('kabupaten', 'pasien.kd_kab', '=', 'kabupaten.kd_kab')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+                WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+                WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+                WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('kabupaten.nm_kab', $kab)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'kabupaten.nm_kab')
+            ->get();
+            // dd($three_months);
+
+            $six_months = DB::table('reg_periksa')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->join('kabupaten', 'pasien.kd_kab', '=', 'kabupaten.kd_kab')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+                WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('kabupaten.nm_kab', $kab)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'kabupaten.nm_kab')
+            ->get();
+            // dd($six_months);
+
+            $one_years = DB::table('reg_periksa')
+            ->join('pasien', 'reg_periksa.no_rkm_medis', '=', 'pasien.no_rkm_medis')
+            ->join('kabupaten', 'pasien.kd_kab', '=', 'kabupaten.kd_kab')
+            ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+            ->select([
+                DB::raw('YEAR(tgl_registrasi) AS tahun'),
+                DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+                DB::raw("CASE 
+                WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+                ELSE 'Tidak Valid'
+            END AS keterangan_periode"),
+                DB::raw('COUNT(*) AS jumlah_pasien')
+            ])
+            ->where('poliklinik.nm_poli', $poli)
+            ->where('kabupaten.nm_kab', $kab)
+            ->whereYear('reg_periksa.tgl_registrasi', $year)
+            ->groupBy('tahun', 'periode', 'keterangan_periode','poliklinik.nm_poli', 'kabupaten.nm_kab')
+            ->get();
+            // dd($one_years);
+
+        $querykabupaten = [];
+
+        if ($request->input('triwulan')) {
+            $querykabupaten = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_pasien];
+            });
+        } elseif ($request->input('semester')) {
+            $querykabupaten = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_pasien];
+            });
+        } elseif ($request->input('tahunan')) {
+            $querykabupaten = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_pasien];
+            });
+        } elseif ($request->input('month')) {
+            $querykabupaten = $perkabupaten->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_pasien];
+            });
+        }
 
         return view('pages.tech.pasien.dashboard-pasien-perkabupaten', compact(
             'years',
             'querykabupaten',
             'poliklinik',
+            'kabupaten',
         ));
     }
 

@@ -16,7 +16,7 @@
                                             <a href="{{ route('pasien') }}">Pasien</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Per Bulan
+                                            Pasien Per Status
                                         </li>
                                     </ol>
                                 </nav>
