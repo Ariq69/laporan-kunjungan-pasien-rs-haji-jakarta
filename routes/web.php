@@ -156,8 +156,29 @@ Route::prefix('tech')
 
         //K3
         Route::get('/k3', [K3Controller::class, 'k3'])->name('k3');
+        Route::post('/k3', [K3Controller::class, 'k3'])->name('k3');
         
+        Route::get('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
+        Route::post('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
+
+        Route::get('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
+        Route::post('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
         
+        Route::get('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
+        Route::post('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
+
+        Route::get('/k3-jenis-luka', [K3Controller::class, 'k3_jenis_luka'])->name('k3-jenis-luka');
+        Route::post('/k3-jenis-luka', [K3Controller::class, 'k3_jenis_luka'])->name('k3-jenis-luka');
+
+        Route::get('/k3-jenis-pekerjaan', [K3Controller::class, 'k3_jenis_pekerjaan'])->name('k3-jenis-pekerjaan');
+        Route::post('/k3-jenis-pekerjaan', [K3Controller::class, 'k3_jenis_pekerjaan'])->name('k3-jenis-pekerjaan');
+
+        Route::get('/k3-lokasi-kejadian', [K3Controller::class, 'k3_lokasi_kejadian'])->name('k3-lokasi-kejadian');
+        Route::post('/k3-lokasi-kejadian', [K3Controller::class, 'k3_lokasi_kejadian'])->name('k3-lokasi-kejadian');
+
+        Route::get('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
+        Route::post('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
+
         Route::get('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         Route::post('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         
