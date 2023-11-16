@@ -428,10 +428,6 @@ class KunjunganController extends Controller
         ));
     }
 
-
-
-
-    
     public function obat(Request $request){
 
         $years = DB::table('penjualan')
