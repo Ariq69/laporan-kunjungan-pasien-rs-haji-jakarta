@@ -23,48 +23,47 @@ class JumlahInventarisController extends Controller
    
     public function jumlah_inventaris_barang_di_ruang(Request $request)
     {
+        // Fetch the list of inventaris_ruang, assuming you want to use it in the view
+        $years = DB::table('inventaris')
+            ->select(DB::raw('YEAR(tgl_pengadaan) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
     
-    // Fetch the list of inventaris_ruang, assuming you want to use it in the view
-    $years = DB::table('inventaris')
-    ->select(DB::raw('YEAR(tgl_pengadaan) as year'))
-    ->groupBy('year')
-    ->orderBy('year', 'DESC')
-    ->get();
-
-    // Get the selected inventaris_ruang from the 
-    $year = $request->input('year');
-    $month = $request->input('month');
+        // Get the selected inventaris_ruang from the request
+        $year = $request->input('year');
+        $month = $request->input('month');
     
-    $data= DB::table('inventaris as i')
-     ->join('inventaris_barang as ib', 'i.kode_barang', '=', 'ib.kode_barang')
-     ->join('inventaris_ruang as ir', 'i.id_ruang', '=', 'ir.id_ruang')
-    ->select(
-        'ib.nama_barang',
-        'im.nama_ruang',
-        DB::raw('COUNT(i.no_inventaris) as jumlah_inventaris'))
-    ->whereYear('i.tgl_pengadaan', '=',$year)
-    ->whereMonth('i.tgl_pengadaan', '=', $month)
-
-    ->groupBy(
-        'ib.nama_barang', 
-        'im.nama_ruang', 
-        )
+        $data = DB::table('inventaris as i')
+            ->join('inventaris_barang as ib', 'i.kode_barang', '=', 'ib.kode_barang')
+            ->join('inventaris_ruang as ir', 'i.id_ruang', '=', 'ir.id_ruang')
+            ->select(
+                'ib.nama_barang',
+                'ir.nama_ruang',
+                DB::raw('COUNT(i.no_inventaris) as jumlah_inventaris')
+            )
+            ->whereYear('i.tgl_pengadaan', '=', $year)
+            ->whereMonth('i.tgl_pengadaan', '=', $month)
+            ->groupBy(
+                'ib.nama_barang',
+                'ir.nama_ruang'
+            )
+            ->get();
     
-    ->get();
-
-
+        // Transform the result into a format suitable for the view
+        $query = $data->groupBy('nama_ruang')
+            ->map(function ($group) {
+                return $group->sum('jumlah_inventaris');
+            });
     
-    // Transform the result into a format suitable for the view
-    $query = $data->mapWithKeys(function ($item) {
-        return ["{$item->nama_ruang}" => $item->jumlah_inventaris];
-    });
+        // Pass the data to the view
+        return view('pages.tech.jumlahinventaris.dashboard-jumlah-inventaris-barang-di-ruang', compact(
+            'query',
+            'years'
+        ));
+    }
+    
 
-    // Pass the data to the view
-    return view('pages.tech.jumlahinventaris.dashboard-jumlah-inventaris-barang-di-ruang', compact(
-        'query',
-        'years',
-    ));
-}
 public function jumlah_inventaris_barang_per_kategori(Request $request)
 {
     // Fetch the list of inventaris_ruang, assuming you want to use it in the view
