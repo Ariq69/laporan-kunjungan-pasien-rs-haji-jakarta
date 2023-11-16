@@ -102,6 +102,7 @@
                                     </div>
                                     </div>
                                 </form>
+                                <div class="divider"></div>
                             <div class="chart-container">
                                 <canvas id="BarChartSumPasien" width="100px" height="45px"></canvas>
                             </div>
