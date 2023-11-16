@@ -98,6 +98,10 @@ Route::prefix('tech')
         //penyakit
         Route::get('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
         Route::post('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
+
+        //obat
+        Route::get('/obat', [KunjunganController::class, 'obat'])->name('obat');
+        Route::post('/obat', [KunjunganController::class, 'obat'])->name('obat');
         
         //rawat inap
         Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
@@ -148,11 +152,8 @@ Route::prefix('tech')
 
         
         //Pemakaian Air
-        Route::get('/air-pdam', [PemakaianAirController::class, 'air_pdam'])->name('air-pdam');
-        Route::post('/air-pdam', [PemakaianAirController::class, 'air_pdam'])->name('air-pdam');
-
-        Route::get('/air-tanah', [PemakaianAirController::class, 'air_tanah'])->name('air-tanah');
-        Route::post('/air-tanah', [PemakaianAirController::class, 'air_tanah'])->name('air-tanah');
+        Route::get('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
+        Route::post('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
 
         //K3
         Route::get('/k3', [K3Controller::class, 'k3'])->name('k3');

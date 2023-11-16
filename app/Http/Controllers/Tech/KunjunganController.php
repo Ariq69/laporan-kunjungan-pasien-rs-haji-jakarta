@@ -55,7 +55,7 @@ class KunjunganController extends Controller
             ->whereMonth('rp.tgl_registrasi', $month)
             ->groupBy('p.nm_penyakit')
             ->orderBy('jumlah_pasien', 'desc')
-            ->limit(11) // Mengambil hanya 1 penyakit dengan jumlah pasien terbanyak
+            ->limit(11) // Mengambil hanya 11 penyakit dengan jumlah pasien terbanyak
             ->get();
             
 
@@ -426,5 +426,38 @@ class KunjunganController extends Controller
             'years',
             'jns_perawatan_radiologi'
         ));
+    }
+
+
+
+
+    
+    public function obat(Request $request){
+
+        $years = DB::table('penjualan')
+            ->select(DB::raw('YEAR(tgl_jual) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $topBarang = DB::table('detailjual as dj')
+            ->join('penjualan as rp', 'dj.nota_jual', '=', 'rp.nota_jual')
+            ->join('databarang as db', 'dj.kode_brng', '=', 'db.kode_brng')
+            ->select('db.nama_brng as nama_barang', 'dj.jumlah')
+            ->whereYear('rp.tgl_jual', $year)
+            ->whereMonth('rp.tgl_jual', $month)
+            ->orderByDesc('dj.jumlah')
+            ->limit(10)
+            ->get();
+
+        $query = $topBarang->mapWithKeys(function ($item) {
+            return [$item->nama_barang => $item->jumlah];
+        });
+ 
+        return view('pages.tech.kunjungan.dashboard-obat', compact('years','query'));
+        
     }
 }

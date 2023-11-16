@@ -9,7 +9,7 @@
                     <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">Pemakaian Air PDAM</h5>
-                            <form method="post" action="{{ url('/tech/air-pdam') }}">
+                            <form method="post" action="{{ url('/tech/pemakaian-air') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -39,6 +39,14 @@
                                     </select>
                                 </div>
                                 <div class="col">
+                                    <label for="air_type">Jenis Air</label>
+                                    <select class="form-control" id="airtype" name="airtype">
+                                        <option name="pdam" value="pdam">Air PDAM</option>
+                                        <option name="tanah" value="tanah">Air Tanah</option>
+                                        <!-- Add more lab options as needed -->
+                                    </select>
+                                </div>
+                                <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
@@ -64,10 +72,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
+    var airTypeSelect = document.getElementById('airtype');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
+    var storedairType = localStorage.getItem('selectedairType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -78,6 +88,10 @@
         monthSelect.value = storedMonth;
     }
 
+    if (storedairType) {
+        airTypeSelect.value = storedairType;
+    }
+
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -86,6 +100,11 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
+
+    airTypeSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedairType', airTypeSelect.value);
+    });
+
 </script>
 <script>
     var query = @json($query);
@@ -109,7 +128,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Pemakaian Air PDAM",
+                            label: "Data Pemakaian Air",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
