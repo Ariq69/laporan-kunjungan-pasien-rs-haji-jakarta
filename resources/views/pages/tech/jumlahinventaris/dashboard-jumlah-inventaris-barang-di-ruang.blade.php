@@ -30,7 +30,7 @@
                     <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">Jumlah Inventaris Barang Per-Ruang</h5>
-                            <form method="post" action="{{ url('/tech/jumlah_inventaris_barang_per_ruang') }}">
+                            <form method="post" action="{{ url('/tech/jumlah_inventaris_barang_di_ruang') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
