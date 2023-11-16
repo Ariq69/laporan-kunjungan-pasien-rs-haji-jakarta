@@ -113,7 +113,7 @@ class KunjunganController extends Controller
     }
     
     public function rawat_inap(){
-        return view('pages.tech.kunjungan.dashboard-rawat-inap');
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-rawat-inap');
         
     }
 
@@ -206,7 +206,7 @@ class KunjunganController extends Controller
             return [$item->tanggal => $item->jumlah_kunjungan];
         });
 
-        return view('pages.tech.kunjungan.dashboard-ranap-igd',compact('years','query'));
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-igd',compact('years','query'));
     }
     
     public function ranap_ugd(Request $request){
@@ -234,7 +234,7 @@ class KunjunganController extends Controller
             return [$item->tanggal => $item->jumlah_kunjungan];
         });
 
-        return view('pages.tech.kunjungan.dashboard-ranap-ugd',compact('years','query'));
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-ugd',compact('years','query'));
     }
 
 

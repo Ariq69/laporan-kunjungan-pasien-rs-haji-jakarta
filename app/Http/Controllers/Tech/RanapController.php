@@ -54,7 +54,7 @@ class RanapController extends Controller
             });
         }
         //dd($query);
-        return view('pages.tech.kunjungan.dashboard-ranap-lab', compact('years', 'query'));
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-lab', compact('years', 'query'));
     }
 
     public function ranap_hemodialisa(Request $request){
@@ -155,7 +155,7 @@ class RanapController extends Controller
         }
 
 
-        return view('pages.tech.kunjungan.dashboard-ranap-hemodialisa',compact('years','query'));
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-hemodialisa',compact('years','query'));
 
     }
 
@@ -195,7 +195,7 @@ class RanapController extends Controller
             return [$item->tgl_periksa => $item-> jumlah_no_perawat];
         });
 
-        return view('pages.tech.kunjungan.dashboard-ranap-rad', compact(
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-rad', compact(
             'query',
             'years',
             'jns_perawatan_radiologi'
