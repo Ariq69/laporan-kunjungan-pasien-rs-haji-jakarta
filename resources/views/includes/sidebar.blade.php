@@ -317,7 +317,7 @@
       <!--Pengajuan Aset-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('pengajuan-aset-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Pengajuan Aset</a>
           </li>
@@ -326,7 +326,7 @@
       <!--Perbaikan Inventaris-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('perbaikan-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Perbaikan Inventaris</a>
           </li>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\PeriksaRadiologiController;
 use App\Http\Controllers\Tech\PemakaianAirController;
+use App\Http\Controllers\Tech\InventarisController;
 use App\Http\Controllers\Tech\K3Controller;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
@@ -178,6 +179,13 @@ Route::prefix('tech')
 
         Route::get('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
         Route::post('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
+
+        //Pengajuan aset inventaris
+        Route::get('/pengajuan-aset-inventaris', [InventarisController::class, 'pengajuan_aset_inventaris'])->name('pengajuan-aset-inventaris');
+        Route::post('/pengajuan-aset-inventaris', [InventarisController::class, 'pengajuan_aset_inventaris'])->name('pengajuan-aset-inventaris');
+
+        Route::get('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
+        Route::post('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
 
         Route::get('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         Route::post('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
