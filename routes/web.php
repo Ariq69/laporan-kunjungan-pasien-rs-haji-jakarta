@@ -14,6 +14,7 @@ use App\Http\Controllers\Tech\PeriksaRadiologiController;
 use App\Http\Controllers\Tech\PemakaianAirController;
 use App\Http\Controllers\Tech\InventarisController;
 use App\Http\Controllers\Tech\K3Controller;
+use App\Http\Controllers\Tech\JumlahInventarisController;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
