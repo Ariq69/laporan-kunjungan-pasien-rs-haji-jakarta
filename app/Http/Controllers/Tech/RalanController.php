@@ -110,7 +110,7 @@ class RalanController extends Controller
             });
         }
 
-        return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
+        return view('pages.tech.kunjungan.rawat-jalan.dashboard-ralan-hemodialisa',compact('years','query'));
 
     }
 
@@ -155,7 +155,7 @@ class RalanController extends Controller
             });
         }
         //dd($query);
-        return view('pages.tech.kunjungan.dashboard-ralan-lab', compact('years', 'query'));
+        return view('pages.tech.kunjungan.rawat-jalan.dashboard-ralan-lab', compact('years', 'query'));
     }
 
     public function jenis_perawatan_radiologi_ralan(Request $request) {
@@ -196,7 +196,7 @@ class RalanController extends Controller
             return [$item->tgl_periksa => $item-> jumlah_no_perawat];
         });
     
-        return view('pages.tech.kunjungan.dashboard-pemeriksaan-radiologi-ralan', compact(
+        return view('pages.tech.kunjungan.rawat-jalan.dashboard-pemeriksaan-radiologi-ralan', compact(
             'query',
             'years',
             'jns_perawatan_radiologi'

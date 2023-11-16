@@ -118,7 +118,7 @@ class KunjunganController extends Controller
     }
 
     public function rawat_jalan(){
-        return view('pages.tech.kunjungan.dashboard-rawat-jalan');
+        return view('pages.tech.kunjungan.rawat-jalan.dashboard-rawat-jalan');
         
     }
 
