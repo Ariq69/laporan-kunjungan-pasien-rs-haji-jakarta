@@ -256,6 +256,9 @@
           <li class="sidebar-item">
             <a href="{{ route('penyakit') }}" class="sidebar-link">Penyakit</a>
           </li>
+          <li class="sidebar-item">
+            <a href="{{ route('obat') }}" class="sidebar-link">Obat</a>
+          </li>
         </ul>
       </li>
 
@@ -264,30 +267,10 @@
 
       <!--Pemakaian Air-->
       <li class="sidebar-item">
-        <a
-          href="#"
-          class="sidebar-link collapsed"
-          data-bs-target="#pemakaian-air"
-          data-bs-toggle="collapse"
-          aria-expanded="false"
-        >
+        <a href="{{ route('pemakaian-air') }}" class="sidebar-link">
           <img src="{{ asset('../images/icon-dokter.png') }}" alt="" class="icon-sidebar" />
           Pemakaian Air
         </a>
-        <ul
-          id="pemakaian-air"
-          class="sidebar-dropdown list-unstyled collapse"
-          data-bs-parents="#sidebar"
-        >
-          <li class="sidebar-item">
-            <a href="{{ route('air-pdam') }}" class="sidebar-link">Air PDAM</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="{{ route('air-tanah') }}" class="sidebar-link">Air Tanah</a>
-          </li>
-          </li>
-        </ul>
       </li>
 
       <!--Limbah-->

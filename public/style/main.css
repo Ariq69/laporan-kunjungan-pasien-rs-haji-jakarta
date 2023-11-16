@@ -10028,4 +10028,12 @@ body {
 }
 .haji-breadcrumbs a {
   color: #88ae7a;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #BBB;
+  margin: 1rem 0;
+
 }/*# sourceMappingURL=main.css.map */
