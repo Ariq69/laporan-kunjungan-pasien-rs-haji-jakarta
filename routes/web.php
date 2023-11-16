@@ -10,6 +10,7 @@ use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
 use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\PeriksaRadiologiController;
+use App\Http\Controllers\Tech\JumlahInventarisController;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -144,7 +145,34 @@ Route::prefix('tech')
         Route::post('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         
         Route::resource('setting-pengguna', SettingPenggunaController::class);
+
+        //jumlah inventaris
+        Route::get('/jumlah_inventaris', [JumlahInventarisController::class, 'jumlah_inventaris'])->name('jumlah_inventaris');
+        Route::post('/jumlah_inventaris', [JumlahInventarisController::class, 'jumlah_inventaris'])->name('jumlah_inventaris');
+        
+        //jumlah inventaris barang berdasarkan ruang
+        Route::get('/jumlah_inventaris_barang_di_ruang', [JumlahInventarisController::class, 'jumlah_inventaris_barang_di_ruang'])->name('jumlah_inventaris_barang_di_ruang');
+        Route::post('/jumlah_inventaris_barang_di_ruang', [JumlahInventarisController::class, 'jumlah_inventaris_barang_di_ruang'])->name('jumlah_inventaris_barang_di_ruang');
+       
+        //jumlah_inventaris_barang per-kategori
+        Route::get('/jumlah_inventaris_barang_per_kategori', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_kategori'])->name('jumlah_inventaris_barang_per_kategori');
+        Route::post('/jumlah_inventaris_barang_per_kategori', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_kategori'])->name('jumlah_inventaris_barang_per_kategori');
+       
+       //jumlah_inventaris_barang_per_merk
+       Route::get('/jumlah_inventaris_barang_per_merk', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_merk'])->name('jumlah_inventaris_barang_per_merk');
+       Route::post('/jumlah_inventaris_barang_per_merk', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_merk'])->name('jumlah_inventaris_barang_per_merk');
+       
+       //jumlah_inventaris_barang_per_jenis
+       Route::get('/jumlah_inventaris_barang_per_jenis', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_jenis'])->name('jumlah_inventaris_barang_per_jenis');
+       Route::post('/jumlah_inventaris_barang_per_jenis', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_jenis'])->name('jumlah_inventaris_barang_per_jenis');
+       
+       //jumlah_inventaris_barang_per_produsen
+       Route::get('/jumlah_inventaris_barang_per_produsen', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_produsen'])->name('jumlah_inventaris_barang_per_produsen');
+       Route::post('/jumlah_inventaris_barang_per_produsen', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_produsen'])->name('jumlah_inventaris_barang_per_produsen');
+       
     });
+
+      
     
 Route::prefix('admin')
     ->namespace('admin')

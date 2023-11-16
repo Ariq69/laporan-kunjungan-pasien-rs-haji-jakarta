@@ -358,7 +358,7 @@
       <!--Jumlah Inventaris-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('jumlah_inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Jumlah Inventaris</a>
           </li>
