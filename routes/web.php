@@ -1,25 +1,26 @@
 <?php
 
-use App\Http\Controllers\Tech\KunjunganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Tech\K3Controller;
+use App\Http\Controllers\Tech\IGDController;
+use App\Http\Controllers\Tech\RalanController;
+use App\Http\Controllers\Tech\RanapController;
 use App\Http\Controllers\Tech\DokterController;
+use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
-use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\AsuransiController;
-use App\Http\Controllers\Tech\PeriksaRadiologiController;
-use App\Http\Controllers\Tech\PemakaianAirController;
-use App\Http\Controllers\Tech\InventarisController;
-use App\Http\Controllers\Tech\K3Controller;
-use App\Http\Controllers\Tech\JumlahInventarisController;
 use App\Http\Controllers\Tech\DashboardController;
+use App\Http\Controllers\Tech\KunjunganController;
+use App\Http\Controllers\Tech\InventarisController;
+use App\Http\Controllers\Tech\PemakaianAirController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
+use App\Http\Controllers\Tech\JumlahInventarisController;
+use App\Http\Controllers\Tech\PeriksaRadiologiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Tech\RalanController;
-use App\Http\Controllers\Tech\RanapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -125,7 +126,8 @@ Route::prefix('tech')
         Route::get('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
         Route::post('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
 
-
+        //rawat jalan
+        Route::get('/igd', [IGDController::class, 'dashboard_igd'])->name('igd');
 
         //rawat jalan
         Route::get('/rawat-jalan', [KunjunganController::class, 'rawat_jalan'])->name('rawat-jalan');
