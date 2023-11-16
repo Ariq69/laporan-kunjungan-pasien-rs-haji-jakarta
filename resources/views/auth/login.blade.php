@@ -75,7 +75,7 @@
             </div>
             <!-- Button Log In-->
             <div class="input-group mb-3">
-              <button type="submit" class="btn btn-lg text-white w-100 fs-6"
+              <button type="submit" class="btn btn-lg text-white w-100 fs-6 kotak-login"
                 style="background-color: #a0c492">
                 {{ __('Login') }}
             </button>

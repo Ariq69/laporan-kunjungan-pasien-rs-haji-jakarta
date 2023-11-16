@@ -5,29 +5,12 @@
 <main class="content px-3 py-2">
 <div class="container-fluid">
             <div class="row align-items-start">
-                <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                <!--Jumlah Pasien Per Poli-->
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Laboratorium</h5>
-                            <form method="post" action="{{ url('/tech/ralan-lab') }}">
+                        <h5 class="card-title">Jumlah Pasien Per Poli</h5>
+                            <form method="post" action="{{ url('/tech/obat') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -57,20 +40,12 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
-                                        <!-- Add more lab options as needed -->
-                                    </select>
-                                </div>
-                                <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumPenyakit" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -90,12 +65,10 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,10 +79,6 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
-    }
-
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -118,12 +87,8 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
-
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
-    });
-
 </script>
+
 <script>
     var query = @json($query);
 </script>
@@ -133,20 +98,19 @@
     $(document).ready(function() {
         var labels = Object.keys(query);
         var data = Object.values(query);
-        //console.log(labels);
-        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
-        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
+        var ctx = document.getElementById("BarChartSumPenyakit").getContext("2d");
+        BarChartSumPasien.ChartData(ctx, 'horizontalBar', data, labels); // Menukar data dan labels
     });
 
     var BarChartSumPasien = {
-        ChartData: function(ctx, type, labels, data) {
+        ChartData: function(ctx, type, data, labels) { // Menukar data dan labels
             new Chart(ctx, {
                 type: type,
                 data: {
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Laboratorium",
+                            label: "Data Penyakit",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
@@ -160,31 +124,6 @@
                                 '#B1AFFF',
                                 '#7895B2',
                                 '#554994',
-                                '#6E85B7',
-                                '#C9BBCF',
-                                '#73A9AD',
-                                '#525E75',
-                                '#655D8A',
-                                '#BB6464',
-                                '#A267AC',
-                                '#867070',
-                                '#6096B4',
-                                '#DEBACE',
-                                '#B3A492',
-                                '#219C90',
-                                '#9EB384',
-                                '#FFC95F',
-                                '#0E21A0',
-                                '#9D44C0',
-                                '#FF7676',
-                                '#3085C3',
-                                '#5CD2E6',
-                                '#5C4B99',
-                                '#D71313',
-                                '#45CFDD',
-                                '#22A699',
-                                '#245953',
-                                '#913175',
                             ],
                             borderWidth: 1,
                         },
@@ -194,13 +133,11 @@
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
-                    plugins: {
-                        labels: {
-                            render: 'value',
+                        x: {
+                            beginAtZero: true,
+                        },
+                        y: { // Mengatur sumbu y
+                            minBarLength: 5, // Mengatur panjang minimum bar
                         },
                     },
                 },
@@ -209,4 +146,6 @@
     };
 })(jQuery);
 </script>
+
+
 @endsection

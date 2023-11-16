@@ -1,33 +1,17 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<!--Main Content-->
+<!-- Main Content -->
+
 <main class="content px-3 py-2">
 <div class="container-fluid">
             <div class="row align-items-start">
-                <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                <!--Jumlah Pasien Per Poli-->
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Laboratorium</h5>
-                            <form method="post" action="{{ url('/tech/ralan-lab') }}">
+                        <h5 class="card-title">Pengajuan Aset Inventaris</h5>
+                            <form method="post" action="{{ url('/tech/pengajuan-aset-inventaris') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -57,10 +41,11 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
+                                    <label for="aset">Jenis Pengajuan</label>
+                                    <select class="form-control" id="aset" name="aset">
+                                        <option name="perurgensi" value="perurgensi">Per-Urgensi</option>
+                                        <option name="perstatus" value="perstatus">Per-Status</option>
+                                        <option name="perdepartemen" value="perdepartemen">Per-Departemen</option>
                                         <!-- Add more lab options as needed -->
                                     </select>
                                 </div>
@@ -70,7 +55,7 @@
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumInventaris" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -90,12 +75,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
+    var asetSelect = document.getElementById('aset');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
+    var storedaset = localStorage.getItem('selectedaset');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,8 +91,8 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
+    if (storedaset) {
+        asetSelect.value = storedaset;
     }
 
     // Menyimpan nilai-nilai filter saat berubah
@@ -119,8 +104,8 @@
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
 
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
+    asetSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedaset', asetSelect.value);
     });
 
 </script>
@@ -133,22 +118,35 @@
     $(document).ready(function() {
         var labels = Object.keys(query);
         var data = Object.values(query);
-        //console.log(labels);
-        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
-        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
+        var ctx = document.getElementById("BarChartSumInventaris").getContext("2d");
+        BarChartSumInventaris.ChartData(ctx, 'horizontalBar', data, labels); // Menukar data dan labels
     });
 
-    var BarChartSumPasien = {
-        ChartData: function(ctx, type, labels, data) {
+    var BarChartSumInventaris = {
+        ChartData: function(ctx, type, data, labels) { // Menukar data dan labels
             new Chart(ctx, {
                 type: type,
                 data: {
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Laboratorium",
+                            label: "Data Pengajuan Aset Inventaris",
                             data: data,
                             backgroundColor: [
+                                '#C8E4B2',
+                                '#B3A492',
+                                '#219C90',
+                                '#9EB384',
+                                '#FFC95F',
+                                '#0E21A0',
+                                '#9D44C0',
+                                '#FF7676',
+                                '#3085C3',
+                                '#5CD2E6',
+                                '#5C4B99',
+                                '#D71313',
+                                '#45CFDD',
+                                '#22A699',
                                 '#FF8080',
                                 '#F9B572',
                                 '#F6FDC3',
@@ -170,19 +168,6 @@
                                 '#867070',
                                 '#6096B4',
                                 '#DEBACE',
-                                '#B3A492',
-                                '#219C90',
-                                '#9EB384',
-                                '#FFC95F',
-                                '#0E21A0',
-                                '#9D44C0',
-                                '#FF7676',
-                                '#3085C3',
-                                '#5CD2E6',
-                                '#5C4B99',
-                                '#D71313',
-                                '#45CFDD',
-                                '#22A699',
                                 '#245953',
                                 '#913175',
                             ],
@@ -194,9 +179,12 @@
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        x: {
+                            beginAtZero: true,
+                        },
+                        y: { // Mengatur sumbu y
+                            minBarLength: 5, // Mengatur panjang minimum bar
+                        },
                     },
                     plugins: {
                         labels: {

@@ -8,9 +8,12 @@ use App\Http\Controllers\Tech\DokterController;
 use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
+use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\AsuransiController;
 use App\Http\Controllers\Tech\PeriksaRadiologiController;
-use App\Http\Controllers\Tech\JumlahInventarisController;
+use App\Http\Controllers\Tech\PemakaianAirController;
+use App\Http\Controllers\Tech\InventarisController;
+use App\Http\Controllers\Tech\K3Controller;
 use App\Http\Controllers\Tech\DashboardController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -96,6 +99,10 @@ Route::prefix('tech')
         //penyakit
         Route::get('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
         Route::post('/penyakit', [KunjunganController::class, 'penyakit'])->name('penyakit');
+
+        //obat
+        Route::get('/obat', [KunjunganController::class, 'obat'])->name('obat');
+        Route::post('/obat', [KunjunganController::class, 'obat'])->name('obat');
         
         //rawat inap
         Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
@@ -132,6 +139,10 @@ Route::prefix('tech')
         Route::get('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
         Route::post('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
 
+        //limbah
+        Route::get('/limbah', [LimbahController::class, 'limbah'])->name('limbah');
+        Route::post('/limbah', [LimbahController::class, 'limbah'])->name('limbah');
+
         //Asuransi Section
         Route::get('/informasi-asuransi', [AsuransiController::class, 'informasi_asuransi'])->name('informasi-asuransi');
         Route::get('/informasi-asuransi-admed', [AsuransiController::class, 'informasi_asuransi_admed'])->name('informasi-asuransi-admed');
@@ -139,8 +150,44 @@ Route::prefix('tech')
         // Kunjungan Section
         Route::get('/dashboard', [HomeController::class, 'tech']);
         Route::post('/dashboard', [HomeController::class, 'tech']);
+
         
+        //Pemakaian Air
+        Route::get('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
+        Route::post('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
+
+        //K3
+        Route::get('/k3', [K3Controller::class, 'k3'])->name('k3');
+        Route::post('/k3', [K3Controller::class, 'k3'])->name('k3');
         
+        Route::get('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
+        Route::post('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
+
+        Route::get('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
+        Route::post('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
+        
+        Route::get('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
+        Route::post('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
+
+        Route::get('/k3-jenis-luka', [K3Controller::class, 'k3_jenis_luka'])->name('k3-jenis-luka');
+        Route::post('/k3-jenis-luka', [K3Controller::class, 'k3_jenis_luka'])->name('k3-jenis-luka');
+
+        Route::get('/k3-jenis-pekerjaan', [K3Controller::class, 'k3_jenis_pekerjaan'])->name('k3-jenis-pekerjaan');
+        Route::post('/k3-jenis-pekerjaan', [K3Controller::class, 'k3_jenis_pekerjaan'])->name('k3-jenis-pekerjaan');
+
+        Route::get('/k3-lokasi-kejadian', [K3Controller::class, 'k3_lokasi_kejadian'])->name('k3-lokasi-kejadian');
+        Route::post('/k3-lokasi-kejadian', [K3Controller::class, 'k3_lokasi_kejadian'])->name('k3-lokasi-kejadian');
+
+        Route::get('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
+        Route::post('/k3-penyebab-kecelakaan', [K3Controller::class, 'k3_penyebab_kecelakaan'])->name('k3-penyebab-kecelakaan');
+
+        //Pengajuan aset inventaris
+        Route::get('/pengajuan-aset-inventaris', [InventarisController::class, 'pengajuan_aset_inventaris'])->name('pengajuan-aset-inventaris');
+        Route::post('/pengajuan-aset-inventaris', [InventarisController::class, 'pengajuan_aset_inventaris'])->name('pengajuan-aset-inventaris');
+
+        Route::get('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
+        Route::post('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
+
         Route::get('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         Route::post('/jenis_perawatan_radiologi_ralan', [PeriksaRadiologiController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
         

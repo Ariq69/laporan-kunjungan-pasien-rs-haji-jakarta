@@ -5,29 +5,11 @@
 <main class="content px-3 py-2">
 <div class="container-fluid">
             <div class="row align-items-start">
-                <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Laboratorium</h5>
-                            <form method="post" action="{{ url('/tech/ralan-lab') }}">
+                        <h5 class="card-title">Pemakaian Air PDAM</h5>
+                            <form method="post" action="{{ url('/tech/pemakaian-air') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -57,10 +39,10 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
+                                    <label for="air_type">Jenis Air</label>
+                                    <select class="form-control" id="airtype" name="airtype">
+                                        <option name="pdam" value="pdam">Air PDAM</option>
+                                        <option name="tanah" value="tanah">Air Tanah</option>
                                         <!-- Add more lab options as needed -->
                                     </select>
                                 </div>
@@ -70,7 +52,7 @@
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumAirPDAM" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -90,12 +72,12 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
+    var airTypeSelect = document.getElementById('airtype');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
+    var storedairType = localStorage.getItem('selectedairType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,8 +88,8 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
+    if (storedairType) {
+        airTypeSelect.value = storedairType;
     }
 
     // Menyimpan nilai-nilai filter saat berubah
@@ -119,8 +101,8 @@
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
 
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
+    airTypeSelect.addEventListener('change', function() {
+        localStorage.setItem('selectedairType', airTypeSelect.value);
     });
 
 </script>
@@ -134,7 +116,7 @@
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
+        var ctx = document.getElementById("BarChartSumAirPDAM").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
@@ -146,7 +128,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Laboratorium",
+                            label: "Data Pemakaian Air",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

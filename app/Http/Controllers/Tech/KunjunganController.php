@@ -55,7 +55,7 @@ class KunjunganController extends Controller
             ->whereMonth('rp.tgl_registrasi', $month)
             ->groupBy('p.nm_penyakit')
             ->orderBy('jumlah_pasien', 'desc')
-            ->limit(11) // Mengambil hanya 1 penyakit dengan jumlah pasien terbanyak
+            ->limit(11) // Mengambil hanya 11 penyakit dengan jumlah pasien terbanyak
             ->get();
             
 
@@ -122,35 +122,6 @@ class KunjunganController extends Controller
         
     }
 
-    public function ralan_lab(Request $request){
-
-        $years = DB::table('periksa_lab')
-            ->select(DB::raw('YEAR(tgl_periksa) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
-
-        $year = $request->input('year');
-        $month = $request->input('month');
-        
-        $bar = DB::table('periksa_lab')
-        ->select(DB::raw('DATE(tgl_periksa) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabralan'))
-        ->whereYear('tgl_periksa', $year)
-        ->whereMonth('tgl_periksa', $month)
-        ->where('status','ralan')
-        ->groupBy(DB::raw('CAST(tgl_periksa AS DATE)'))
-        ->orderBy('tanggal')
-        ->get();
-
-        $query = $bar->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->total_kunjunganlabralan];
-        });
-
-
-        return view('pages.tech.kunjungan.dashboard-ralan-lab',compact('years','query'));
-        
-    }
-
     public function ralan_igd(Request $request){
 
         $years = DB::table('reg_periksa')
@@ -162,19 +133,93 @@ class KunjunganController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
 
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ralan')
-        ->where('p.nm_poli', 'Instalasi Gawat Darurat')
+        $results = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
         ->whereYear('tgl_registrasi', $year)
         ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->select(DB::raw('DATE(reg_periksa.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy('tanggal')
         ->get();
 
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($six_months);
+
+        $one_years = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($one_years);
+
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
         
         return view('pages.tech.kunjungan.dashboard-ralan-igd',compact('years','query'));
         
@@ -191,19 +236,93 @@ class KunjunganController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
 
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ralan')
-        ->where('p.nm_poli', 'Unit IGD')
+        $results = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
         ->whereYear('tgl_registrasi', $year)
         ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->select(DB::raw('DATE(reg_periksa.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy('tanggal')
         ->get();
 
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($six_months);
+
+        $one_years = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ralan')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($one_years);
+
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
         
         return view('pages.tech.kunjungan.dashboard-ralan-ugd',compact('years','query'));
         
@@ -229,45 +348,175 @@ class KunjunganController extends Controller
         ->select(DB::raw('DATE(hemo.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
         ->groupBy(DB::raw('DATE(tanggal)'))
         ->get();
-        //dd($results);  
+        //dd($results); 
         
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(hemo.tanggal) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(hemo.tanggal) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(hemo.tanggal) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(hemo.tanggal) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($six_months);
+
+        $one_years = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($one_years);
+        
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
 
         return view('pages.tech.kunjungan.dashboard-ralan-hemodialisa',compact('years','query'));
 
     }
     
-    public function ranap_lab(Request $request){
-
+    public function ralan_lab(Request $request) {
         $years = DB::table('permintaan_lab')
             ->select(DB::raw('YEAR(tgl_permintaan) as year'))
             ->groupBy('year')
             ->orderBy('year', 'DESC')
             ->get();
-
+    
         $year = $request->input('year');
         $month = $request->input('month');
+        $labType = $request->input('lab_type'); // Get the selected lab type from the form
         
-        $bar = DB::table('permintaan_lab')
-        ->select(DB::raw('DATE(tgl_permintaan) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
-        ->whereYear('tgl_permintaan', $year)
-        ->whereMonth('tgl_permintaan', $month)
-        ->where('status','ranap')
-        ->groupBy(DB::raw('CAST(tgl_permintaan AS DATE)'))
-        ->orderBy('tanggal')
-        ->get();
-
-        $query = $bar->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->total_kunjunganlabranap];
-        });
-
-
-        return view('pages.tech.kunjungan.dashboard-ranap-lab',compact('years','query'));
+        $permintaan = DB::table('permintaan_lab')
+            ->select(DB::raw('DATE(tgl_permintaan) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
+            ->whereYear('tgl_permintaan', $year)
+            ->whereMonth('tgl_permintaan', $month)
+            ->where('status', 'ralan')
+            ->groupBy(DB::raw('CAST(tgl_permintaan AS DATE)'))
+            ->orderBy('tanggal')
+            ->get();
         
+        $pemeriksaan = DB::table('periksa_lab')
+            ->select(DB::raw('DATE(tgl_periksa) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
+            ->whereYear('tgl_periksa', $year)
+            ->whereMonth('tgl_periksa', $month)
+            ->where('status', 'ralan')
+            ->groupBy(DB::raw('CAST(tgl_periksa AS DATE)'))
+            ->orderBy('tanggal')
+            ->get();
+
+        $query = [];
+    
+        if ($labType === 'permintaan') {
+            $query = $permintaan->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->total_kunjunganlabranap];
+            });
+        } elseif ($labType === 'pemeriksaan') {
+            $query = $pemeriksaan->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->total_kunjunganlabranap];
+            });
+        }
+        //dd($query);
+        return view('pages.tech.kunjungan.dashboard-ralan-lab', compact('years', 'query'));
     }
+    
+    public function ranap_lab(Request $request) {
+        $years = DB::table('permintaan_lab')
+            ->select(DB::raw('YEAR(tgl_permintaan) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+    
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $labType = $request->input('lab_type'); // Get the selected lab type from the form
+        
+        $permintaan = DB::table('permintaan_lab')
+            ->select(DB::raw('DATE(tgl_permintaan) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
+            ->whereYear('tgl_permintaan', $year)
+            ->whereMonth('tgl_permintaan', $month)
+            ->where('status', 'ranap')
+            ->groupBy(DB::raw('CAST(tgl_permintaan AS DATE)'))
+            ->orderBy('tanggal')
+            ->get();
+        
+        $pemeriksaan = DB::table('periksa_lab')
+            ->select(DB::raw('DATE(tgl_periksa) as tanggal'), DB::raw('COUNT(*) as total_kunjunganlabranap'))
+            ->whereYear('tgl_periksa', $year)
+            ->whereMonth('tgl_periksa', $month)
+            ->where('status', 'ranap')
+            ->groupBy(DB::raw('CAST(tgl_periksa AS DATE)'))
+            ->orderBy('tanggal')
+            ->get();
 
+        $query = [];
+    
+        if ($labType === 'permintaan') {
+            $query = $permintaan->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->total_kunjunganlabranap];
+            });
+        } elseif ($labType === 'pemeriksaan') {
+            $query = $pemeriksaan->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->total_kunjunganlabranap];
+            });
+        }
+        //dd($query);
+        return view('pages.tech.kunjungan.dashboard-ranap-lab', compact('years', 'query'));
+    }
+     
     public function ranap_hemodialisa(Request $request){
         
         $years = DB::table('hemodialisa')
@@ -288,11 +537,83 @@ class KunjunganController extends Controller
         ->select(DB::raw('DATE(hemo.tanggal) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
         ->groupBy(DB::raw('DATE(tanggal)'))
         ->get();
-        //dd($results);  
+        //dd($results);
         
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(hemo.tanggal) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(hemo.tanggal) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(hemo.tanggal) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(hemo.tanggal) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($six_months);
+
+        $one_years = DB::table('hemodialisa as hemo')
+        ->join('reg_periksa as periksa', 'hemo.no_rawat', '=', 'periksa.no_rawat')
+        ->select([
+            DB::raw('YEAR(hemo.tanggal) AS tahun'),
+            DB::raw('FLOOR((MONTH(hemo.tanggal) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(hemo.tanggal) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('periksa.status_lanjut', 'Ralan')
+        ->whereYear('hemo.tanggal', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get(); 
+        // dd($one_years);
+        
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
+
 
         return view('pages.tech.kunjungan.dashboard-ranap-hemodialisa',compact('years','query'));
 
@@ -309,19 +630,93 @@ class KunjunganController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
 
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ranap')
-        ->where('p.nm_poli', 'Instalasi Gawat Darurat')
+        $results = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
         ->whereYear('tgl_registrasi', $year)
         ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->select(DB::raw('DATE(reg_periksa.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy('tanggal')
         ->get();
 
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();
+        // dd($six_months);
+
+        $one_years = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Instalasi Gawat Darurat')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();
+        // dd($one_years);
+
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
 
         return view('pages.tech.kunjungan.dashboard-ranap-igd',compact('years','query'));
     }
@@ -337,19 +732,93 @@ class KunjunganController extends Controller
         $year = $request->input('year');
         $month = $request->input('month');
 
-        $results = DB::table('reg_periksa as r')
-        ->join('poliklinik as p', 'r.kd_poli', '=', 'p.kd_poli')
-        ->where('r.status_lanjut', 'Ranap')
-        ->where('p.nm_poli', 'Unit IGD')
+        $results = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
         ->whereYear('tgl_registrasi', $year)
         ->whereMonth('tgl_registrasi', $month)
-        ->select(DB::raw('DATE(r.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
-        ->groupBy(DB::raw('DATE(r.tgl_registrasi)'))
+        ->select(DB::raw('DATE(reg_periksa.tgl_registrasi) as tanggal'), DB::raw('COUNT(*) as jumlah_kunjungan'))
+        ->groupBy('tanggal')
         ->get();
 
-        $query = $results->mapWithKeys(function ($item){
-            return [$item->tanggal => $item->jumlah_kunjungan];
-        });
+        $three_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 3) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 3 THEN 'Januari - Maret'
+            WHEN MONTH(tgl_registrasi) BETWEEN 4 AND 6 THEN 'April - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 9 THEN 'Juli - September'
+            WHEN MONTH(tgl_registrasi) BETWEEN 10 AND 12 THEN 'Oktober - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();        
+        // dd($three_months);
+
+        $six_months = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 6) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 6 THEN 'Januari - Juni'
+            WHEN MONTH(tgl_registrasi) BETWEEN 7 AND 12 THEN 'Juli - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();
+        // dd($six_months);
+
+        $one_years = DB::table('reg_periksa')
+        ->join('poliklinik', 'reg_periksa.kd_poli', '=', 'poliklinik.kd_poli')
+        ->select([
+            DB::raw('YEAR(tgl_registrasi) AS tahun'),
+            DB::raw('FLOOR((MONTH(tgl_registrasi) - 1) / 12) + 1 AS periode'),
+            DB::raw("CASE 
+            WHEN MONTH(tgl_registrasi) BETWEEN 1 AND 12 THEN 'Januari - Desember'
+            ELSE 'Tidak Valid'
+        END AS keterangan_periode"),
+            DB::raw('COUNT(*) AS jumlah_kunjungan')
+        ])
+        ->where('reg_periksa.status_lanjut', 'Ranap')
+        ->where('poliklinik.nm_poli', 'Unit IGD')
+        ->whereYear('reg_periksa.tgl_registrasi', $year)
+        ->groupBy('tahun', 'periode', 'keterangan_periode')
+        ->get();
+        // dd($one_years);
+
+        $query = [];
+
+        if ($request->input('triwulan') ) {
+            $query = $three_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('semester') ) {
+            $query = $six_months->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('tahunan') ) {
+            $query = $one_years->mapWithKeys(function ($item) {
+                return [$item->keterangan_periode => $item->jumlah_kunjungan];
+            });
+        } elseif ($request->input('month') ) {
+            $query = $results->mapWithKeys(function ($item) {
+                return [$item->tanggal => $item->jumlah_kunjungan];
+            });
+        }
 
         return view('pages.tech.kunjungan.dashboard-ranap-ugd',compact('years','query'));
     }
@@ -396,5 +865,34 @@ class KunjunganController extends Controller
             'years',
             'jns_perawatan_radiologi'
         ));
+    }
+
+    public function obat(Request $request){
+
+        $years = DB::table('penjualan')
+            ->select(DB::raw('YEAR(tgl_jual) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $topBarang = DB::table('detailjual as dj')
+            ->join('penjualan as rp', 'dj.nota_jual', '=', 'rp.nota_jual')
+            ->join('databarang as db', 'dj.kode_brng', '=', 'db.kode_brng')
+            ->select('db.nama_brng as nama_barang', 'dj.jumlah')
+            ->whereYear('rp.tgl_jual', $year)
+            ->whereMonth('rp.tgl_jual', $month)
+            ->orderByDesc('dj.jumlah')
+            ->limit(10)
+            ->get();
+
+        $query = $topBarang->mapWithKeys(function ($item) {
+            return [$item->nama_barang => $item->jumlah];
+        });
+ 
+        return view('pages.tech.kunjungan.dashboard-obat', compact('years','query'));
+        
     }
 }

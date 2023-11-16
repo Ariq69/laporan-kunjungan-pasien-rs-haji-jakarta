@@ -256,6 +256,9 @@
           <li class="sidebar-item">
             <a href="{{ route('penyakit') }}" class="sidebar-link">Penyakit</a>
           </li>
+          <li class="sidebar-item">
+            <a href="{{ route('obat') }}" class="sidebar-link">Obat</a>
+          </li>
         </ul>
       </li>
 
@@ -264,41 +267,15 @@
 
       <!--Pemakaian Air-->
       <li class="sidebar-item">
-        <a
-          href="#"
-          class="sidebar-link collapsed"
-          data-bs-target="#pemakaian-air"
-          data-bs-toggle="collapse"
-          aria-expanded="false"
-        >
+        <a href="{{ route('pemakaian-air') }}" class="sidebar-link">
           <img src="{{ asset('../images/icon-dokter.png') }}" alt="" class="icon-sidebar" />
           Pemakaian Air
         </a>
-        <ul
-          id="pemakaian-air"
-          class="sidebar-dropdown list-unstyled collapse"
-          data-bs-parents="#sidebar"
-        >
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Air PDAM</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Air Tanah</a>
-          </li>
-          </li>
-        </ul>
       </li>
 
       <!--Limbah-->
       <li class="sidebar-item">
-        <a
-          href="#"
-          class="sidebar-link collapsed"
-          data-bs-target="#limbah"
-          data-bs-toggle="collapse"
-          aria-expanded="false"
-        >
+        <a href="{{ route('limbah') }}" class="sidebar-link">
           <img
             src="{{ asset('../images/icon-perawat.png') }}"
             alt=""
@@ -306,29 +283,12 @@
           />
           Limbah
         </a>
-        <ul
-          id="limbah"
-          class="sidebar-dropdown list-unstyled collapse"
-          data-bs-parents="#sidebar"
-        >
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">B3 Medis</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">B3 Cair</a>
-          </li>
-
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link">Padat Domestik</a>
-          </li>
-        </ul>
       </li>
 
       <!--K3-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('k3') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             K3</a>
           </li>
@@ -340,7 +300,7 @@
       <!--Pengajuan Aset-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('pengajuan-aset-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Pengajuan Aset</a>
           </li>
@@ -349,7 +309,7 @@
       <!--Perbaikan Inventaris-->
       <li class="sidebar-item">
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('perbaikan-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Perbaikan Inventaris</a>
           </li>
