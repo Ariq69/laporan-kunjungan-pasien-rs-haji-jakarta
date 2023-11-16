@@ -9,70 +9,46 @@ use App\Http\Controllers\Controller;
 class PemakaianAirController extends Controller
 {
     
-    public function air_pdam(Request $request)
-    {
-        $years = DB::table('kesling_pemakaian_air_pdam')
-            ->select(DB::raw('YEAR(tanggal) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
+    public function pemakaian_air(Request $request)
+{
+    $years = DB::table('kesling_pemakaian_air_pdam')
+        ->select(DB::raw('YEAR(tanggal) as year'))
+        ->groupBy('year')
+        ->orderBy('year', 'DESC')
+        ->get();
 
-        $year = $request->input('year');
-        $month = $request->input('month');
+    $year = $request->input('year');
+    $month = $request->input('month');
+    $airType = $request->input('airtype');
 
-        $query = DB::table('kesling_pemakaian_air_pdam')
-            ->select('tanggal', 'jumlahharian');
+    $pdam = DB::table('kesling_pemakaian_air_pdam')
+        ->select('tanggal', 'jumlahharian as total_pemakaianairpdam')
+        ->whereYear('tanggal', $year)
+        ->whereMonth('tanggal', $month)
+        ->orderBy('tanggal')
+        ->get();
+        //dd($pdam);
+    $tanah = DB::table('kesling_pemakaian_air_tanah')
+        ->select('tanggal', 'jumlahharian as total_pemakaianairtanah')
+        ->whereYear('tanggal', $year)
+        ->whereMonth('tanggal', $month)
+        ->orderBy('tanggal')
+        ->get();
+    
+    $query = [];
 
-        // Menambahkan filter hanya jika tahun tersedia
-        if ($year) {
-            $query->whereYear('tanggal', $year);
-
-            // Menambahkan filter bulan jika bulan tersedia
-            if ($month) {
-                $query->whereMonth('tanggal', $month);
-            }
-        }
-
-        $data = $query->get();
-
-        $query = $data->mapWithKeys(function ($item) {
-            return [$item->tanggal => $item->jumlahharian];
+    if ($airType == 'pdam') {
+        $query = $pdam->mapWithKeys(function ($item) {
+            return [$item->tanggal => $item->total_pemakaianairpdam];
         });
-
-        return view('pages.tech.pemakaian-air.dashboard-air-pdam', compact('years', 'query'));
-    }
-
-    public function air_tanah(Request $request)
-    {
-        $years = DB::table('kesling_pemakaian_air_tanah')
-            ->select(DB::raw('YEAR(tanggal) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
-
-        $year = $request->input('year');
-        $month = $request->input('month');
-
-        $query = DB::table('kesling_pemakaian_air_tanah')
-            ->select('tanggal', 'jumlahharian');
-
-        // Menambahkan filter hanya jika tahun tersedia
-        if ($year) {
-            $query->whereYear('tanggal', $year);
-
-            // Menambahkan filter bulan jika bulan tersedia
-            if ($month) {
-                $query->whereMonth('tanggal', $month);
-            }
-        }
-
-        $data = $query->get();
-
-        $query = $data->mapWithKeys(function ($item) {
-            return [$item->tanggal => $item->jumlahharian];
+    } elseif ($airType == 'tanah') {
+        $query = $tanah->mapWithKeys(function ($item) {
+            return [$item->tanggal => $item->total_pemakaianairtanah];
         });
-
-        return view('pages.tech.pemakaian-air.dashboard-air-tanah', compact('years', 'query'));
     }
+    //dd($query);
+    return view('pages.tech.pemakaian-air.dashboard-pemakaian-air', compact('years', 'query'));
+}
+
 
 }

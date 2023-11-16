@@ -1,19 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('content')
-
-<style>
-
-.divider {
-    width: 100%;
-    height: 1px;
-    background-color: #BBB;
-    margin: 1rem 0;
-
-}
-
-</style>
-
 <main class="content px-3 py-2">
     <div class="container-fluid">
     <div class="mb-3">
@@ -127,7 +114,9 @@
                 </form>
                 <div class="divider"></div>
             </div>
+            <div class="chart-container">
             <canvas id="BarKunjungan" width="100px" height="45px"></canvas>
+            </div>
         </div>
         </div>
 
