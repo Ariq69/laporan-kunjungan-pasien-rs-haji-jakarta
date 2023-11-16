@@ -102,7 +102,13 @@
                             </div>
                         </div>
                         <div class="col">
-                        <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
+                            <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
+                        </div>
+                        <div class="col">
+                        <button type="button" onclick="downloadPDF()" class="btn btn-success mt-4 px-4 text-white" id="submit" name="print">
+                            <img src="{{ asset('../images/icon-print.png') }}" alt="" width="20px" height="20px" style="margin-right: 10px;">
+                            Print
+                        </button>
                         </div>
                     </div>
                 </form>
@@ -379,6 +385,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-q+4liFwdPC/bNdhUpZx6aXDx/h77yEQtn4I1slHydcbZK34nLaR3cAeYSJshoxIOq3mjEf7xJE8YWIUHMn+oCQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+
     <script>
         var query = @json($query);
     </script>
@@ -404,8 +413,19 @@
                 ];
 
                 var ctx = document.getElementById("BarKunjungan").getContext("2d");
+                var ctx = document.getElementById("BarKunjungan").getContext("2d");
                 BarKunjungan.ChartData(ctx, 'bar', labels, data, bulan);
             });
+
+            const bgColor = {
+                id: 'bgColor',
+                beforeDraw: (chart, options) => {
+                    const { ctx, width, height } = chart;
+                    ctx.fillStyle = 'white';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.restore();
+                }
+            };
 
             var BarKunjungan = {
                 ChartData: function(ctx, type, labels, data, bulan) {
@@ -422,24 +442,27 @@
                                 },
                             ],
                         },
+                        plugins: [bgColor],
                         options: {
                             responsive: true,
                             maintainAspectRatio: true,
-                            maintainFontRation: true,
+                            maintainFontRatio: true,
                             scales: {
-                                    y: {
-                                        beginAtZero: true
+                                y: {
+                                    beginAtZero: true
                                 }
                             },
                             plugins: {
                                 labels: {
                                     render:'value',
-                                },
-                            },
-                        },
+                                }
+                            }
+                        }
                     });
-                },
+                }
             };
         })(jQuery);
     </script>
+
+    <script src="{{ asset('js/print.js') }}"></script>
 @endsection
