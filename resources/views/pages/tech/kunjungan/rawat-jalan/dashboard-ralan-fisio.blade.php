@@ -3,31 +3,31 @@
 @section('content')
 <!--Main Content-->
 <main class="content px-3 py-2">
-    <div class="container-fluid">
+<div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                        </li>
-                                        <li class="breadcrumb-item active">
-                                            Pasien UGD
-                                        </li>
-                                    </ol>
-                                </nav>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <nav>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item">
+                                                <a href="{{ route('rawat-jalan') }}">Jenis Penunjang</a>
+                                            </li>
+                                            <li class="breadcrumb-item active">
+                                                Pasien Fisio Terapi
+                                            </li>
+                                        </ol>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan UGD</h5>
-                            <form method="post" action="{{ url('/tech/ralan-ugd') }}">
+                        <h5 class="card-title">Penunjang Ralan Fisio Terapi</h5>
+                            <form method="post" action="{{ url('/tech/ralan-fisio') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -44,7 +44,7 @@
                                             <label class="form-check-label">
                                                 Bulan
                                             </label>
-                                    </div>
+                                        </div>
                                     <select class="form-control" id="month" name="month">
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
@@ -82,21 +82,20 @@
                                                 Tahunan
                                             </label>
                                     </div>
-                                        </div>
+                                </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumUGD" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumFisio" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </main>
 @endsection
 
@@ -132,6 +131,8 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
+
+
 </script>
 <script>
     var query = @json($query);
@@ -215,14 +216,14 @@
             selectMonth.disabled = !checkboxBulan.checked;
         });
     </script>
-
+    
 <script>
 (function($) {
     $(document).ready(function() {
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumUGD").getContext("2d");
+        var ctx = document.getElementById("BarChartSumFisio").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
@@ -234,7 +235,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data UGD",
+                            label: "Data Fisio Terapi",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
