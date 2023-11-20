@@ -57,16 +57,6 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <div class="col">
-                                        <label for="jns_perawatan_radiologi">Permintaan Radiologi</label>
-                                        <select class="form-control" id="jns_perawatan_radiologi" name="jns_perawatan_radiologi">
-                                            @foreach ($jns_perawatan_radiologi as $rd)
-                                            <option value="{{ $rd->nm_perawatan }}">{{ $rd->nm_perawatan }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>

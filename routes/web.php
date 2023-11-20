@@ -116,15 +116,15 @@ Route::prefix('tech')
 
         Route::get('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
         Route::post('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-
-        Route::get('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-        Route::post('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-
-        Route::get('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
-        Route::post('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
         
         Route::get('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
         Route::post('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
+
+        Route::get('/ranap-apotek', [RanapController::class, 'ranap_apotek'])->name('ranap-apotek');
+        Route::post('/ranap-apotek', [RanapController::class, 'ranap_apotek'])->name('ranap-apotek');
+
+        Route::get('/ranap-fisioterapi', [RanapController::class, 'ranap_fisioterapi'])->name('ranap-fisioterapi');
+        Route::post('/ranap-fisioterapi', [RanapController::class, 'ranap_fisioterapi'])->name('ranap-fisioterapi');
 
         //rawat jalan
         Route::get('/igd', [IGDController::class, 'dashboard_igd'])->name('igd');

@@ -12,10 +12,10 @@
                                     <nav>
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
+                                                <a href="{{ route('rawat-inap') }}">Jenis Penunjang Rawat Inap</a>
                                             </li>
                                             <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
+                                                Laboratorium
                                             </li>
                                         </ol>
                                     </nav>
@@ -26,7 +26,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ranap Laboratorium</h5>
+                        <h5 class="card-title">Layanan Laboratorium Rawat Inap</h5>
                             <form method="post" action="{{ url('/tech/ranap-lab') }}">
                                 @csrf
                                 <div class="row">
@@ -57,12 +57,26 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
-                                        <!-- Add more lab options as needed -->
-                                    </select>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxTriwulan" data-group="periode" name="triwulan">
+                                            <label class="form-check-label">
+                                                Triwulan
+                                            </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxSemester" data-group="periode" name="semester">
+                                            <label class="form-check-label">
+                                                Semester
+                                            </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxTahunan" data-group="periode" name="tahunan">
+                                            <label class="form-check-label">
+                                                Tahunan
+                                            </label>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
@@ -90,12 +104,10 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,10 +118,6 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
-    }
-
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -117,10 +125,6 @@
 
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
-    });
-
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
     });
 
 </script>
