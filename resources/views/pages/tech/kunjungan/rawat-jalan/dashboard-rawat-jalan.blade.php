@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row w-100">
         <div class="p-3 mt-4 mb-0">
-            <h4>Jenis Layanan</h4>
+            <h4>Jenis Penunjang</h4>
         </div>
     </div>
     
@@ -46,30 +46,13 @@
             </div>
         </a>
 
-        <a href="{{ route('ralan-igd') }}">
+        <a href="{{ route('ralan-hemodialisa') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">IGD</h5>
-                                <h4 class="mb-2"></h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-            
-        <a href="{{ route('ralan-ugd') }}">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0 kotak">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">UGD</h5>
+                                <h5 class="mb-2">Hemodialisa</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
@@ -80,13 +63,30 @@
             </div>
         </a>
 
-        <a href="{{ route('ralan-hemodialisa') }}">
+        <a href="{{ route('ralan-apotek') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
                         <div class="d-flex align-items-start">
                             <div class="flex-grown-1">
-                                <h5 class="mb-2">Hemodialisa</h5>
+                                <h5 class="mb-2">Apotek</h5>
+                                <h4 class="mb-2"></h4>
+                                <div class="mb-0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+            
+        <a href="{{ route('ralan-fisio') }}">
+            <div class="col-12 d-flex">
+                <div class="card flex-fill border-0 kotak">
+                    <div class="card-body py-4">
+                        <div class="d-flex align-items-start">
+                            <div class="flex-grown-1">
+                                <h5 class="mb-2">Fisio Terapi</h5>
                                 <h4 class="mb-2"></h4>
                                 <div class="mb-0">
                                 </div>
