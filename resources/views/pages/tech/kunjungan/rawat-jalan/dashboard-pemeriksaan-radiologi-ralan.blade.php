@@ -12,10 +12,10 @@
                                 <nav>
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('rawat-jalan') }}">Jenis Penunjang</a>
+                                            <a href="{{ route('rawat-jalan') }}">Jenis Penunjang Rawat Jalan</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Rawat Jalan Radiologi
+                                            Pasien Radiologi
                                         </li>
                                     </ol>
                                 </nav>
@@ -29,7 +29,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Pasien Rawat Jalan Radiologi </h5>
+                        <h5 class="card-title">Penunjang Ralan Radiologi </h5>
                             <form method="post" action="{{ url('/tech/jenis_perawatan_radiologi_ralan') }}">
                                 @csrf
                                 <div class="row">
@@ -218,7 +218,7 @@
             selectMonth.disabled = !checkboxBulan.checked;
         });
     </script>
-    
+
 <script>
 (function($) {
     $(document).ready(function() {
