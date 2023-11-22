@@ -775,11 +775,7 @@ class PasienController extends Controller
         ->select('sb.nama_suku_bangsa', DB::raw('COUNT(r.no_rkm_medis) AS jumlah_pasien'))
         ->groupBy('sb.nama_suku_bangsa')
         ->get();
-        // $results = DB::table('suku_bangsa as sb')
-        //     ->leftJoin('pasien as p', 'sb.id', '=', 'p.suku_bangsa')
-        //     ->select('sb.nama_suku_bangsa', DB::raw('COUNT(p.suku_bangsa) as jumlah'))
-        //     ->groupBy('sb.nama_suku_bangsa')
-        //     ->get();
+        
         
             $query = $hasil->mapWithKeys(function ($item){
                 return [$item->nama_suku_bangsa => $item->jumlah_pasien];
@@ -788,6 +784,40 @@ class PasienController extends Controller
 
         // Kirim data ke tampilan
         return view('pages.tech.pasien.dashboard-pasien-persubang', compact('query'));
+    }
+
+    public function pasien_perbahasa(Request $request){
+        // $years = DB::table('pasien')
+        //     ->select(DB::raw('YEAR(tgl_daftar) as year'))
+        //     ->groupBy('year')
+        //     ->orderBy('year', 'DESC')
+        //     ->get();
+
+        // $year = $request->input('year');
+        // $month = $request->input('month');
+
+        $result = DB::table('pasien')
+            ->join('bahasa_pasien as bp', 'pasien.bahasa_pasien', '=', 'bp.id')
+            ->select(
+                // DB::raw('DATE(pasien.tgl_daftar) as tanggal_daftar'),
+                DB::raw('COUNT(pasien.no_rkm_medis) as jumlah_pasien'),
+                'bp.nama_bahasa as nama_bahasa'
+            )
+            // ->whereYear('pasien.tgl_daftar', $year)
+            // ->whereMonth('pasien.tgl_daftar', $month)
+            ->groupBy(
+                // 'tanggal_daftar', 
+                'nama_bahasa')
+            ->get();
+
+            
+            $query = $result->mapWithKeys(function ($item){
+                return [$item->nama_bahasa => $item->jumlah_pasien];
+            
+            });
+
+        // Kirim data ke tampilan
+        return view('pages.tech.pasien.dashboard-pasien-perbahasa', compact('query'));
     }
     
 

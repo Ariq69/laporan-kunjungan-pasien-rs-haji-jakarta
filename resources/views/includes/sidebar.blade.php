@@ -254,6 +254,9 @@
             <a href="{{ route('rawat-jalan') }}" class="sidebar-link">Rawat Jalan</a>
           </li>
           <li class="sidebar-item">
+            <a href="{{ route('igd') }}" class="sidebar-link">IGD</a>
+          </li>
+          <li class="sidebar-item">
             <a href="{{ route('penyakit') }}" class="sidebar-link">Penyakit</a>
           </li>
           <li class="sidebar-item">

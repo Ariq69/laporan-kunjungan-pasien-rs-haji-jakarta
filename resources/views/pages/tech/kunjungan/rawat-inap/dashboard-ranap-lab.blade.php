@@ -12,10 +12,10 @@
                                     <nav>
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
+                                                <a href="{{ route('rawat-inap') }}">Jenis Penunjang Rawat Inap</a>
                                             </li>
                                             <li class="breadcrumb-item active">
-                                                Pasien IGD
+                                                Laboratorium
                                             </li>
                                         </ol>
                                     </nav>
@@ -26,8 +26,8 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ranap IGD</h5>
-                            <form method="post" action="{{ url('/tech/ranap-igd') }}">
+                        <h5 class="card-title">Layanan Laboratorium Rawat Inap</h5>
+                            <form method="post" action="{{ url('/tech/ranap-lab') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -44,7 +44,7 @@
                                             <label class="form-check-label">
                                                 Bulan
                                             </label>
-                                        </div>
+                                    </div>
                                     <select class="form-control" id="month" name="month">
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
@@ -82,7 +82,7 @@
                                                 Tahunan
                                             </label>
                                     </div>
-                                </div>                               
+                                </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
@@ -131,6 +131,7 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
+
 </script>
 <script>
     var query = @json($query);
@@ -213,7 +214,7 @@
             });
             selectMonth.disabled = !checkboxBulan.checked;
         });
-    </script>
+</script>
 
 <script>
 (function($) {
@@ -222,10 +223,10 @@
         var data = Object.values(query);
         //console.log(labels);
         var ctx = document.getElementById("BarChartSumLab").getContext("2d");
-        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
+        BarChartSumLab.ChartData(ctx, 'bar', labels, data);
     });
 
-    var BarChartSumPasien = {
+    var BarChartSumLab = {
         ChartData: function(ctx, type, labels, data) {
             new Chart(ctx, {
                 type: type,
@@ -233,7 +234,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data IGD",
+                            label: "Data Laboratorium",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

@@ -3,31 +3,31 @@
 @section('content')
 <!--Main Content-->
 <main class="content px-3 py-2">
-<div class="container-fluid">
+    <div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien Laboratorium
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('rawat-inap') }}">Jenis Penunjang Rawat Inap</a>
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            Fisioterapi 
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ralan Laboratorium</h5>
-                            <form method="post" action="{{ url('/tech/ralan-lab') }}">
+                        <h5 class="card-title">Layanan Fisioterapi Rawat Inap</h5>
+                            <form method="post" action="{{ url('/tech/ranap-fisioterapi') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -39,7 +39,12 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="month">Bulan</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false" value="0">
+                                            <label class="form-check-label">
+                                                Bulan
+                                            </label>
+                                    </div>
                                     <select class="form-control" id="month" name="month">
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
@@ -57,12 +62,26 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <label for="lab_type">Jenis Tindakan</label>
-                                    <select class="form-control" id="lab_type" name="lab_type">
-                                        <option name="permintaan" value="permintaan">Permintaan</option>
-                                        <option name="pemeriksaan" value="pemeriksaan">Pemeriksaan</option>
-                                        <!-- Add more lab options as needed -->
-                                    </select>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxTriwulan" data-group="periode" name="triwulan">
+                                            <label class="form-check-label">
+                                                Triwulan
+                                            </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxSemester" data-group="periode" name="semester">
+                                            <label class="form-check-label">
+                                                Semester
+                                            </label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="checkboxTahunan" data-group="periode" name="tahunan">
+                                            <label class="form-check-label">
+                                                Tahunan
+                                            </label>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
@@ -70,13 +89,14 @@
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumPenyakit" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </main>
 @endsection
 
@@ -90,12 +110,10 @@
     // Simpan nilai-nilai filter saat halaman dimuat
     var yearSelect = document.getElementById('year');
     var monthSelect = document.getElementById('month');
-    var labTypeSelect = document.getElementById('lab_type');
 
     // Mengecek apakah ada nilai yang tersimpan di local storage
     var storedYear = localStorage.getItem('selectedYear');
     var storedMonth = localStorage.getItem('selectedMonth');
-    var storedlabType = localStorage.getItem('selectedlabType');
 
     // Jika ada nilai yang tersimpan, set nilai-nilai filter sesuai dengan nilai yang tersimpan
     if (storedYear) {
@@ -106,10 +124,6 @@
         monthSelect.value = storedMonth;
     }
 
-    if (storedlabType) {
-        labTypeSelect.value = storedlabType;
-    }
-
     // Menyimpan nilai-nilai filter saat berubah
     yearSelect.addEventListener('change', function() {
         localStorage.setItem('selectedYear', yearSelect.value);
@@ -118,14 +132,88 @@
     monthSelect.addEventListener('change', function() {
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
-
-    labTypeSelect.addEventListener('change', function() {
-        localStorage.setItem('selectedlabType', labTypeSelect.value);
-    });
-
 </script>
 <script>
     var query = @json($query);
+</script>
+
+<script>
+        // Dapatkan elemen checkbox
+        var checkboxBulan = document.getElementById("checkboxBulan");
+        var checkboxTriwulan = document.getElementById("checkboxTriwulan");
+        var checkboxSemester = document.getElementById("checkboxSemester");
+        var checkboxTahunan = document.getElementById("checkboxTahunan");
+        
+        // Dapatkan elemen daftar bulan
+        var selectMonth = document.getElementById("month");
+        // Dapatkan semua elemen checkbox periode
+        var checkboxesPeriode = document.querySelectorAll('[data-group="periode"]');
+
+        // Membuat sebuah objek yang menyimpan referensi ke checkbox dan kunci localStorage
+        const checkboxes = {
+            checkboxTahunan: "selectedCheckTahun",
+            checkboxSemester: "selectedCheckSemester",
+            checkboxTriwulan: "selectedCheckTriwulan",
+            checkboxBulan: "selectedCheckBulan"
+        };
+
+        // Fungsi untuk mengatur status checkbox berdasarkan input dari pengguna
+        function setCheckboxStatus(checkbox, localStorageKey) {
+            const storedValue = localStorage.getItem(localStorageKey);
+            checkbox.checked = storedValue === "true";
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(localStorageKey, checkbox.checked);
+                updateCheckboxStatus(checkbox);
+            });
+        }
+
+        // Fungsi untuk memastikan hanya satu checkbox yang dapat dicentang
+        function updateCheckboxStatus(changedCheckbox) {
+            for (const key in checkboxes) {
+                if (key !== changedCheckbox.id) {
+                    const checkbox = document.getElementById(key);
+                    checkbox.checked = false;
+                    localStorage.setItem(checkboxes[key], false);
+                }
+            }
+        }
+
+        // Inisialisasi checkbox
+        for (const key in checkboxes) {
+            setCheckboxStatus(document.getElementById(key), checkboxes[key]);
+        }
+
+        
+        // Tambahkan pendengar perubahan ke semua checkbox periode
+        checkboxesPeriode.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Jika checkbox periode ini dicentang, maka nonaktifkan kotak centang Bulan
+                if (checkbox.checked) {
+                    checkboxesPeriode.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                    // Nonaktifkan bulan
+                    checkboxBulan.checked = false;
+                    selectMonth.disabled = true;
+                } else {
+                    // Aktifkan bulan jika tidak ada checkbox periode lain yang dicentang
+                    if (![...checkboxesPeriode].some(cb => cb.checked)) {
+                        selectMonth.removeAttribute("disabled");
+                    }
+                }
+            });
+        });
+        
+        // Tambahkan pendengar perubahan ke kotak centang Bulan
+        checkboxBulan.addEventListener('change', function () {
+            // Aktifkan atau nonaktifkan kotak centang periode sesuai dengan status checkbox Bulan
+            checkboxesPeriode.forEach(function (otherCheckbox) {
+                otherCheckbox.checked = false;
+            });
+            selectMonth.disabled = !checkboxBulan.checked;
+        });
 </script>
 
 <script>
@@ -134,7 +222,7 @@
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
+        var ctx = document.getElementById("BarChartSumPenyakit").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
@@ -146,7 +234,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Laboratorium",
+                            label: "Data Fisioterapi",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

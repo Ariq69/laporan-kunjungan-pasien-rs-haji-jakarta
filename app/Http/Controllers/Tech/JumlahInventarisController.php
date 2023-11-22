@@ -48,6 +48,7 @@ class JumlahInventarisController extends Controller
                 'ib.nama_barang',
                 'ir.nama_ruang'
             )
+            ->limit(10)
             ->get();
     
         // Transform the result into a format suitable for the view
@@ -91,6 +92,7 @@ public function jumlah_inventaris_barang_per_kategori(Request $request)
             'ik.nama_kategori',
             // 'i.tgl_pengadaan'
         )
+        ->limit(10)
         ->get();
 
     // Transform the result into a format suitable for the view
@@ -133,7 +135,7 @@ public function jumlah_inventaris_barang_per_kategori(Request $request)
         'ib.nama_barang', 
         'im.nama_merk', 
         )
-    
+    ->limit(10)
     ->get();
 
 
@@ -221,7 +223,7 @@ public function jumlah_inventaris_barang_per_kategori(Request $request)
         //'ik.nama_kategori', 
          'ij.nama_jenis', 
         'i.tgl_pengadaan')
-    
+    ->limit(10)
     ->get();
 
 
@@ -310,7 +312,7 @@ public function jumlah_inventaris_barang_per_kategori(Request $request)
         'ib.nama_barang', 
         'ip.nama_produsen', 
         'i.tgl_pengadaan')
-    
+    ->limit(10)
     ->get();
 
     // Transform the result into a format suitable for the view
