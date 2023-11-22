@@ -1,24 +1,26 @@
 <?php
 
-use App\Http\Controllers\Tech\KunjunganController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Tech\K3Controller;
+use App\Http\Controllers\Tech\IGDController;
+use App\Http\Controllers\Tech\RalanController;
+use App\Http\Controllers\Tech\RanapController;
 use App\Http\Controllers\Tech\DokterController;
+use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\PasienController;
 use App\Http\Controllers\Tech\PegawaiController;
 use App\Http\Controllers\Tech\PerawatController;
-use App\Http\Controllers\Tech\LimbahController;
 use App\Http\Controllers\Tech\AsuransiController;
-use App\Http\Controllers\Tech\PeriksaRadiologiController;
-use App\Http\Controllers\Tech\PemakaianAirController;
-use App\Http\Controllers\Tech\InventarisController;
-use App\Http\Controllers\Tech\K3Controller;
-use App\Http\Controllers\Tech\JumlahInventarisController;
 use App\Http\Controllers\Tech\DashboardController;
+use App\Http\Controllers\Tech\KunjunganController;
+use App\Http\Controllers\Tech\InventarisController;
+use App\Http\Controllers\Tech\PemakaianAirController;
 use App\Http\Controllers\Tech\SettingPenggunaController;
+// use App\Http\Controllers\Tech\JumlahInventarisController;
+use App\Http\Controllers\Tech\PeriksaRadiologiController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Tech\RalanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,9 @@ Route::prefix('tech')
         Route::get('/pasien-persubang', [PasienController::class, 'pasien_persubang'])->name('pasien-persubang');
         Route::post('/pasien-persubang', [PasienController::class, 'pasien_persubang'])->name('pasien-persubang');
 
+        Route::get('/pasien-perbahasa', [PasienController::class, 'pasien_perbahasa'])->name('pasien-perbahasa');
+        Route::post('/pasien-perbahasa', [PasienController::class, 'pasien_perbahasa'])->name('pasien-perbahasa');
+
         Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
 
         //informasi Kamar
@@ -109,37 +114,41 @@ Route::prefix('tech')
         //rawat inap
         Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
 
-        Route::get('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
-        Route::post('/ranap-lab', [KunjunganController::class, 'ranap_lab'])->name('ranap-lab');
+        Route::get('/ranap-lab', [RanapController::class, 'ranap_lab'])->name('ranap-lab');
+        Route::post('/ranap-lab', [RanapController::class, 'ranap_lab'])->name('ranap-lab');
 
-        Route::get('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-        Route::post('/ranap-hemodialisa', [KunjunganController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-
-        Route::get('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-        Route::post('/ranap-igd', [KunjunganController::class, 'ranap_igd'])->name('ranap-igd');
-
-        Route::get('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
-        Route::post('/ranap-ugd', [KunjunganController::class, 'ranap_ugd'])->name('ranap-ugd');
+        Route::get('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
+        Route::post('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
         
-        Route::get('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
-        Route::post('/ranap-rad', [KunjunganController::class, 'ranap_rad'])->name('ranap-rad');
+        Route::get('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
+        Route::post('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
 
+        Route::get('/ranap-apotek', [RanapController::class, 'ranap_apotek'])->name('ranap-apotek');
+        Route::post('/ranap-apotek', [RanapController::class, 'ranap_apotek'])->name('ranap-apotek');
 
+        Route::get('/ranap-fisioterapi', [RanapController::class, 'ranap_fisioterapi'])->name('ranap-fisioterapi');
+        Route::post('/ranap-fisioterapi', [RanapController::class, 'ranap_fisioterapi'])->name('ranap-fisioterapi');
+
+        //rawat jalan
+        Route::get('/igd', [IGDController::class, 'dashboard_igd'])->name('igd');
 
         //rawat jalan
         Route::get('/rawat-jalan', [KunjunganController::class, 'rawat_jalan'])->name('rawat-jalan');
 
-        Route::get('/ralan-lab', [KunjunganController::class, 'ralan_lab'])->name('ralan-lab');
-        Route::post('/ralan-lab', [KunjunganController::class, 'ralan_lab'])->name('ralan-lab');
-
-        Route::get('/ralan-igd', [KunjunganController::class, 'ralan_igd'])->name('ralan-igd');
-        Route::post('/ralan-igd', [KunjunganController::class, 'ralan_igd'])->name('ralan-igd');
-
-        Route::get('/ralan-ugd', [KunjunganController::class, 'ralan_ugd'])->name('ralan-ugd');
-        Route::post('/ralan-ugd', [KunjunganController::class, 'ralan_ugd'])->name('ralan-ugd');
+        Route::get('/ralan-lab', [RalanController::class, 'ralan_lab'])->name('ralan-lab');
+        Route::post('/ralan-lab', [RalanController::class, 'ralan_lab'])->name('ralan-lab');
         
-        Route::get('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
-        Route::post('/ralan-hemodialisa', [KunjunganController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+        Route::get('/ralan-hemodialisa', [RalanController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+        Route::post('/ralan-hemodialisa', [RalanController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
+
+        Route::get('/jenis_perawatan_radiologi_ralan', [RalanController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
+        Route::post('/jenis_perawatan_radiologi_ralan', [RalanController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
+
+        Route::get('/ralan-apotek', [RalanController::class, 'ralan_apotek'])->name('ralan-apotek');
+        Route::post('/ralan-apotek', [RalanController::class, 'ralan_apotek'])->name('ralan-apotek');
+
+        Route::get('/ralan-fisio', [RalanController::class, 'ralan_fisio'])->name('ralan-fisio');
+        Route::post('/ralan-fisio', [RalanController::class, 'ralan_fisio'])->name('ralan-fisio');
 
         //limbah
         Route::get('/limbah', [LimbahController::class, 'limbah'])->name('limbah');
@@ -189,48 +198,13 @@ Route::prefix('tech')
 
         Route::get('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
         Route::post('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
-     
+       
+       // jumlah_aset_inventaris
+        Route::get('/jumlah_aset_inventaris', [InventarisController::class, 'jumlah_aset_inventaris'])->name('jumlah_aset_inventaris');
+        Route::post('/jumlah_aset_inventaris', [InventarisController::class, 'jumlah_aset_inventaris'])->name('jumlah_aset_inventaris');
+        
         Route::resource('setting-pengguna', SettingPenggunaController::class);
 
-        //jumlah inventaris
-        Route::get('/jumlah_inventaris', [JumlahInventarisController::class, 'jumlah_inventaris'])->name('jumlah_inventaris');
-        Route::post('/jumlah_inventaris', [JumlahInventarisController::class, 'jumlah_inventaris'])->name('jumlah_inventaris');
-        
-        //jumlah inventaris barang berdasarkan ruang
-        Route::get('/jumlah_inventaris_barang_di_ruang', [JumlahInventarisController::class, 'jumlah_inventaris_barang_di_ruang'])->name('jumlah_inventaris_barang_di_ruang');
-        Route::post('/jumlah_inventaris_barang_di_ruang', [JumlahInventarisController::class, 'jumlah_inventaris_barang_di_ruang'])->name('jumlah_inventaris_barang_di_ruang');
-       
-        //jumlah_inventaris_barang per-kategori
-        Route::get('/jumlah_inventaris_barang_per_kategori', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_kategori'])->name('jumlah_inventaris_barang_per_kategori');
-        Route::post('/jumlah_inventaris_barang_per_kategori', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_kategori'])->name('jumlah_inventaris_barang_per_kategori');
-       
-       //jumlah_inventaris_barang_per_merk
-       Route::get('/jumlah_inventaris_barang_per_merk', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_merk'])->name('jumlah_inventaris_barang_per_merk');
-       Route::post('/jumlah_inventaris_barang_per_merk', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_merk'])->name('jumlah_inventaris_barang_per_merk');
-       
-       //jumlah_inventaris_barang_per_jenis
-       Route::get('/jumlah_inventaris_barang_per_jenis', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_jenis'])->name('jumlah_inventaris_barang_per_jenis');
-       Route::post('/jumlah_inventaris_barang_per_jenis', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_jenis'])->name('jumlah_inventaris_barang_per_jenis');
-       
-       //jumlah_inventaris_barang_per_produsen
-       Route::get('/jumlah_inventaris_barang_per_produsen', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_produsen'])->name('jumlah_inventaris_barang_per_produsen');
-       Route::post('/jumlah_inventaris_barang_per_produsen', [JumlahInventarisController::class, 'jumlah_inventaris_barang_per_produsen'])->name('jumlah_inventaris_barang_per_produsen');
-       
-       //radiologi ralan
-
-       Route::get('/radiologi_ralan', [RalanController::class, 'radiologi_ralan'])->name('radiologi_ralan');
-       Route::post('/radiologi_ralan', [RalanController::class, 'radiologi_ralan'])->name('radiologi_ralan');
-
-       Route::get('/jenis_perawatan_radiologi_ralan', [RalanController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
-       Route::post('/jenis_perawatan_radiologi_ralan', [RalanController::class, 'jenis_perawatan_radiologi_ralan'])->name('jenis_perawatan_radiologi_ralan');
-    
-       //dokter_radiologi_ralan
-       Route::get('/dokter_radiologi_ralan', [RalanController::class, 'dokter_radiologi_ralan'])->name('dokter_radiologi_ralan');
-       Route::post('/dokter_radiologi_ralan', [RalanController::class, 'dokter_radiologi_ralan'])->name('dokter_radiologi_ralan');
-
-       //dokter_radiologi_ralan
-       Route::get('/dokter_perujuk_ralan', [RalanController::class, 'dokter_perujuk_ralan'])->name('dokter_perujuk_ralan');
-       Route::post('/dokter_perujuk_ralan', [RalanController::class, 'dokter_perujuk_ralan'])->name('dokter_perujuk_ralan');
     
     });
 

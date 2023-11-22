@@ -29,7 +29,7 @@
             </div>
         </a>
 
-        <a href="{{ route('radiologi_ralan') }}">
+        <a href="{{ route('jenis_perawatan_radiologi_ralan') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -100,4 +100,3 @@
 </div>
 </main>
 @endsection
-
