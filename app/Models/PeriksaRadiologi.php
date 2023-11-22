@@ -31,4 +31,9 @@ class PeriksaRadiologi extends Model
         return $this->belongsTo(Pasien::class, 'no_rawat', 'no_rkm_medis');
     }
 
+    public function spesialis()
+    {
+        return $this->belongsTo(Spesialis::class, 'kd_sps','nm_sps');
+    }
+
 }

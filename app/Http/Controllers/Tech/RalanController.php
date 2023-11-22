@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pasien;
 use App\Models\JnsPerawatabRadiologi;
 use App\Models\PeriksaRadiologi;
+use App\Models\Spesialis;
 
 class RalanController extends Controller
 {
@@ -158,6 +159,10 @@ class RalanController extends Controller
         return view('pages.tech.kunjungan.dashboard-ralan-lab', compact('years', 'query'));
     }
 
+    public function radiologi_ralan(){
+        return view('pages.tech.kunjungan.radiologiralan.dashboard-radiologi-ralan');
+    }
+
     public function jenis_perawatan_radiologi_ralan(Request $request) {
         $years = DB::table('periksa_radiologi')
             ->select(DB::raw('YEAR(tgl_periksa) as year'))
@@ -188,18 +193,173 @@ class RalanController extends Controller
         ->orderBy('pr.tgl_periksa')
         ->orderBy('jpr.nm_perawatan')
         ->get();
-    
-        
-       
-    
+           
         $query = $bar->mapWithKeys(function ($item) {
             return [$item->tgl_periksa => $item-> jumlah_no_perawat];
         });
     
-        return view('pages.tech.kunjungan.dashboard-pemeriksaan-radiologi-ralan', compact(
+        return view('pages.tech.kunjungan.radiologiralan.dashboard-pemeriksaan-radiologi-ralan', compact(
             'query',
             'years',
             'jns_perawatan_radiologi'
         ));
     }
+//     public function dokter_radiologi_ralan(Request $request) {
+        
+//             $years = DB::table('periksa_radiologi')
+//                 ->select(DB::raw('YEAR(tgl_periksa) as year'))
+//                 ->groupBy('year')
+//                 ->orderBy('year', 'DESC')
+//                 ->get();
+        
+//             $spesialis = DB::table('spesialis')
+//                 ->select('kd_sps', 'nm_sps')
+//                 ->get();
+        
+           
+//             $dokter = DB::table('dokter')
+//                 ->select('kd_dokter', 'nm_dokter')
+//                 ->get();
+        
+//             $year = $request->input('year');
+//             $month = $request->input('month');
+//             $sps = $request->input('spesialis'); // Pastikan nama input sesuai dengan formulir Anda
+//             $r = $request->input('dokter'); // Pastikan nama input sesuai dengan formulir Anda
+        
+//             $bar = DB::table('periksa_radiologi as pr')
+//     ->select(
+//         'pr.tgl_periksa',
+//         'd.nm_dokter',
+//         's.nm_sps',
+//         DB::raw('COUNT(pr.no_rawat) as jumlah_no_perawat')
+//     )
+//     ->join('dokter as d', 'pr.dokter_perujuk', '=', 'd.kd_dokter')
+//     ->join('spesialis as s', 'd.kd_sps', '=', 's.kd_sps')
+// ->whereYear('pr.tgl_periksa', '=', $year)
+//                 ->whereMonth('pr.tgl_periksa', '=', $month)
+//                 ->where('s.nm_sps', '=', $sps)
+//                 ->where('d.nm_dokter', '=', $r)
+//     ->groupBy('pr.tgl_periksa', 'd.nm_dokter', 's.nm_sps')
+//     ->orderBy('d.nm_dokter')
+//     ->orderBy('pr.tgl_periksa')
+//     ->orderBy('s.nm_sps')
+//     ->get();
+
+//             $query = $bar->mapWithKeys(function ($item) {
+//                 return [$item->tgl_periksa => $item->jumlah_no_perawat];
+//             });
+        
+//             return view('pages.tech.kunjungan.radiologiralan.dashboard-dokter-radiologi-ralan', compact(
+//                 'query',
+//                 'years',
+//                 'spesialis',
+//                 'dokter'
+//             ));
+//         }
+
+        public function dokter_radiologi_ralan(Request $request) {
+        
+        $years = DB::table('periksa_radiologi')
+        ->select(DB::raw('YEAR(tgl_periksa) as year'))
+        ->groupBy('year')
+        ->orderBy('year', 'DESC')
+        ->get();
+
+        // $dokter = DB::table('dokter')
+        //     ->select('kd_dokter', 'nm_dokter')
+        //     ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        //$r = $request->input('dokter');
+
+        $bar = DB::table('periksa_radiologi AS pr')
+        ->join('dokter AS d', 'pr.kd_dokter', '=', 'd.kd_dokter')
+        ->join('spesialis AS s', 'd.kd_sps', '=', 's.kd_sps')
+        ->select(
+            //'pr.tgl_periksa',
+            'd.nm_dokter',
+             DB::raw('COUNT(pr.no_rawat) AS jumlah_no_perawat'))
+        ->whereMonth('pr.tgl_periksa', '=', 8)
+        ->whereYear('pr.tgl_periksa', '=', 2023)
+        //->where('d.nm_dokter', $r) // Menggunakan where tanpa operator '=', karena kita hanya membandingkan nilai
+        ->where('pr.status', 'ralan')
+        ->groupBy(
+            //'pr.tgl_periksa', 
+            'd.nm_dokter')
+        ->orderBy('d.nm_dokter')
+        //->orderBy('pr.tgl_periksa')
+        ->get();
+        // dd($bar);
+        
+            $query = $bar->mapWithKeys(function ($item) {
+                return [$item->nm_dokter => $item->jumlah_no_perawat];
+            });
+        
+            return view('pages.tech.kunjungan.radiologiralan.dashboard-dokter-radiologi-ralan', compact(
+                'query',
+                'years',
+                //'dokter'
+            ));
+        }
+
+        public function dokter_perujuk_ralan(Request $request) {
+        
+        $years = DB::table('periksa_radiologi')
+        ->select(DB::raw('YEAR(tgl_periksa) as year'))
+        ->groupBy('year')
+        ->orderBy('year', 'DESC')
+        ->get();
+
+        $spesialis = DB::table('spesialis')
+        ->select('kd_sps', 'nm_sps')
+        ->get();
+
+        // Mendapatkan dokter berdasarkan spesialisasi yang dipilih
+        $selectedSpesialis = $request->input('selected_spesialis');
+        $dokter = DB::table('dokter')
+            ->select('kd_dokter', 'nm_dokter')
+            ->where('kd_sps', $selectedSpesialis)
+            ->get();
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $selectedDokter = $request->input('selected_dokter');
+
+        $bar = DB::table('periksa_radiologi as pr')
+            ->select(
+                DB::raw('DATE(pr.tgl_periksa) as tgl_periksa'),
+                'd.nm_dokter',
+                's.nm_sps',
+                DB::raw('COUNT(pr.no_rawat) as jumlah_no_perawat')
+            )
+            ->join('dokter as d', 'pr.dokter_perujuk', '=', 'd.kd_dokter')
+            ->join('spesialis as s', 'd.kd_sps', '=', 's.kd_sps')
+            ->whereYear('pr.tgl_periksa', '=', $year)
+            ->whereMonth('pr.tgl_periksa', '=', $month)
+            ->where('pr.status', 'ralan')
+            ->when($selectedSpesialis, function ($query) use ($selectedSpesialis) {
+                return $query->where('s.kd_sps', $selectedSpesialis);
+            })
+            ->when($selectedDokter, function ($query) use ($selectedDokter) {
+                return $query->where('d.kd_dokter', $selectedDokter);
+            })
+            ->groupBy(DB::raw('DATE(pr.tgl_periksa)'), 'd.nm_dokter', 's.nm_sps')
+            ->orderBy('d.nm_dokter')
+            ->orderBy(DB::raw('DATE(pr.tgl_periksa)'))
+            ->orderBy('s.nm_sps')
+            ->get();
+                
+                    $query = $bar->mapWithKeys(function ($item) {
+                        return [$item->tgl_periksa => $item->jumlah_no_perawat];
+                    });
+                
+                    return view('pages.tech.kunjungan.radiologiralan.dashboard-dokter-perujuk-ralan', compact(
+                        'query',
+                        'years',
+                        'spesialis',
+                        'dokter'
+                    ));
+     }
+        
 }
