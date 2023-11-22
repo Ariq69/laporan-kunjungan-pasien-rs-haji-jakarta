@@ -126,8 +126,14 @@ Route::prefix('tech')
         Route::get('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
         Route::post('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
 
-        //rawat jalan
+        //igd
         Route::get('/igd', [IGDController::class, 'dashboard_igd'])->name('igd');
+
+        Route::get('/igd-lab', [IGDController::class, 'igd_lab'])->name('igd-lab');
+        Route::post('/igd-lab', [IGDController::class, 'igd_lab'])->name('igd-lab');
+        
+        Route::get('/igd-hemo', [IGDController::class, 'igd_hemo'])->name('igd-hemo');
+        Route::post('/igd-hemo', [IGDController::class, 'igd_hemo'])->name('igd-hemo');
 
         //rawat jalan
         Route::get('/rawat-jalan', [KunjunganController::class, 'rawat_jalan'])->name('rawat-jalan');
