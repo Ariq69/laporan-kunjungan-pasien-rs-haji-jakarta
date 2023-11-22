@@ -3,31 +3,31 @@
 @section('content')
 <!--Main Content-->
 <main class="content px-3 py-2">
-<div class="container-fluid">
+    <div class="container-fluid">
             <div class="row align-items-start">
                 <section class="haji-breadcrumbs">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <nav>
-                                        <ol class="breadcrumb">
-                                            <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
-                                            </li>
-                                            <li class="breadcrumb-item active">
-                                                Pasien IGD
-                                            </li>
-                                        </ol>
-                                    </nav>
-                                </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <nav>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('rawat-inap') }}">Jenis Penunjang Rawat Inap</a>
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            Apotek 
+                                        </li>
+                                    </ol>
+                                </nav>
                             </div>
                         </div>
-                    </section>
+                    </div>
+                </section>
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ranap IGD</h5>
-                            <form method="post" action="{{ url('/tech/ranap-igd') }}">
+                        <h5 class="card-title">Layanan Apotek Rawat Inap</h5>
+                            <form method="post" action="{{ url('/tech/ranap-apotek') }}">
                                 @csrf
                                 <div class="row">
                                     <div class="col">
@@ -44,7 +44,7 @@
                                             <label class="form-check-label">
                                                 Bulan
                                             </label>
-                                        </div>
+                                    </div>
                                     <select class="form-control" id="month" name="month">
                                         <option value="01">Januari</option>
                                         <option value="02">Februari</option>
@@ -82,20 +82,21 @@
                                                 Tahunan
                                             </label>
                                     </div>
-                                </div>                               
+                                </div>
                                 <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumPenyakit" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </main>
 @endsection
 
@@ -213,7 +214,7 @@
             });
             selectMonth.disabled = !checkboxBulan.checked;
         });
-    </script>
+</script>
 
 <script>
 (function($) {
@@ -221,7 +222,7 @@
         var labels = Object.keys(query);
         var data = Object.values(query);
         //console.log(labels);
-        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
+        var ctx = document.getElementById("BarChartSumPenyakit").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
@@ -233,7 +234,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data IGD",
+                            label: "Data Apotek",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

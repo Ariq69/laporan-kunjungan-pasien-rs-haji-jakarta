@@ -12,10 +12,10 @@
                                 <nav>
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('rawat-inap') }}">Jenis Layanan</a>
+                                            <a href="{{ route('rawat-inap') }}">Jenis Penunjang Rawat Inap</a>
                                         </li>
                                         <li class="breadcrumb-item active">
-                                            Pasien Hemodialisa
+                                            Hemodialisa
                                         </li>
                                     </ol>
                                 </nav>
@@ -26,7 +26,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ranap Hemodialisa</h5>
+                        <h5 class="card-title">Layanan Hemodialisa Rawat Inap</h5>
                             <form method="post" action="{{ url('/tech/ranap-hemodialisa') }}">
                                 @csrf
                                 <div class="row">
@@ -214,7 +214,7 @@
             });
             selectMonth.disabled = !checkboxBulan.checked;
         });
-    </script>
+</script>
 
 <script>
 (function($) {

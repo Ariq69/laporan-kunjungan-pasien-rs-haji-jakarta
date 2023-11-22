@@ -5,27 +5,6 @@
 <main class="content px-3 py-2">
 <div class="container-fluid">
     <div class="mb-3 mt-3">
-        <div class="row">
-            <section class="haji-breadcrumbs">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ route('pasien') }}">Dokter</a>
-                                        </li>
-                                        <li class="breadcrumb-item active">
-                                            Dokter Per Poli
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-            </section>
-        </div>
-
         <div class="container-fluid">
             <div class="row align-items-start">
                 <!--Jumlah Pasien Per Poli-->
@@ -74,7 +53,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Pasien",
+                            label: "Data Dokter",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
