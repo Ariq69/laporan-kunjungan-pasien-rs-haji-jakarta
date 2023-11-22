@@ -231,49 +231,6 @@ class RanapController extends Controller
         return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-hemodialisa',compact('years','query'));
 
     }
-
-    public function ranap_rad(Request $request) {
-        $years = DB::table('periksa_radiologi')
-            ->select(DB::raw('YEAR(tgl_periksa) as year'))
-            ->groupBy('year')
-            ->orderBy('year', 'DESC')
-            ->get();
-        $jns_perawatan_radiologi = DB::table('jns_perawatan_radiologi')
-            ->select('kd_jenis_prw', 'nm_perawatan')
-            ->where('kd_jenis_prw', 'like', 'RADU%')
-            ->get();
-
-        $year = $request->input('year');
-        $month = $request->input('month');
-        $rad = $request->input('jns_perawatan_radiologi');
-
-        $bar = DB::table('periksa_radiologi as pr')
-        ->join('jns_perawatan_radiologi as jpr', 'pr.kd_jenis_prw', '=', 'jpr.kd_jenis_prw')
-        ->select('pr.tgl_periksa', 'jpr.nm_perawatan', DB::raw('COUNT(pr.no_rawat) AS jumlah_no_perawat'))
-        ->where('jpr.kd_jenis_prw', 'like', 'RADU%')
-        // ->whereYear('pr.tgl_periksa', '=', 2023)
-        // ->whereMonth('pr.tgl_periksa', '=', 8)
-        // ->where('jpr.nm_perawatan', 'THORAX AP/PA') 
-        ->whereYear('pr.tgl_periksa', '=',$year)
-        ->whereMonth('pr.tgl_periksa', '=', $month)
-        ->where('jpr.nm_perawatan', $rad) 
-        ->where('pr.status', 'ranap')
-        ->groupBy('pr.tgl_periksa', 'jpr.nm_perawatan')
-        ->orderBy('pr.tgl_periksa')
-        ->orderBy('jpr.nm_perawatan')
-        ->get();
-        // dd($bar);
-
-        $query = $bar->mapWithKeys(function ($item) {
-            return [$item->tgl_periksa => $item-> jumlah_no_perawat];
-        });
-
-        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-rad', compact(
-            'query',
-            'years',
-            'jns_perawatan_radiologi'
-        ));
-    }
       
     public function ranap_apotek(Request $request) {
         $years = DB::table('penjualan')
@@ -484,6 +441,52 @@ class RanapController extends Controller
 
 
         return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-fisioterapi', compact('years', 'query'));
+    }
+
+    public function ranap_rad(Request $request) {
+        $years = DB::table('periksa_radiologi')
+            ->select(DB::raw('YEAR(tgl_periksa) as year'))
+            ->groupBy('year')
+            ->orderBy('year', 'DESC')
+            ->get();
+        // $jns_perawatan_radiologi = DB::table('jns_perawatan_radiologi')
+        //     ->select('kd_jenis_prw', 'nm_perawatan')
+        //     ->where('kd_jenis_prw', 'like', 'RADU%')
+        //     ->get();
+    
+        $year = $request->input('year');
+        $month = $request->input('month');
+        // $rad = $request->input('jns_perawatan_radiologi');
+    
+        $bar = DB::table('periksa_radiologi as pr')
+        ->join('jns_perawatan_radiologi as jpr', 'pr.kd_jenis_prw', '=', 'jpr.kd_jenis_prw')
+        ->select(
+            // 'pr.tgl_periksa', 
+            'jpr.nm_perawatan',
+            DB::raw('COUNT(pr.no_rawat) AS jumlah_no_perawat')
+        )
+        ->where('pr.kd_jenis_prw', 'like', 'RADU%')
+        ->whereYear('pr.tgl_periksa', '=', $year)
+        ->whereMonth('pr.tgl_periksa', '=', $month)
+        ->where('pr.status', 'ranap')
+        ->groupBy(
+            // 'pr.tgl_periksa', 
+            'jpr.nm_perawatan'
+        )
+        ->orderBy('pr.tgl_periksa')
+        ->limit(10)
+        ->get();
+    
+    
+        $query = $bar->mapWithKeys(function ($item) {
+            return [$item->nm_perawatan => $item-> jumlah_no_perawat];
+        });
+    
+        return view('pages.tech.kunjungan.rawat-inap.dashboard-ranap-rad', compact(
+            'query',
+            'years',
+            // 'jns_perawatan_radiologi'
+        ));
     }
 
 }
