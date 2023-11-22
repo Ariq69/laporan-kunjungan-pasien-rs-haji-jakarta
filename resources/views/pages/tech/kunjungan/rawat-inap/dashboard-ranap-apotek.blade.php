@@ -138,6 +138,85 @@
 </script>
 
 <script>
+        // Dapatkan elemen checkbox
+        var checkboxBulan = document.getElementById("checkboxBulan");
+        var checkboxTriwulan = document.getElementById("checkboxTriwulan");
+        var checkboxSemester = document.getElementById("checkboxSemester");
+        var checkboxTahunan = document.getElementById("checkboxTahunan");
+        
+        // Dapatkan elemen daftar bulan
+        var selectMonth = document.getElementById("month");
+        // Dapatkan semua elemen checkbox periode
+        var checkboxesPeriode = document.querySelectorAll('[data-group="periode"]');
+
+        // Membuat sebuah objek yang menyimpan referensi ke checkbox dan kunci localStorage
+        const checkboxes = {
+            checkboxTahunan: "selectedCheckTahun",
+            checkboxSemester: "selectedCheckSemester",
+            checkboxTriwulan: "selectedCheckTriwulan",
+            checkboxBulan: "selectedCheckBulan"
+        };
+
+        // Fungsi untuk mengatur status checkbox berdasarkan input dari pengguna
+        function setCheckboxStatus(checkbox, localStorageKey) {
+            const storedValue = localStorage.getItem(localStorageKey);
+            checkbox.checked = storedValue === "true";
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(localStorageKey, checkbox.checked);
+                updateCheckboxStatus(checkbox);
+            });
+        }
+
+        // Fungsi untuk memastikan hanya satu checkbox yang dapat dicentang
+        function updateCheckboxStatus(changedCheckbox) {
+            for (const key in checkboxes) {
+                if (key !== changedCheckbox.id) {
+                    const checkbox = document.getElementById(key);
+                    checkbox.checked = false;
+                    localStorage.setItem(checkboxes[key], false);
+                }
+            }
+        }
+
+        // Inisialisasi checkbox
+        for (const key in checkboxes) {
+            setCheckboxStatus(document.getElementById(key), checkboxes[key]);
+        }
+
+        
+        // Tambahkan pendengar perubahan ke semua checkbox periode
+        checkboxesPeriode.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function () {
+                // Jika checkbox periode ini dicentang, maka nonaktifkan kotak centang Bulan
+                if (checkbox.checked) {
+                    checkboxesPeriode.forEach(function (otherCheckbox) {
+                        if (otherCheckbox !== checkbox) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                    // Nonaktifkan bulan
+                    checkboxBulan.checked = false;
+                    selectMonth.disabled = true;
+                } else {
+                    // Aktifkan bulan jika tidak ada checkbox periode lain yang dicentang
+                    if (![...checkboxesPeriode].some(cb => cb.checked)) {
+                        selectMonth.removeAttribute("disabled");
+                    }
+                }
+            });
+        });
+        
+        // Tambahkan pendengar perubahan ke kotak centang Bulan
+        checkboxBulan.addEventListener('change', function () {
+            // Aktifkan atau nonaktifkan kotak centang periode sesuai dengan status checkbox Bulan
+            checkboxesPeriode.forEach(function (otherCheckbox) {
+                otherCheckbox.checked = false;
+            });
+            selectMonth.disabled = !checkboxBulan.checked;
+        });
+</script>
+
+<script>
 (function($) {
     $(document).ready(function() {
         var labels = Object.keys(query);

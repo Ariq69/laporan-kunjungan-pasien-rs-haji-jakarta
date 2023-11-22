@@ -214,7 +214,7 @@
             });
             selectMonth.disabled = !checkboxBulan.checked;
         });
-    </script>
+</script>
 
 <script>
 (function($) {
