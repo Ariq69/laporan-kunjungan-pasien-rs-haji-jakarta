@@ -95,6 +95,9 @@ Route::prefix('tech')
         Route::get('/pasien-persubang', [PasienController::class, 'pasien_persubang'])->name('pasien-persubang');
         Route::post('/pasien-persubang', [PasienController::class, 'pasien_persubang'])->name('pasien-persubang');
 
+        Route::get('/pasien-perbahasa', [PasienController::class, 'pasien_perbahasa'])->name('pasien-perbahasa');
+        Route::post('/pasien-perbahasa', [PasienController::class, 'pasien_perbahasa'])->name('pasien-perbahasa');
+
         Route::get('/pasien-baru', [PasienController::class, 'pasien_baru'])->name('pasien-baru');
 
         //informasi Kamar

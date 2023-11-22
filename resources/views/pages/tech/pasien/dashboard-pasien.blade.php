@@ -182,7 +182,7 @@
             </div>
         </a>
 
-        <a href="#">
+        <a href="{{ route('pasien-perbahasa') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -199,22 +199,6 @@
             </div>
         </a>
 
-        <a href="#">
-            <div class="col-12 d-flex">
-                <div class="card flex-fill border-0 kotak">
-                    <div class="card-body py-4">
-                        <div class="d-flex align-items-start">
-                            <div class="flex-grown-1">
-                                <h5 class="mb-2">Demografi Registrasi</h5>
-                                <h4 class="mb-2"></h4>
-                                <div class="mb-0">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
     </div>
 </div>
 </main>
