@@ -65,28 +65,6 @@
                                     </select>
                                 </div>
                                 <div class="col">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="checkboxTriwulan" data-group="periode" name="triwulan">
-                                            <label class="form-check-label">
-                                                Triwulan
-                                            </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="checkboxSemester" data-group="periode" name="semester">
-                                            <label class="form-check-label">
-                                                Semester
-                                            </label>
-                                    </div>
-
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="checkboxTahunan" data-group="periode" name="tahunan">
-                                            <label class="form-check-label">
-                                                Tahunan
-                                            </label>
-                                    </div>
-                                </div>
-                                <div class="col">
                                     <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
                                 </div>
                                 </div>
