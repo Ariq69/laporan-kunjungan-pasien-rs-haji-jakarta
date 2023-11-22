@@ -12,7 +12,7 @@
                                 <nav>
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('rawat-jalan') }}">Jenis Layanan</a>
+                                            <a href="{{ route('rawat-jalan') }}">Jenis Layanan Rawat Jalan</a>
                                         </li>
                                         <li class="breadcrumb-item active">
                                             Pasien Hemodialisa
@@ -26,7 +26,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Layanan Ranap Hemodialisa</h5>
+                        <h5 class="card-title">Penunjang Ralan Hemodialisa</h5>
                             <form method="post" action="{{ url('/tech/ralan-hemodialisa') }}">
                                 @csrf
                                 <div class="row">

@@ -12,7 +12,7 @@
                                     <nav>
                                         <ol class="breadcrumb">
                                             <li class="breadcrumb-item">
-                                                <a href="{{ route('rawat-jalan') }}">Jenis Penunjang</a>
+                                                <a href="{{ route('rawat-jalan') }}">Jenis Penunjang Rawat Jalan</a>
                                             </li>
                                             <li class="breadcrumb-item active">
                                                 Pasien Fisio Terapi
@@ -216,7 +216,7 @@
             selectMonth.disabled = !checkboxBulan.checked;
         });
     </script>
-    
+
 <script>
 (function($) {
     $(document).ready(function() {
