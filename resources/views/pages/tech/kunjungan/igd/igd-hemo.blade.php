@@ -4,79 +4,98 @@
 <!--Main Content-->
 <main class="content px-3 py-2">
 <div class="container-fluid">
-<div class="row">
-            <section class="haji-breadcrumbs">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <nav>
-                                    <ol class="breadcrumb">
-                                        <li class="breadcrumb-item">
-                                            <a href="{{ route('rawat-jalan') }}">Jenis Penunjang Rawat Jalan</a>
-                                        </li>
-                                        <li class="breadcrumb-item active">
-                                            Pasien Radiologi
-                                        </li>
-                                    </ol>
-                                </nav>
-                            </div>
+    <div class="row align-items-start">
+        <section class="haji-breadcrumbs">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <nav>
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="{{ route('igd') }}">Jenis Penunjang IGD</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        Pasien Hemodialisa dari IGD
+                                    </li>
+                                </ol>
+                            </nav>
                         </div>
                     </div>
+                </div>
             </section>
-        </div>
-            <div class="row align-items-start">
-                <!--Jumlah Pasien Per Poli-->
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                        <h5 class="card-title">Penunjang Ralan Radiologi </h5>
-                            <form method="post" action="{{ url('/tech/jenis_perawatan_radiologi_ralan') }}">
-                                @csrf
-                                <div class="row">
-                                    <div class="col">
-                                    <label for="year">Tahun</label>
-                                    <select class="form-control" id="year" name="year">
-                                        @foreach ($years as $year)
-                                            <option value="{{ $year->year }}">{{ $year->year }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false" value="0">
-                                            <label class="form-check-label">
-                                                Bulan
-                                            </label>
-                                        </div>
-                                    <select class="form-control" id="month" name="month">
-                                        <option value="01">Januari</option>
-                                        <option value="02">Februari</option>
-                                        <option value="03">Maret</option>
-                                        <option value="04">April</option>
-                                        <option value="05">Mei</option>
-                                        <option value="06">Juni</option>
-                                        <option value="07">Juli</option>
-                                        <option value="08">Agustus</option>
-                                        <option value="09">September</option>
-                                        <option value="10">Oktober</option>
-                                        <option value="11">November</option>
-                                        <option value="12">Desember</option>
-                                        <!-- Tambahkan pilihan bulan lainnya -->
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
-                                </div>
-                                </div>
-                            </form>
-                            <div class="chart-container">
-                                <canvas id="BarChartSumRadiologi" width="100px" height="45px"></canvas>
-                            </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                <h5 class="card-title">Pasien Hemodialisa dari IGD</h5>
+                    <form method="post" action="{{ url('/tech/igd-hemo') }}">
+                        @csrf
+                        <div class="row">
+                            <div class="col">
+                            <label for="year">Tahun</label>
+                            <select class="form-control" id="year" name="year">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year->year }}">{{ $year->year }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="checkboxBulan" data-bulan-checked="false" value="0">
+                                    <label class="form-check-label">
+                                        Bulan
+                                    </label>
+                                </div>
+                            <select class="form-control" id="month" name="month">
+                                <option value="01">Januari</option>
+                                <option value="02">Februari</option>
+                                <option value="03">Maret</option>
+                                <option value="04">April</option>
+                                <option value="05">Mei</option>
+                                <option value="06">Juni</option>
+                                <option value="07">Juli</option>
+                                <option value="08">Agustus</option>
+                                <option value="09">September</option>
+                                <option value="10">Oktober</option>
+                                <option value="11">November</option>
+                                <option value="12">Desember</option>
+                                <!-- Tambahkan pilihan bulan lainnya -->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxTriwulan" data-group="periode" name="triwulan">
+                                    <label class="form-check-label">
+                                        Triwulan
+                                    </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxSemester" data-group="periode" name="semester">
+                                    <label class="form-check-label">
+                                        Semester
+                                    </label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="checkboxTahunan" data-group="periode" name="tahunan">
+                                    <label class="form-check-label">
+                                        Tahunan
+                                    </label>
+                            </div>
+                        </div>                               
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary mt-3">Tampilkan Grafik</button>
+                        </div>
+                        </div>
+                    </form>
+                    <div class="chart-container">
+                        <canvas id="BarChartSumLab" width="100px" height="45px"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 </main>
 @endsection
 
@@ -113,7 +132,6 @@
         localStorage.setItem('selectedMonth', monthSelect.value);
     });
 </script>
-
 <script>
     var query = @json($query);
 </script>
@@ -202,19 +220,20 @@
     $(document).ready(function() {
         var labels = Object.keys(query);
         var data = Object.values(query);
-        var ctx = document.getElementById("BarChartSumRadiologi").getContext("2d");
-        BarChartSumPasien.ChartData(ctx, 'horizontalBar', data, labels); // Menukar data dan labels
+        //console.log(labels);
+        var ctx = document.getElementById("BarChartSumLab").getContext("2d");
+        BarChartSumPasien.ChartData(ctx, 'bar', labels, data);
     });
 
     var BarChartSumPasien = {
-        ChartData: function(ctx, type, data, labels) { // Menukar data dan labels
+        ChartData: function(ctx, type, labels, data) {
             new Chart(ctx, {
                 type: type,
                 data: {
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Radiologi",
+                            label: "Data Pasien Lab IGD",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
@@ -228,6 +247,31 @@
                                 '#B1AFFF',
                                 '#7895B2',
                                 '#554994',
+                                '#6E85B7',
+                                '#C9BBCF',
+                                '#73A9AD',
+                                '#525E75',
+                                '#655D8A',
+                                '#BB6464',
+                                '#A267AC',
+                                '#867070',
+                                '#6096B4',
+                                '#DEBACE',
+                                '#B3A492',
+                                '#219C90',
+                                '#9EB384',
+                                '#FFC95F',
+                                '#0E21A0',
+                                '#9D44C0',
+                                '#FF7676',
+                                '#3085C3',
+                                '#5CD2E6',
+                                '#5C4B99',
+                                '#D71313',
+                                '#45CFDD',
+                                '#22A699',
+                                '#245953',
+                                '#913175',
                             ],
                             borderWidth: 1,
                         },
@@ -237,11 +281,13 @@
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
-                        x: {
-                            beginAtZero: true,
-                        },
-                        y: { // Mengatur sumbu y
-                            minBarLength: 5, // Mengatur panjang minimum bar
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        labels: {
+                            render: 'value',
                         },
                     },
                 },
@@ -250,6 +296,4 @@
     };
 })(jQuery);
 </script>
-
-
 @endsection

@@ -9,7 +9,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Jumlah Pasien Per Poli</h5>
+                        <h5 class="card-title">Data Obat</h5>
                             <form method="post" action="{{ url('/tech/obat') }}">
                                 @csrf
                                 <div class="row">

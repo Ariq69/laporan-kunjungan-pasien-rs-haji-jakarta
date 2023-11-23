@@ -12,7 +12,7 @@
     
     <div class="row row-cols-lg-4 mt-4">
         <!--Card Pasien-->
-        <a href="{{ route('ranap-lab') }}">
+        <a href="{{ route('igd-lab') }}">
             <div class="col-12 d-flex kotak-overlay">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">
@@ -46,7 +46,7 @@
             </div>
         </a>
 
-        <a href="{{ route('ranap-hemodialisa') }}">
+        <a href="{{ route('igd-hemo') }}">
             <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                     <div class="card-body py-4">

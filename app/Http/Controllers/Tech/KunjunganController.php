@@ -55,7 +55,7 @@ class KunjunganController extends Controller
             ->whereMonth('rp.tgl_registrasi', $month)
             ->groupBy('p.nm_penyakit')
             ->orderBy('jumlah_pasien', 'desc')
-            ->limit(11) // Mengambil hanya 11 penyakit dengan jumlah pasien terbanyak
+            ->limit(10) // Mengambil hanya 10 penyakit dengan jumlah pasien terbanyak
             ->get();
             
 
