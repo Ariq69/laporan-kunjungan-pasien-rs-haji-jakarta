@@ -70,7 +70,7 @@
                                 </div>
                             </form>
                             <div class="chart-container">
-                                <canvas id="BarChartSumPenyakit" width="100px" height="45px"></canvas>
+                                <canvas id="BarChartSumRadiologi" width="100px" height="45px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -202,7 +202,7 @@
     $(document).ready(function() {
         var labels = Object.keys(query);
         var data = Object.values(query);
-        var ctx = document.getElementById("BarChartSumPenyakit").getContext("2d");
+        var ctx = document.getElementById("BarChartSumRadiologi").getContext("2d");
         BarChartSumPasien.ChartData(ctx, 'horizontalBar', data, labels); // Menukar data dan labels
     });
 
@@ -214,7 +214,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Barang",
+                            label: "Data Radiologi",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',
