@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row w-100">
         <div class="p-3 mt-4 mb-0">
-            <h4>Jenis Penunjang</h4>
+            <h4>Jenis Penunjang Rawat Jalan</h4>
         </div>
     </div>
     

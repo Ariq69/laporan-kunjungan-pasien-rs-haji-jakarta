@@ -56,9 +56,25 @@ class HomeController extends Controller
         $jumlah_dokter = number_format(Dokter::count());
         $jumlah_perawat = number_format(JadwalPerawat::where('stts_aktif', 'AKTIF')->count());
         $jumlah_pegawai = number_format(Pegawai::count());
-        $jumlah_poli = number_format(Spesialis::count());
         $jumlah_kamar = number_format(KamarPasien::count());
-        $jumlah_asuransi = number_format(Penjab::count());
+        $jumlah_ralan_formatted = DB::table('reg_periksa')
+        ->where('status_lanjut', 'Ralan')
+        ->count();
+    
+        $jumlah_ralan = number_format($jumlah_ralan_formatted);
+    
+        $jumlah_ranap_formatted = DB::table('reg_periksa')
+        ->where('status_lanjut', 'Ranap')
+        ->count();
+
+        $jumlah_ranap = number_format($jumlah_ranap_formatted);
+
+        $jumlah_igdk_formatted = DB::table('reg_periksa')->where('kd_poli', 'IGDK')->count();
+
+        $jumlah_igd01_formatted = DB::table('reg_periksa')->where('kd_poli', 'IGD01')->count();
+
+        $jumlah_igd = number_format($jumlah_igdk_formatted + $jumlah_igd01_formatted);
+
 
         // Buat Bar Chart Kunjungan Pasien
         $years = DB::table('reg_periksa')
@@ -156,11 +172,11 @@ class HomeController extends Controller
         return view('pages.tech.dashboard', [
             'jumlah_pasien' => $jumlah_pasien,
             'jumlah_dokter' => $jumlah_dokter,
-            'jumlah_perawat' => $jumlah_perawat,
+            'jumlah_ralan' => $jumlah_ralan,
             'jumlah_pegawai' => $jumlah_pegawai,
-            'jumlah_poli' => $jumlah_poli,
             'jumlah_kamar' => $jumlah_kamar,
-            'jumlah_asuransi' => $jumlah_asuransi,
+            'jumlah_ranap' => $jumlah_ranap,
+            'jumlah_igd' => $jumlah_igd,
             'years' => $years,
             'query' => $query,
         ]);
