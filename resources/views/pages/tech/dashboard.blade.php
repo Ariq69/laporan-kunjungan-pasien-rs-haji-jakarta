@@ -27,7 +27,7 @@
                 <form method="post" action="{{ url('/tech/dashboard')}}" id="filter-form">
                     @csrf
                     <div class="row">
-                        <div class="col">
+                        <!-- <div class="col">
                             <label class="form-check-label mb-1">
                                 Filter Berdasarkan:
                             </label>
@@ -37,7 +37,7 @@
                                 <option value="">Percara-Bayar</option>
                                 <option value="">2018</option>
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col">
                             <label for="year">Tahun</label>
                             <select class="form-control" id="year" name="year">
@@ -104,12 +104,12 @@
                         <div class="col">
                             <button type="submit" class="btn btn-primary mt-4" id="submit">Tampilkan Grafik</button>
                         </div>
-                        <div class="col">
+                        <!-- <div class="col">
                         <button type="button" onclick="downloadPDF()" class="btn btn-success mt-4 px-4 text-white" id="submit" name="print">
                             <img src="{{ asset('../images/icon-print.png') }}" alt="" width="20px" height="20px" style="margin-right: 10px;">
                             Print
                         </button>
-                        </div>
+                        </div> -->
                     </div>
                 </form>
                 <div class="divider"></div>
@@ -127,7 +127,7 @@
                 <h4>Data Pengguna</h4>
             </div>
         </div>
-        <div class="row row-cols-lg-4 mt-4">
+        <div class="row row-cols-lg-3 mt-4">
             <!--Card Pasien-->
             <a href="{{ route('pasien') }}">
                 <div class="col-12 d-flex">
@@ -158,22 +158,7 @@
                 </div>
             </div>
             </a>
-            <!--Card Perawat-->
-            <a href="{{ route('data-perawat') }}">
-                <div class="col-12 d-flex">
-                <div class="card flex-fill border-0 kotak">
-                <div class="card-body py-4">
-                    <div class="d-flex align-items-start">
-                    <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Perawat</h5>
-                        <h4 class="mb-2">{{ $jumlah_perawat }}</h4>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </a>
-            <!--Card Pegawai-->
+            <!-- Card Pegawai-->
             <a href="{{ route('data-pegawai') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
@@ -215,15 +200,15 @@
                 </div>
             </div>
             </a>
-            <!--Card Rawat Jalan-->
-            <a href="{{ route('informasi-asuransi') }}">
+            <!--Card IGD-->
+            <a href="{{ route('igd') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Asuransi</h5>
-                        <h4 class="mb-2">{{ $jumlah_asuransi }}</h4>
+                        <h5 class="mb-2">Jumlah IGD</h5>
+                        <h4 class="mb-2">{{ $jumlah_igd }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
@@ -233,14 +218,14 @@
             </div>
             </a>
             <!--Card Rawat Inap-->
-            <a href="">
+            <a href="{{ route('rawat-inap') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
-                        <h5 class="mb-2">Jumlah Poliklinik</h5>
-                        <h4 class="mb-2">{{ $jumlah_poli }}</h4>
+                        <h5 class="mb-2">Jumlah Rawat Inap</h5>
+                        <h4 class="mb-2">{{ $jumlah_ranap }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
@@ -250,14 +235,14 @@
             </div>
             </a>
             <!--Card Kunjungan-->
-            <a href="">
+            <a href="{{ route('rawat-jalan') }}">
                 <div class="col-12 d-flex">
                 <div class="card flex-fill border-0 kotak">
                 <div class="card-body py-4">
                     <div class="d-flex align-items-start">
                     <div class="flex-grown-1">
                         <h5 class="mb-2">Jumlah Rawat Jalan</h5>
-                        <h4 class="mb-2">2.987</h4>
+                        <h4 class="mb-2">{{ $jumlah_ralan }}</h4>
                         <div class="mb-0">
                         </div>
                     </div>
