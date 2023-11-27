@@ -8,7 +8,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                        <h5 class="card-title">Pemakaian Air PDAM</h5>
+                        <h5 class="card-title">Pemakaian Air</h5>
                             <form method="post" action="{{ url('/tech/pemakaian-air') }}">
                                 @csrf
                                 <div class="row">
