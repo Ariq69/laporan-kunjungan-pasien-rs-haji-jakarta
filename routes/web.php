@@ -34,9 +34,14 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 
 Route::redirect('/', '/login', 301);
 
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])
+    ->middleware('login.attempts')
+    ->name('login');
 
-Route::middleware(['auth'])->group(function(){
+
+Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/tech', [HomeController::class, 'tech'])->name('dashboard-tech');
     Route::post('/dashboard/tech', [HomeController::class, 'tech'])->name('dashboard-tech');
     Route::get('/dashboard/admin', [HomeController::class, 'admin'])->name('dashboard-admin');
@@ -45,19 +50,19 @@ Route::middleware(['auth'])->group(function(){
 });
 
 Route::prefix('tech')
-    ->middleware('auth','tech')
-    ->group( function(){
-        
-        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    ->middleware('auth', 'tech')
+    ->group(function () {
 
+        // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
         //Dokter Section
         Route::get('/data-dokter', [DokterController::class, 'data_dokter'])->name('data-dokter');
         Route::get('/jadwal-dokter', [DokterController::class, 'jadwal_dokter'])->name('jadwal-dokter');
-        
+
         //Perawat Section
         Route::get('/data-perawat', [PerawatController::class, 'data_perawat'])->name('data-perawat');
         Route::get('/jadwal-perawat', [PerawatController::class, 'jadwal_perawat'])->name('jadwal-perawat');
-        
+
         //Pegawai Section
         Route::get('/data-pegawai', [PegawaiController::class, 'data_pegawai'])->name('data-pegawai');
 
@@ -109,7 +114,7 @@ Route::prefix('tech')
         //obat
         Route::get('/obat', [KunjunganController::class, 'obat'])->name('obat');
         Route::post('/obat', [KunjunganController::class, 'obat'])->name('obat');
-        
+
         //rawat inap
         Route::get('/rawat-inap', [KunjunganController::class, 'rawat_inap'])->name('rawat-inap');
 
@@ -118,7 +123,7 @@ Route::prefix('tech')
 
         Route::get('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
         Route::post('/ranap-hemodialisa', [RanapController::class, 'ranap_hemodialisa'])->name('ranap-hemodialisa');
-        
+
         Route::get('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
         Route::post('/ranap-rad', [RanapController::class, 'ranap_rad'])->name('ranap-rad');
 
@@ -133,7 +138,7 @@ Route::prefix('tech')
 
         Route::get('/igd-lab', [IGDController::class, 'igd_lab'])->name('igd-lab');
         Route::post('/igd-lab', [IGDController::class, 'igd_lab'])->name('igd-lab');
-        
+
         Route::get('/igd-hemo', [IGDController::class, 'igd_hemo'])->name('igd-hemo');
         Route::post('/igd-hemo', [IGDController::class, 'igd_hemo'])->name('igd-hemo');
 
@@ -142,7 +147,7 @@ Route::prefix('tech')
 
         Route::get('/ralan-lab', [RalanController::class, 'ralan_lab'])->name('ralan-lab');
         Route::post('/ralan-lab', [RalanController::class, 'ralan_lab'])->name('ralan-lab');
-        
+
         Route::get('/ralan-hemodialisa', [RalanController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
         Route::post('/ralan-hemodialisa', [RalanController::class, 'ralan_hemodialisa'])->name('ralan-hemodialisa');
 
@@ -167,7 +172,7 @@ Route::prefix('tech')
         Route::get('/dashboard', [HomeController::class, 'tech']);
         Route::post('/dashboard', [HomeController::class, 'tech']);
 
-        
+
         //Pemakaian Air
         Route::get('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
         Route::post('/pemakaian-air', [PemakaianAirController::class, 'pemakaian_air'])->name('pemakaian-air');
@@ -175,13 +180,13 @@ Route::prefix('tech')
         //K3
         Route::get('/k3', [K3Controller::class, 'k3'])->name('k3');
         Route::post('/k3', [K3Controller::class, 'k3'])->name('k3');
-        
+
         Route::get('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
         Route::post('/k3-bagian-tubuh', [K3Controller::class, 'k3_bagian_tubuh'])->name('k3-bagian-tubuh');
 
         Route::get('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
         Route::post('/k3-dampak-cidera', [K3Controller::class, 'k3_dampak_cidera'])->name('k3-dampak-cidera');
-        
+
         Route::get('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
         Route::post('/k3-jenis-cidera', [K3Controller::class, 'k3_jenis_cidera'])->name('k3-jenis-cidera');
 
@@ -203,23 +208,23 @@ Route::prefix('tech')
 
         Route::get('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
         Route::post('/perbaikan-inventaris', [InventarisController::class, 'perbaikan_inventaris'])->name('perbaikan-inventaris');
-       
-       // jumlah_aset_inventaris
+
+        // jumlah_aset_inventaris
         Route::get('/jumlah_aset_inventaris', [InventarisController::class, 'jumlah_aset_inventaris'])->name('jumlah_aset_inventaris');
         Route::post('/jumlah_aset_inventaris', [InventarisController::class, 'jumlah_aset_inventaris'])->name('jumlah_aset_inventaris');
-        
+
         Route::resource('setting-pengguna', SettingPenggunaController::class);
 
-    
+
     });
 
-      
-    
+
+
 Route::prefix('admin')
     ->namespace('admin')
-    ->middleware('auth','admin')
-    ->group( function(){
-        
+    ->middleware('auth', 'admin')
+    ->group(function () {
+
         //Route::get('/dashboard-admin',[Admin\DashboardController::class, 'index'])->name('dashboard-admin');
     });
 

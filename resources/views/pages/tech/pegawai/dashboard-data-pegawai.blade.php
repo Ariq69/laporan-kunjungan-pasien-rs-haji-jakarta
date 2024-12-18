@@ -52,7 +52,7 @@
                     labels: labels,
                     datasets: [
                         {
-                            label: "Data Penyakit",
+                            label: "Data Pegawai",
                             data: data,
                             backgroundColor: [
                                 '#FF8080',

@@ -34,17 +34,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->roles == 'tech'){
+        if (Auth::user()->roles == 'tech') {
             return redirect('/dashboard/tech');
-        }elseif (Auth::user()->roles == 'admin'){
+        } elseif (Auth::user()->roles == 'admin') {
             return redirect('/dashboard/admin');
-        }elseif (Auth::user()->roles == 'dokter'){
+        } elseif (Auth::user()->roles == 'dokter') {
             return redirect('/dashboard/dokter');
-        }elseif (Auth::user()->roles == 'perawat'){
+        } elseif (Auth::user()->roles == 'perawat') {
             return redirect('/dashboard/perawat');
-        }elseif (Auth::user()->roles == 'pegawai'){
+        } elseif (Auth::user()->roles == 'pegawai') {
             return redirect('/dashboard/pegawai');
-        }elseif (Auth::user()->roles == 'direksi'){
+        } elseif (Auth::user()->roles == 'direksi') {
             return redirect('/dashboard/direksi');
         }
     }
@@ -58,14 +58,14 @@ class HomeController extends Controller
         $jumlah_pegawai = number_format(Pegawai::count());
         $jumlah_kamar = number_format(KamarPasien::count());
         $jumlah_ralan_formatted = DB::table('reg_periksa')
-        ->where('status_lanjut', 'Ralan')
-        ->count();
-    
+            ->where('status_lanjut', 'Ralan')
+            ->count();
+
         $jumlah_ralan = number_format($jumlah_ralan_formatted);
-    
+
         $jumlah_ranap_formatted = DB::table('reg_periksa')
-        ->where('status_lanjut', 'Ranap')
-        ->count();
+            ->where('status_lanjut', 'Ranap')
+            ->count();
 
         $jumlah_ranap = number_format($jumlah_ranap_formatted);
 
@@ -146,6 +146,18 @@ class HomeController extends Controller
             ->orderBy('periode')
             ->get();
 
+        $all_months = DB::table('reg_periksa')
+            ->select([
+                DB::raw('MONTH(tgl_registrasi) AS bulan'),
+                DB::raw('MONTHNAME(tgl_registrasi) AS nama_bulan'),
+                DB::raw('COUNT(*) AS total_kunjungan')
+            ])
+            ->whereYear('tgl_registrasi', $year) // Gantilah $year dengan tahun yang diinginkan
+            ->groupBy('bulan', 'nama_bulan')
+            ->orderBy('bulan')
+            ->get();
+
+
         $query = [];
 
         if ($request->input('triwulan')) {
@@ -163,6 +175,10 @@ class HomeController extends Controller
         } elseif ($request->input('month')) {
             $query = $permonths->mapWithKeys(function ($item) {
                 return [$item->tanggal => $item->total_kunjungan];
+            });
+        } elseif ($request->input('semua')) {
+            $query = $all_months->mapWithKeys(function ($item) {
+                return [$item->nama_bulan => $item->total_kunjungan];
             });
         }
 

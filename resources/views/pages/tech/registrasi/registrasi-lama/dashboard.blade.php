@@ -25,7 +25,9 @@
                                 <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+
+                        </tbody>
                     </table>
             </div>
         </div>
@@ -42,7 +44,7 @@
             serverSide: true,
             ordering: true,
             ajax: {
-                url: '{!! url()->current() !!}',
+                url: '{{ route("setting-pengguna") }}',
             },
             columns: [
                 { data:'id', name:'id' },

@@ -16,7 +16,7 @@
                                         <a href="{{ route('pasien') }}">Pasien</a>
                                     </li>
                                     <li class="breadcrumb-item active">
-                                        Pasien Per Usia
+                                        Pasien Per Umur
                                     </li>
                                 </ol>
                             </nav>
@@ -32,7 +32,7 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Jumlah Pasien Per Poli</h5>
+                            <h5 class="card-title">Jumlah Pasien Per Umur</h5>
                             <form method="post" action="{{ url('/tech/pasien-perumur') }}">
                                     @csrf
                                     <div class="row">

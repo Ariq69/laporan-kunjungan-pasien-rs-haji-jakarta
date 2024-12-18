@@ -13,10 +13,10 @@
           Dashboard
       </a>
       </li>
-      <li class="sidebar-header">Keuangan</li>
+      <!-- <li class="sidebar-header">Keuangan</li> -->
 
       <!--Pendapatan-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -45,10 +45,10 @@
             <a href="#" class="sidebar-link">IGD</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!--Kasir-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -74,9 +74,9 @@
             <a href="#" class="sidebar-link">IGD</a>
           </li>
         </ul>
-      </li>
+      </li> -->
       <!--Kasir-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -96,11 +96,11 @@
             <a href="{{ route('informasi-asuransi') }}" class="sidebar-link">Informasi Asuransi</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
-      <li class="sidebar-header">Pengguna</li>
+      <!-- <li class="sidebar-header">Pengguna</li> -->
       <!--Dokter-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -130,10 +130,10 @@
             >
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!--Perawat-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -161,10 +161,10 @@
             <a href="{{ route('jadwal-perawat') }}" class="sidebar-link">Jadwal Perawat</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!--Pegawai-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -192,7 +192,7 @@
             <a href="#" class="sidebar-link">Jadwal Pegawai</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!--Section Pelayanan-->
       <li class="sidebar-header">Pelayanan</li>
@@ -224,7 +224,7 @@
         </ul>
       </li>
       <!--Administrasi-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -263,21 +263,21 @@
             <a href="{{ route('obat') }}" class="sidebar-link">Obat</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!--Section Pemantauan-->
-      <li class="sidebar-header">Pemantauan</li>
+      <!-- <li class="sidebar-header">Pemantauan</li> -->
 
       <!--Pemakaian Air-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a href="{{ route('pemakaian-air') }}" class="sidebar-link">
           <img src="{{ asset('../images/icon-dokter.png') }}" alt="" class="icon-sidebar" />
           Pemakaian Air
         </a>
-      </li>
+      </li> -->
 
       <!--Limbah-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a href="{{ route('limbah') }}" class="sidebar-link">
           <img
             src="{{ asset('../images/icon-perawat.png') }}"
@@ -286,46 +286,46 @@
           />
           Limbah
         </a>
-      </li>
+      </li> -->
 
       <!--K3-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <li class="sidebar-item">
             <a href="{{ route('k3') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             K3</a>
           </li>
-      </li>
+      </li> -->
 
       <!--Section Inventaris-->
-      <li class="sidebar-header">Inventaris</li>
+      <!-- <li class="sidebar-header">Inventaris</li> -->
 
       <!--Pengajuan Aset-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <li class="sidebar-item">
             <a href="{{ route('pengajuan-aset-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Pengajuan Aset</a>
           </li>
-      </li>
+      </li> -->
 
       <!--Perbaikan Inventaris-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <li class="sidebar-item">
             <a href="{{ route('perbaikan-inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Perbaikan Inventaris</a>
           </li>
-      </li>
+      </li> -->
 
       <!--Jumlah Inventaris-->
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <li class="sidebar-item">
             <a href="{{ route('jumlah_aset_inventaris') }}" class="sidebar-link">
             <img src="{{ asset('../images/icon-k3.png') }}" alt="" class="icon-sidebar">
             Jumlah Inventaris</a>
           </li>
-      </li>
+      </li> -->
 
       <!--Section Setting Pengguna-->
       <li class="sidebar-header">Setting Pengguna</li>
@@ -354,9 +354,9 @@
         </ul>
       </li>
 
-      <li class="sidebar-header">Multi Menu</li>
+      <!-- <li class="sidebar-header">Multi Menu</li> -->
 
-      <li class="sidebar-item">
+      <!-- <li class="sidebar-item">
         <a
           href="#"
           class="sidebar-link collapsed"
@@ -430,7 +430,7 @@
             </ul>
           </li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   </div>
 </aside>
